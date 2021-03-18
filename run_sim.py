@@ -16,9 +16,17 @@ platform = Platform("SLURM")
 
 print("Creating EMODTask (from files)...")
 
+
+# Run setup:
+archetype = "Southern"
+
+
+
+
+
 def build_demographics():
     import emod_api.demographics.Demographics as Demographics
-    demo = Demographics.from_file(manifest.demographics_file_path)
+    demo = Demographics.from_file(manifest.demographics_file_path[archetype])
     return demo
 
 
@@ -38,11 +46,13 @@ def create_and_submit_experiment():
     # Create simulation sweep with builder
     builder = SimulationBuilder()
     builder.add_sweep_definition(update_sim_random_seed, range(3))
+    # builder.add_sweep_definition()
+
     # to run a single sim without sweep: https://docs.idmod.org/projects/idmtools/en/latest/cookbook/experiments.html
 
     # create experiment from builder
     print( f"Prompting for COMPS creds if necessary..." )
-    experiment  = Experiment.from_builder(builder, task, name=params.exp_name)
+    experiment = Experiment.from_builder(builder, task, name=params.exp_name)
 
     #other_assets = AssetCollection.from_id(pl.run())
     #experiment.assets.add_assets(other_assets)
@@ -62,6 +72,9 @@ def create_and_submit_experiment():
 
 
 if __name__ == "__main__":
+
+
+
     # TBD: user should be allowed to specify (override default) erad_path and input_path from command line
     plan = EradicationBambooBuilds.MALARIA_LINUX
     # plan = EradicationBambooBuilds.MALARIA_WIN

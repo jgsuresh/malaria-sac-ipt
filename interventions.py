@@ -16,9 +16,9 @@ from emodpy_malaria.interventions.irs import IRSHousingModification
 from emodpy_malaria.interventions.udbednet import UDBednet
 
 
-default_bednet_age_dependence = {'youth_cov': 0.65,
-                                 'youth_min_age': 5,
-                                 'youth_max_age': 20}
+default_bednet_age_usage = {'youth_cov': 0.65,
+                            'youth_min_age': 5,
+                            'youth_max_age': 20}
 
 default_itn_discard_rates = {
     "Expiration_Period_Distribution": "DUAL_EXPONENTIAL_DISTRIBUTION",
@@ -28,21 +28,87 @@ default_itn_discard_rates = {
 }
 
 
-"""
-seasonal_dependence: A dictionary defining the seasonal dependence of net use.
-Default is constant use during the year. Times are given in days
-of the year; values greater than 365 are ignored. Dictionaries
-can be (times, values) for linear spline or (minimum coverage,
-day of maximum coverage) for sinusoidal dynamics.
+month_times = [
+    0,
+    30.4,
+    60.8,
+    91.3,
+    121.7,
+    152.1,
+    182.5,
+    212.9,
+    243.3,
+    273.8,
+    304.2,
+    334.6
+]
 
-"""
+sahel_seasonal_itn_use = [
+    0.84,
+    0.71,
+    0.74,
+    0.55,
+    0.56,
+    0.62,
+    0.85,
+    0.94,
+    0.98,
+    1,
+    0.97,
+    0.94
+]
+
+coastal_western_seasonal_itn_use = [
+    1,
+    0.76,
+    0.64,
+    0.65,
+    0.55,
+    0.79,
+    0.83,
+    0.97,
+    0.89,
+    0.92,
+    0.89,
+    0.97
+]
+
+eastern_seasonal_itn_use = [
+    0.88,
+    0.71,
+    0.83,
+    1,
+    0.86,
+    0.85,
+    0.81,
+    0.75,
+    0.75,
+    0.5,
+    0.94,
+    0.94
+]
+
+central_seasonal_itn_use = [
+    0.82,
+    0.82,
+    0.82,
+    0.82,
+    0.82,
+    0.82,
+    0.82,
+    0.82,
+    0.82,
+    0.82,
+    0.82,
+    0.82
+]
+
 archetype_seasonal_usage = {
-    "Southern": {'min_cov': 0.5,
-                 'max_day': 60},
-    "Sahel": {},
-    "Coastal Western": {},
-    "Central": {},
-    "Eastern": {}
+    "Southern": {'min_cov': 0.5, 'max_day': 60},
+    "Sahel": {"Times": month_times, "Values": sahel_seasonal_itn_use},
+    "Coastal Western": {"Times": month_times, "Values": coastal_western_seasonal_itn_use},
+    "Central": {"Times": month_times, "Values": central_seasonal_itn_use},
+    "Eastern": {"Times": month_times, "Values": eastern_seasonal_itn_use}
 }
 
 
@@ -50,14 +116,14 @@ def add_bednets_for_population_and_births(campaign, start_day, coverage, seasona
     regular_bednet_distribution = UDBednet(campaign,
                                            start_day=start_day,
                                            coverage=coverage,
-                                           age_dependence=default_bednet_age_dependence,
+                                           age_dependence=default_bednet_age_usage,
                                            seasonal_dependence=seasonal_dependence,
                                            discard_config=default_itn_discard_rates)
 
     birth_triggered_bednet_distribution = UDBednet(campaign,
                                                    start_day=start_day,
                                                    coverage=coverage,
-                                                   age_dependence=default_bednet_age_dependence,
+                                                   age_dependence=default_bednet_age_usage,
                                                    seasonal_dependence=seasonal_dependence,
                                                    discard_config=default_itn_discard_rates,
                                                    triggers=["Births"])
@@ -72,7 +138,7 @@ def burnin_historical_bednets(archetype):
     # these bednet distributions are each for 1 year, then expire (not normal expiration)
     pass
 
-def scenario_bednets(archetype):
+def add_scenario_specific_itns(campaign, scenario_number):
     # add_simple_hs()
     pass
 
@@ -121,20 +187,21 @@ def burnin_historical_healthseeking(archetype):
     # note: new bednets immediately expire old ones if someone still has an old net
     pass
 
-def scenario_healthseeking(archetype):
+def add_scenario_specific_healthseeking(scenario_number):
     pass
 
 def burnin_historical_interventions(archetype):
     burnin_historical_bednets(archetype)
     burnin_historical_healthseeking(archetype)
 
-def scenario_interventions(archetype):
-    scenario_bednets(archetype)
-    scenario_healthseeking(archetype)
-    scenario_ipt(archetype)
+def add_scenario_specific_interventions(campaign, scenario_number):
+    add_scenario_specific_itns(campaign, scenario_number)
+    add_scenario_specific_healthseeking(campaign, scenario_number)
+    add_scenario_specific_ipt(campaign, scenario_number)
 
-def scenario_ipt(archetype):
+def add_scenario_specific_ipt(campaign, scenario_number):
     pass
+
 
 
 #fixme create CSV of all intervention scenarios.  each row is a different intervention time.  Then these functions
@@ -158,18 +225,7 @@ def add_drug_interventions(campaign):
     campaign.add(msat_event)
     # campaign.add(healthseeking_event)
 
-def add_simple_rcd(campaign):
-    simple_rcd_event = add_drug_campaign(campaign,
-                                         campaign_type='rfMSAT',
-                                         drug_code='AL',
-                                         diagnostic_type='BLOOD_SMEAR_PARASITES',
-                                         diagnostic_threshold=0,
-                                         start_days=[2],
-                                         coverage=0.7,
-                                         trigger_coverage=0.01,
-                                         listening_duration=1000)
 
-    campaign.add(simple_rcd_event)
 
 def add_simple_hs(campaign,
                   u5_hs_rate,
@@ -210,7 +266,7 @@ def add_simple_hs(campaign,
 
     campaign.add_event(hs_event)
 
-#
+
 # def change_working_men_ips(campaign):
 #     # Initialize everyone as being at home:
 #     change_individual_property(campaign,
@@ -252,18 +308,7 @@ def add_simple_hs(campaign,
 
 
 def add_standard_interventions(campaign):
-    # add_bednets(campaign)
-    # add_irs(campaign)
-    # add_drug_interventions(campaign)
-    # add_simple_rcd(campaign)
-
-    # Test these once they have been translated over to emodpy
-    # add_simple_hs(campaign)
-    # add_health_seeking()
-    # change_working_men_ips(campaign)
-    # add_complex_rcd(campaign)
-    # recurring_outbreak_as_importation(campaign)
-
+    # change school children ips #fixme Waiting on implementation from Jonathan
     pass
 
 
@@ -271,6 +316,13 @@ def add_standard_interventions(campaign):
 
 # def add_nonintervention_campaign_events(campaign):
 #     change_working_men_ips(campaign)
+
+def build_campaign(scenario_number=-1):
+    # Campaign object is built simply by importing
+    campaign.schema_path = manifest.schema_file
+
+    add_standard_interventions(campaign)
+    add_scenario_specific_interventions(campaign, scenario_number)
 
 
 def build_campaign_with_standard_events():

@@ -20,7 +20,7 @@ def set_ento(config):
     # Set up larval habitats:
     lhm = default_from_schema_no_validation.schema_to_config_subnode(manifest.schema_file, ["idmTypes","idmType:VectorHabitat"])
     lhm.parameters.Vector_Habitat_Type = "LINEAR_SPLINE"
-    lhm.parameters.Max_Larval_Capacity = 1e10
+    lhm.parameters.Max_Larval_Capacity = 1e9
     lhm.parameters.Capacity_Distribution_Number_Of_Years = 1
     lhm.parameters.Capacity_Distribution_Over_Time.Times = [0.0, 30.4, 60.8, 91.3, 121.7, 152.1,
                                                             182.5, 212.9, 243.3, 273.8, 304.2, 334.6]
@@ -32,7 +32,7 @@ def set_ento(config):
 
     lhm = default_from_schema_no_validation.schema_to_config_subnode(manifest.schema_file, ["idmTypes","idmType:VectorHabitat"])
     lhm.parameters.Vector_Habitat_Type = "LINEAR_SPLINE"
-    lhm.parameters.Max_Larval_Capacity = 1e10
+    lhm.parameters.Max_Larval_Capacity = 1e9
     lhm.parameters.Capacity_Distribution_Number_Of_Years = 1
     lhm.parameters.Capacity_Distribution_Over_Time.Times = [0.0, 30.4, 60.8, 91.3, 121.7, 152.1,
                                                             182.5, 212.9, 243.3, 273.8, 304.2, 334.6]
@@ -73,8 +73,12 @@ def set_log_level(config, loglevel_default="WARNING"):
     return config
 
 def set_project_specific_params(config):
+    config.parameters.Age_Initialization_Distribution_Type = "DISTRIBUTION_SIMPLE"
+
     config.parameters.Climate_Model = "CLIMATE_CONSTANT"
-    config.parameters.Simulation_Duration = 720
+    # config.parameters.Air_Temperature_Filename
+
+    config.parameters.Simulation_Duration = 365
     # config.parameters.Climate_Model = "CLIMATE_BY_DATA"
 
     bednet_individual_events = ["Bednet_Got_New_One", "Bednet_Using", "Bednet_Discarded"]
