@@ -14,7 +14,7 @@ from emodpy_malaria.interventions.drug_campaign import add_drug_campaign, drug_c
     BroadcastEventToOtherNodes
 from emodpy_malaria.interventions.irs import IRSHousingModification
 from emodpy_malaria.interventions.udbednet import UDBednet
-
+from jsuresh_helpers.relative_time import month_times
 
 default_bednet_age_usage = {'youth_cov': 0.65,
                             'youth_min_age': 5,
@@ -27,21 +27,24 @@ default_itn_discard_rates = {
     "Expiration_Period_Proportion_1": 0.6
 }
 
+flat_annual_itn_discard_rates = {
+    "Expiration_Period_Distribution": "CONSTANT_DISTRIBUTION",
+    "Expiration_Period_Constant": 365
+}
 
-month_times = [
-    0,
-    30.4,
-    60.8,
-    91.3,
-    121.7,
-    152.1,
-    182.5,
-    212.9,
-    243.3,
-    273.8,
-    304.2,
-    334.6
-]
+very_low_discard_rates = {
+    "Expiration_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
+    "Expiration_Period_Exponential": 2500
+}
+
+discard_config = {
+    "default": default_itn_discard_rates,
+    "flat_annual": flat_annual_itn_discard_rates,
+    "very_low": very_low_discard_rates
+}
+
+archetype_list = ["Southern", "Central", "Eastern", "Coastal Western", "Sahel"]
+
 
 sahel_seasonal_itn_use = [
     0.84,
@@ -103,44 +106,81 @@ central_seasonal_itn_use = [
     0.82
 ]
 
+
 archetype_seasonal_usage = {
     "Southern": {'min_cov': 0.5, 'max_day': 60},
     "Sahel": {"Times": month_times, "Values": sahel_seasonal_itn_use},
     "Coastal Western": {"Times": month_times, "Values": coastal_western_seasonal_itn_use},
     "Central": {"Times": month_times, "Values": central_seasonal_itn_use},
-    "Eastern": {"Times": month_times, "Values": eastern_seasonal_itn_use}
+    "Eastern": {"Times": month_times, "Values": eastern_seasonal_itn_use},
+    "Magude": {'min_cov': 0.58, 'max_day': 40},
 }
 
+smc_days_in_year = np.array([206,237,267,298])
 
-def add_bednets_for_population_and_births(campaign, start_day, coverage, seasonal_dependence):
+def add_bednets_for_population_and_births(campaign,
+                                          coverage,
+                                          start_day=1,
+                                          seasonal_dependence=None,
+                                          discard_config_type="default",
+                                          age_dependence=default_bednet_age_usage,
+                                          killing_initial=0.6,
+                                          killing_decay_constant=1460,
+                                          blocking_initial=0.9,
+                                          blocking_decay_constant=730):
+
+
     regular_bednet_distribution = UDBednet(campaign,
-                                           start_day=start_day,
                                            coverage=coverage,
-                                           age_dependence=default_bednet_age_usage,
+                                           start_day=start_day,
                                            seasonal_dependence=seasonal_dependence,
-                                           discard_config=default_itn_discard_rates)
+                                           discard_config=discard_config[discard_config_type],
+                                           age_dependence=age_dependence,
+                                           killing_eff=killing_initial,
+                                           killing_decay_rate=1./killing_decay_constant,
+                                           blocking_eff=blocking_initial,
+                                           blocking_decay_rate=1./blocking_decay_constant)
+
 
     birth_triggered_bednet_distribution = UDBednet(campaign,
-                                                   start_day=start_day,
                                                    coverage=coverage,
-                                                   age_dependence=default_bednet_age_usage,
+                                                   start_day=start_day,
                                                    seasonal_dependence=seasonal_dependence,
-                                                   discard_config=default_itn_discard_rates,
-                                                   triggers=["Births"])
+                                                   discard_config=discard_config[discard_config_type],
+                                                   age_dependence=age_dependence,
+                                                   killing_eff=killing_initial,
+                                                   killing_decay_rate=1./killing_decay_constant,
+                                                   blocking_eff=blocking_initial,
+                                                   blocking_decay_rate=1./blocking_decay_constant,
+                                                   triggers=["Birth"])
 
     campaign.add(regular_bednet_distribution)
     campaign.add(birth_triggered_bednet_distribution)
 
 
 
-def burnin_historical_bednets(archetype):
+def burnin_historical_bednets(campaign, archetype="Southern", start_year=1970):
     # at certain times, add bednets with different coverages
     # these bednet distributions are each for 1 year, then expire (not normal expiration)
-    pass
 
-def add_scenario_specific_itns(campaign, scenario_number):
-    # add_simple_hs()
-    pass
+    # open CSV
+    if archetype == "Southern":
+        df = pd.read_csv("southern_historical_itn.csv")
+    else:
+        df = pd.read_csv("ssa_historical_itn.csv")
+
+    for index, row in df.iterrows():
+        # Assume 50 year burnin, so 2000 is year 30
+        campaign_start_day = int((row["year"]-start_year)*365)
+
+        add_bednets_for_population_and_births(campaign,
+                                              coverage=row["cov_all"],
+                                              start_day=campaign_start_day,
+                                              seasonal_dependence=archetype_seasonal_usage[archetype],
+                                              discard_config_type="flat_annual")
+
+
+
 
 def add_simple_hs(campaign, u5_hs_rate, o5_hs_rate=-1, start_day=1):
     if o5_hs_rate == -1:
@@ -177,6 +217,33 @@ def add_simple_hs(campaign, u5_hs_rate, o5_hs_rate=-1, start_day=1):
                                   drug=['Artemether', 'Lumefantrine'])
 
     campaign.add(hs_event)
+
+def smc_adherent_configuration(cb, adherence, sp_resist_day1_multiply):
+    # Copied from HBHI setup
+    smc_adherent_config = configure_adherent_drug(cb, doses = [["Sulfadoxine", "Pyrimethamine",'Amodiaquine'],
+                                                               ['Amodiaquine'],
+                                                               ['Amodiaquine']],
+                                                  dose_interval=1,
+                                                  non_adherence_options=['Stop'],
+                                                  non_adherence_distribution=[1],
+                                                  adherence_config={
+                                                      "class": "WaningEffectMapCount",
+                                                      "Initial_Effect": 1,
+                                                      "Durability_Map": {
+                                                          "Times": [
+                                                              1.0,
+                                                              2.0,
+                                                              3.0
+                                                          ],
+                                                          "Values": [
+                                                              sp_resist_day1_multiply,  # for day 1
+                                                              adherence,  # day 2
+                                                              adherence  # day 3
+                                                          ]
+                                                      }
+                                                  }
+                                                  )
+    return smc_adherent_config
 
 
 
