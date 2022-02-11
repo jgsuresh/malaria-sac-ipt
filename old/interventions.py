@@ -4,15 +4,10 @@ import pandas as pd
 import numpy as np
 
 import emod_api.campaign as campaign
-import emod_api.interventions.outbreak as outbreak
 from emodpy_malaria.interventions.add_treatment_seeking import add_health_seeking
-from emodpy_malaria.interventions.bednet import Bednet
 
 import manifest
-from emodpy_malaria.interventions.diag_survey import add_diagnostic_survey
-from emodpy_malaria.interventions.drug_campaign import add_drug_campaign, drug_configs_from_code, \
-    BroadcastEventToOtherNodes
-from emodpy_malaria.interventions.irs import IRSHousingModification
+from emodpy_malaria.interventions.drug_campaign import add_drug_campaign
 from emodpy_malaria.interventions.udbednet import UDBednet
 from jsuresh_helpers.relative_time import month_times
 

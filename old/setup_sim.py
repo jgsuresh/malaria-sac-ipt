@@ -1,9 +1,7 @@
-from emodpy_malaria.config import set_team_defaults, set_species, get_species_params
+from emodpy_malaria.config import set_team_defaults, set_species
 from emod_api.config import default_from_schema_no_validation
 import emodpy_malaria.config as emodpy_malaria_config_module
 
-from jsuresh_helpers.running_dtk import set_executable, add_params_csv_to_dtk_config_builder
-from jsuresh_helpers.uncategorized import load_csv_into_dictionary
 from jsuresh_helpers.windows_filesystem import get_dropbox_location
 
 import manifest
@@ -18,7 +16,7 @@ def set_ento(config):
     set_species(config, ["arabiensis", "funestus"])
 
     # Set up larval habitats:
-    lhm = default_from_schema_no_validation.schema_to_config_subnode(manifest.schema_file, ["idmTypes","idmType:VectorHabitat"])
+    lhm = default_from_schema_no_validation.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:VectorHabitat"])
     lhm.parameters.Vector_Habitat_Type = "LINEAR_SPLINE"
     lhm.parameters.Max_Larval_Capacity = 1e9
     lhm.parameters.Capacity_Distribution_Number_Of_Years = 1
@@ -30,7 +28,7 @@ def set_ento(config):
     emodpy_malaria_config_module.get_species_params(config, "arabiensis").Larval_Habitat_Types.append(lhm.parameters)
 
 
-    lhm = default_from_schema_no_validation.schema_to_config_subnode(manifest.schema_file, ["idmTypes","idmType:VectorHabitat"])
+    lhm = default_from_schema_no_validation.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:VectorHabitat"])
     lhm.parameters.Vector_Habitat_Type = "LINEAR_SPLINE"
     lhm.parameters.Max_Larval_Capacity = 1e9
     lhm.parameters.Capacity_Distribution_Number_Of_Years = 1

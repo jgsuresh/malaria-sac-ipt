@@ -10,7 +10,7 @@ import params
 from idmtools.entities.experiment import Experiment
 from interventions import build_campaign_with_standard_events
 from setup_sim import build_project_config
-from sweeps import update_sim_bic, update_sim_random_seed
+from sweeps import update_sim_random_seed
 
 platform = Platform("SLURM")
 
