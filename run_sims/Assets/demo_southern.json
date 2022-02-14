@@ -1,0 +1,109 @@
+{
+ "Nodes": [
+  {
+   "NodeID": 1,
+   "NodeAttributes": {
+    "Latitude": -16.620296345399407,
+    "Longitude": 28.084976306019158,
+    "InitialPopulation": 5000,
+    "BirthRate": 0.48287671232,
+    "LarvalHabitatMultiplier": [
+      {"Factor": 5,
+      "Habitat": "LINEAR_SPLINE",
+      "Species": "arabiensis"},
+      {"Factor": 5,
+      "Habitat": "LINEAR_SPLINE",
+      "Species": "funestus"}
+    ]
+   }
+  }
+ ],
+ "Defaults": {
+  "IndividualAttributes": {
+   "MortalityDistribution": {
+    "NumDistributionAxes": 2,
+    "AxisNames": [
+     "gender",
+     "age"
+    ],
+    "AxisUnits": [
+     "male=0,female=1",
+     "years"
+    ],
+    "AxisScaleFactors": [
+     1,
+     365
+    ],
+    "NumPopulationGroups": [
+     2,
+     1
+    ],
+    "PopulationGroups": [
+     [
+      0,
+      1
+     ],
+     [
+      0
+     ]
+    ],
+    "ResultUnits": "annual deaths per 1000 individuals",
+    "ResultScaleFactor": 2.74e-06,
+    "ResultValues": [
+     [
+      35.25
+     ],
+     [
+      35.25
+     ]
+    ]
+   },
+   "AgeDistributionFlag": 3,
+   "AgeDistribution1": 0.0001068,
+   "AgeDistribution2": 0,
+   "RiskDistributionFlag": 5,
+   "RiskDistribution1": 0,
+   "RiskDistribution2": 1.6,
+   "PrevalenceDistributionFlag": 1,
+   "PrevalenceDistribution1": 0.13,
+   "PrevalenceDistribution2": 0.15,
+   "MigrationHeterogeneityDistributionFlag": 0,
+   "MigrationHeterogeneityDistribution1": 1,
+   "MigrationHeterogeneityDistribution2": 0,
+   "ImmunityDistributionFlag": 0,
+   "ImmunityDistribution1": 1,
+   "ImmunityDistribution2": 0
+  },
+  "NodeAttributes": {
+   "Urban": 0,
+   "AbovePoverty": 0.5,
+   "Region": 1,
+   "Seaport": 0,
+   "Airport": 0,
+   "Altitude": 0,
+   "InitialPopulation": 1000
+  },
+  "IndividualProperties": [
+   {
+    "Property": "SchoolStatus",
+    "Values": [
+     "AttendsSchool",
+     "DoesNotAttendSchool"
+    ],
+    "Initial_Distribution": [
+     0,
+     1
+    ],
+    "Transitions": []
+   }
+  ]
+ },
+ "Metadata": {
+  "Author": "idm",
+  "Tool": "dtk-tools",
+  "IdReference": "Custom user",
+  "DateCreated": "2021-03-19 17:52:00.134708",
+  "NodeCount": 1,
+  "Resolution": 30
+ }
+}

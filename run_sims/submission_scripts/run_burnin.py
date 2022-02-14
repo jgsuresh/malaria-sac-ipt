@@ -32,7 +32,6 @@ def create_and_submit_experiment():
     # =========================================================
 
     build_config = partial(set_full_config, is_burnin=True)
-    # build_demographics = partial(build_demographics_from_file, archetype=archetype)
 
     print("Creating EMODTask (from files)...")
     task = EMODTask.from_default2(
