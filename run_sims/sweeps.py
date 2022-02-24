@@ -3,6 +3,7 @@ from functools import partial
 from run_sims.build_campaign import add_burnin_historical_interventions, build_burnin_campaign
 from run_sims.build_config import set_archetype_ento
 from run_sims.other import build_demographics_from_file
+from run_sims.reports import add_burnin_reports
 
 
 def set_run_number(simulation, value):
@@ -34,6 +35,8 @@ def set_archetype_specifics(simulation, archetype, is_burnin=False):
     if is_burnin:
         build_campaign_partial = partial(build_burnin_campaign, archetype=archetype)
         simulation.task.create_campaign_from_callback(build_campaign_partial)
+
+        add_burnin_reports(simulation.task, archetype=archetype)
 
 
 

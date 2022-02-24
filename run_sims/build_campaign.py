@@ -2,6 +2,8 @@ import os
 
 import numpy as np
 import pandas as pd
+from emod_api.interventions.common import change_individual_property
+from emodpy_malaria.interventions.adherentdrug import adherent_drug
 from emodpy_malaria.interventions.drug_campaign import add_drug_campaign
 from emodpy_malaria.interventions.udbednet import UDBednet
 
@@ -161,9 +163,9 @@ def add_burnin_historical_bednets(campaign, archetype="Southern", start_year=197
 
     # open CSV
     if archetype == "Southern":
-        df = pd.read_csv(os.path.join(manifest.historical_interventions_csv_folder, "southern_historical_itn.csv"))
+        df = pd.read_csv(os.path.join(manifest.additional_csv_folder, "southern_historical_itn.csv"))
     else:
-        df = pd.read_csv(os.path.join(manifest.historical_interventions_csv_folder, "ssa_historical_itn.csv"))
+        df = pd.read_csv(os.path.join(manifest.additional_csv_folder, "ssa_historical_itn.csv"))
 
     for index, row in df.iterrows():
         # Assume 50 year burnin, so 2000 is year 30
@@ -182,9 +184,9 @@ def add_burnin_historical_healthseeking(campaign, archetype="Southern", start_ye
 
     # open CSV
     if archetype == "Southern":
-        df = pd.read_csv(os.path.join(manifest.historical_interventions_csv_folder, "southern_historical_hs.csv"))
+        df = pd.read_csv(os.path.join(manifest.additional_csv_folder, "southern_historical_hs.csv"))
     else:
-        df = pd.read_csv(os.path.join(manifest.historical_interventions_csv_folder, "ssa_historical_hs.csv"))
+        df = pd.read_csv(os.path.join(manifest.additional_csv_folder, "ssa_historical_hs.csv"))
 
     for index, row in df.iterrows():
         # Assume 50 year burnin, so 2000 is year 30
@@ -198,98 +200,83 @@ def add_burnin_historical_healthseeking(campaign, archetype="Southern", start_ye
 
 
 
-#fixme SMC adherent drug not implemented yet in emodpy (2/7/22)
-# def smc_adherent_configuration(cb, adherence, sp_resist_day1_multiply):
-#     # Copied from HBHI setup
-#     smc_adherent_config = configure_adherent_drug(cb, doses = [["Sulfadoxine", "Pyrimethamine",'Amodiaquine'],
-#                                                                ['Amodiaquine'],
-#                                                                ['Amodiaquine']],
-#                                                   dose_interval=1,
-#                                                   non_adherence_options=['Stop'],
-#                                                   non_adherence_distribution=[1],
-#                                                   adherence_config={
-#                                                       "class": "WaningEffectMapCount",
-#                                                       "Initial_Effect": 1,
-#                                                       "Durability_Map": {
-#                                                           "Times": [
-#                                                               1.0,
-#                                                               2.0,
-#                                                               3.0
-#                                                           ],
-#                                                           "Values": [
-#                                                               sp_resist_day1_multiply,  # for day 1
-#                                                               adherence,  # day 2
-#                                                               adherence  # day 3
-#                                                           ]
-#                                                       }
-#                                                   }
-#                                                   )
-#     return smc_adherent_config
+def smc_adherent_configuration(campaign, adherence=0.8, sp_resist_day1_multiply=0.87):
+    # Copied from HBHI setup
+    doses = [["Sulfadoxine", "Pyrimethamine",'Amodiaquine'],
+             ['Amodiaquine'],
+             ['Amodiaquine']]
+    adherence_values = [sp_resist_day1_multiply, adherence, adherence]
+
+    smc_adherent_config = adherent_drug(campaign=campaign,
+                                        doses=doses,
+                                        dose_interval=1,
+                                        non_adherence_options=['Stop'],
+                                        non_adherence_distribution=[1],
+                                        adherence_values=adherence_values
+                                        )
+    return smc_adherent_config
 
 
-# def add_smc(cb, u5_coverage, start_days, age_range="default"):
-#     # Copied from HBHI setup
-#     default_adherence = 0.8
-#     default_sp_resist_day1_multiply = 0.87
-#     adherent_drug_configs = smc_adherent_configuration(cb=cb,
-#                                                        adherence=default_adherence,
-#                                                        sp_resist_day1_multiply=default_sp_resist_day1_multiply)
-#
-#     if age_range == "default":
-#         add_drug_campaign(cb,
-#                           'SMC',
-#                           start_days=start_days,
-#                           coverage=u5_coverage,
-#                           target_group={'agemin': 0.25, 'agemax': 5},
-#                           adherent_drug_configs=[adherent_drug_configs],
-#                           receiving_drugs_event_name='Received_SMC'
-#                           )
-#
-#         o5_coverage = (0.2/0.9)*u5_coverage
-#         add_drug_campaign(cb,
-#                           'SMC',
-#                           start_days=start_days,
-#                           coverage=o5_coverage,
-#                           target_group={'agemin': 5, 'agemax': 10},
-#                           adherent_drug_configs=[adherent_drug_configs],
-#                           receiving_drugs_event_name='Received_SMC'
-#                           )
-#
-#     elif age_range == "u10":
-#         add_drug_campaign(cb,
-#                           'SMC',
-#                           start_days=start_days,
-#                           coverage=u5_coverage,
-#                           target_group={'agemin': 0.25, 'agemax': 10},
-#                           adherent_drug_configs=[adherent_drug_configs],
-#                           receiving_drugs_event_name='Received_SMC'
-#                           )
-#
-#     elif age_range == "u15":
-#         add_drug_campaign(cb,
-#                           'SMC',
-#                           start_days=start_days,
-#                           coverage=u5_coverage,
-#                           target_group={'agemin': 0.25, 'agemax': 15},
-#                           adherent_drug_configs=[adherent_drug_configs],
-#                           receiving_drugs_event_name='Received_SMC'
-#                           )
+def add_smc(campaign, u5_coverage, start_days, age_range="default"):
+    # Copied from HBHI setup
+    smc_adherent_drug_config = smc_adherent_configuration(campaign=campaign)
+
+    if age_range == "default":
+        add_drug_campaign(camp=campaign,
+                          campaign_type='SMC',
+                          start_days=start_days,
+                          coverage=u5_coverage,
+                          target_group={'agemin': 0.25, 'agemax': 5},
+                          adherent_drug_configs=[smc_adherent_drug_config],
+                          receiving_drugs_event_name='Received_SMC'
+                          )
+
+        # Some unintentional coverage of 5-10 year olds
+        o5_coverage = (0.2/0.9)*u5_coverage
+        add_drug_campaign(camp=campaign,
+                          campaign_type='SMC',
+                          start_days=start_days,
+                          coverage=o5_coverage,
+                          target_group={'agemin': 5, 'agemax': 10},
+                          adherent_drug_configs=[smc_adherent_drug_config],
+                          receiving_drugs_event_name='Received_SMC'
+                          )
+
+    elif age_range == "u10":
+        add_drug_campaign(camp=campaign,
+                          campaign_type='SMC',
+                          start_days=start_days,
+                          coverage=u5_coverage,
+                          target_group={'agemin': 0.25, 'agemax': 10},
+                          adherent_drug_configs=[smc_adherent_drug_config],
+                          receiving_drugs_event_name='Received_SMC'
+                          )
+
+    elif age_range == "u15":
+        add_drug_campaign(camp=campaign,
+                          campaign_type='SMC',
+                          start_days=start_days,
+                          coverage=u5_coverage,
+                          target_group={'agemin': 0.25, 'agemax': 15},
+                          adherent_drug_configs=[smc_adherent_drug_config],
+                          receiving_drugs_event_name='Received_SMC'
+                          )
 
 
 
-# def add_burnin_historical_smc(cb, start_year=1970):
-#     # CB suggestion: 2016 at 70% and increase 5% every year to 2020 and then hold at 90%
-#     u5_cov_dict = {2016: 0.70,
-#                 2017: 0.75,
-#                 2018: 0.80,
-#                 2019: 0.85,
-#                 2020: 0.9}
-#
-#     for year in [2016,2017,2018,2019,2020]:
-#         u5_cov = u5_cov_dict[year]
-#         dtk_start_days = (year-start_year)*365 + smc_days_in_year
-#
-#         add_smc(cb, u5_coverage=u5_cov, start_days=dtk_start_days)
+def add_burnin_historical_smc(campaign, start_year=1970):
+    # CB suggestion: 2016 at 70% and increase 5% every year to 2020 and then hold at 90%
+    u5_cov_dict = {2016: 0.70,
+                   2017: 0.75,
+                   2018: 0.80,
+                   2019: 0.85,
+                   2020: 0.9}
+
+    for year in [2016,2017,2018,2019,2020]:
+        u5_cov = u5_cov_dict[year]
+        dtk_start_days = (year-start_year)*365 + smc_days_in_year
+
+        add_smc(campaign, u5_coverage=u5_cov, start_days=dtk_start_days)
 
 
 #fixme Ideally, wait for Svetlana's quality-of-life updates for an add_ivermectin function, instead of having to do it this way:
@@ -316,8 +303,7 @@ def add_burnin_historical_interventions(campaign, archetype):
     add_burnin_historical_healthseeking(campaign, archetype)
     add_burnin_historical_bednets(campaign, archetype)
     if archetype == "Sahel":
-        raise NotImplementedError
-        # add_burnin_historical_smc(cb)
+        add_burnin_historical_smc(campaign)
 
 
 def build_burnin_campaign(archetype):
@@ -382,7 +368,7 @@ def add_scenario_specific_ipt(campaign, scenario_dict, archetype, receiving_drug
         drug_code = "ASA"
 
     # timing:
-    timings_df = pd.read_csv("ipt_schedule.csv")
+    timings_df = pd.read_csv(os.path.join(manifest.additional_csv_folder, "ipt_schedule.csv"))
     timings_df = timings_df[np.logical_and(timings_df["archetype"]==archetype,
                                            timings_df["interval"]==scenario_dict["interval"])].reset_index(drop=True)
     campaign_days = np.array(timings_df["day"])
@@ -402,192 +388,208 @@ def add_scenario_specific_ipt(campaign, scenario_dict, archetype, receiving_drug
 
 
 
-# def add_scenario_specific_smc(cb, age_range="default"):
-#     # Both years get 2 years of 90% coverage SMC
-#     for year in [0,1]:
-#         dtk_start_days = year*365 + smc_days_in_year
-#
-#         if age_range in ["default", "u10", "u15"]:
-#             add_smc(cb, u5_coverage=0.9, start_days=dtk_start_days, age_range=age_range)
-#         elif age_range == "u10_with_DP":
-#             add_drug_campaign(cb,
-#                               campaign_type="MDA",
-#                               drug_code="DP",
-#                               start_days=list(dtk_start_days),
-#                               coverage=0.9,
-#                               target_group={'agemin': 0.25, 'agemax': 10},
-#                               receiving_drugs_event_name="Received_SMC")
-#         elif age_range == "u15_with_DP":
-#             add_drug_campaign(cb,
-#                               campaign_type="MDA",
-#                               drug_code="DP",
-#                               start_days=list(dtk_start_days),
-#                               coverage=0.9,
-#                               target_group={'agemin': 0.25, 'agemax': 15},
-#                               receiving_drugs_event_name="Received_SMC")
+def add_scenario_specific_smc(campaign, age_range="default"):
+    # Both years get 2 years of 90% coverage SMC
+    for year in [0,1]:
+        dtk_start_days = year*365 + smc_days_in_year
+
+        if age_range in ["default", "u10", "u15"]:
+            add_smc(campaign, u5_coverage=0.9, start_days=dtk_start_days, age_range=age_range)
+        elif age_range == "u10_with_DP":
+            add_drug_campaign(campaign,
+                              campaign_type="MDA",
+                              drug_code="DP",
+                              start_days=list(dtk_start_days),
+                              coverage=0.9,
+                              target_group={'agemin': 0.25, 'agemax': 10},
+                              receiving_drugs_event_name="Received_SMC")
+        elif age_range == "u15_with_DP":
+            add_drug_campaign(campaign,
+                              campaign_type="MDA",
+                              drug_code="DP",
+                              start_days=list(dtk_start_days),
+                              coverage=0.9,
+                              target_group={'agemin': 0.25, 'agemax': 15},
+                              receiving_drugs_event_name="Received_SMC")
 
 
 
-def add_scenario_specific_interventions(cb, scenario_number, archetype="Southern"):
+def add_scenario_specific_interventions(campaign, scenario_number, archetype="Southern"):
     # open scenario df and get this number
-    scenario_df = pd.read_csv("scenario_master_list.csv")
+    scenario_df = pd.read_csv(os.path.join(manifest.additional_csv_folder, "scenario_master_list.csv"))
     scenario_dict = scenario_df[np.logical_and(scenario_df["archetype"]==archetype,
                                                scenario_df["scenario_number"]==scenario_number)].to_dict("records")[0]
 
-    set_school_children_ips(cb,
+    set_school_children_ips(campaign=campaign,
                             sac_in_school_fraction=(1-scenario_dict["out_of_school_rate"]),
                             age_dependence="complex",
                             target_age_range=scenario_dict["target_age_range"])
 
-    add_scenario_specific_itns(cb, scenario_dict["itn_coverage"], archetype=archetype)
-    add_scenario_specific_healthseeking(cb, scenario_dict["hs_rate"])
+    add_scenario_specific_itns(campaign, scenario_dict["itn_coverage"], archetype=archetype)
+    add_scenario_specific_healthseeking(campaign, scenario_dict["hs_rate"])
 
     if scenario_dict["interval"] != "None":
-        add_scenario_specific_ipt(cb, scenario_dict, archetype)
+        add_scenario_specific_ipt(campaign, scenario_dict, archetype)
 
     if scenario_dict["smc_on"]:
-        raise NotImplementedError
-        # add_scenario_specific_smc(cb, age_range=scenario_dict["smc_age_range"])
+        add_scenario_specific_smc(campaign, age_range=scenario_dict["smc_age_range"])
 
     if scenario_dict["ivermectin"]:
         raise NotImplementedError
         # add_ivermec(cb)
 
     if scenario_dict["primaquine"]:
-        add_primaquine(cb)
+        add_primaquine(campaign)
 
     return scenario_dict
 
 
-#fixme Need change_individual_property code.  Waiting on Jonathan 2/9/22
-# def set_school_children_ips_for_complex_age_dist(cb, sac_in_school_fraction=0.9, number_of_years=2):
-#     df_age_dependence = pd.read_csv("primary_school_attendance_by_age.csv")
-#
-#     # Initial setup
-#     for i,row in df_age_dependence.iterrows():
-#         age = row["age"]
-#         age_min = age
-#         age_max = age+1
-#         if age == 6:
-#             age_min = 5.5
-#
-#         change_individual_property(cb,
-#                                    target_property_name="SchoolStatus",
-#                                    target_property_value="AttendsSchool",
-#                                    target_group={"agemin": age_min, "agemax": age_max},
-#                                    coverage=sac_in_school_fraction*row["relative_attendance"],
-#                                    max_duration=1,
-#                                    start_day=1)
-#
-#
-#     # Each September 1st, add in new kids and remove old ones:
-#     school_start_day_list = [244 + 365*i for i in range(number_of_years)]
-#
-#     for school_start_day in school_start_day_list:
-#
-#         ages = np.array(df_age_dependence["age"])
-#         relative_attendances = np.array(df_age_dependence["relative_attendance"])
-#
-#         # For kids entering
-#         change_individual_property(cb,
-#                                    target_property_name="SchoolStatus",
-#                                    target_property_value="AttendsSchool",
-#                                    target_group={"agemin": 5.5, "agemax": 7},
-#                                    coverage=sac_in_school_fraction*relative_attendances[0],
-#                                    ind_property_restrictions=[{"SchoolStatus": "DoesNotAttendSchool"}],
-#                                    max_duration=1,
-#                                    start_day=school_start_day)
-#
-#         # For kids leaving
-#         change_individual_property(cb,
-#                                    target_property_name="SchoolStatus",
-#                                    target_property_value="DoesNotAttendSchool",
-#                                    target_group={"agemin": 18, "agemax": 19},
-#                                    coverage=1,
-#                                    max_duration=1,
-#                                    start_day=school_start_day)
-#
-#         # For kids changing grades
-#         for i in range(len(ages)):
-#             age = ages[i]
-#
-#             if 6 < age < 18:
-#                 prev_age_attendance = relative_attendances[i-1]
-#                 current_age_attendance = relative_attendances[i]
-#                 loss_in_relative_attendance = (prev_age_attendance-current_age_attendance)/prev_age_attendance
-#
-#                 if loss_in_relative_attendance > 0:
-#                     change_individual_property(cb,
-#                                                target_property_name="SchoolStatus",
-#                                                target_property_value="DoesNotAttendSchool",
-#                                                target_group={"agemin": age, "agemax": age+1},
-#                                                coverage=loss_in_relative_attendance,
-#                                                ind_property_restrictions=[{"SchoolStatus": "AttendsSchool"}],
-#                                                max_duration=1,
-#                                                start_day=school_start_day)
-#
-#
-#
-# def set_school_children_ips(cb, sac_in_school_fraction=0.9, age_dependence="simple", target_age_range="default"):
-#     def _simple_age_ips(agemin, agemax):
-#         # Initial setup
-#         change_individual_property(cb,
-#                                    target_property_name="SchoolStatus",
-#                                    target_property_value="AttendsSchool",
-#                                    target_group={"agemin": agemin, "agemax": agemax},
-#                                    coverage=sac_in_school_fraction,
-#                                    max_duration=1,
-#                                    start_day=1)
-#
-#         # Each September 1st, add in new kids and remove old ones:
-#         for school_start_day in [244, 365+244]:
-#             change_individual_property(cb,
-#                                        target_property_name="SchoolStatus",
-#                                        target_property_value="AttendsSchool",
-#                                        target_group={"agemin": agemin, "agemax": agemin+1.5},
-#                                        coverage=sac_in_school_fraction,
-#                                        ind_property_restrictions=[{"SchoolStatus": "DoesNotAttendSchool"}],
-#                                        max_duration=1,
-#                                        start_day=school_start_day)
-#
-#             change_individual_property(cb,
-#                                        target_property_name="SchoolStatus",
-#                                        target_property_value="DoesNotAttendSchool",
-#                                        target_group={"agemin": agemax, "agemax": agemax+1},
-#                                        coverage=1,
-#                                        max_duration=1,
-#                                        start_day=school_start_day)
-#
-#     if target_age_range == "default":
-#         if age_dependence == "simple":
-#             _simple_age_ips(5.5, 15)
-#         elif age_dependence == "complex":
-#             set_school_children_ips_for_complex_age_dist(cb, sac_in_school_fraction=sac_in_school_fraction)
-#
-#     elif target_age_range == "u5":
-#         _simple_age_ips(0.25,5)
-#     elif target_age_range == "u16":
-#         _simple_age_ips(0.25,15)
+
+def set_school_children_ips_for_complex_age_dist(campaign, sac_in_school_fraction=0.9, number_of_years=2):
+    df_age_dependence = pd.read_csv(os.path.join(manifest.additional_csv_folder, "primary_school_attendance_by_age.csv"))
+
+    # Initial setup
+    for i,row in df_age_dependence.iterrows():
+        age = row["age"]
+        age_min = age
+        age_max = age+1
+        if age == 6:
+            age_min = 5.5
+
+        change_individual_property(campaign,
+                                   target_property_name="SchoolStatus",
+                                   target_property_value="AttendsSchool",
+                                   target_age_min=age_min,
+                                   target_age_max=age_max,
+                                   coverage=sac_in_school_fraction*row["relative_attendance"],
+                                   max_duration=1,
+                                   start_day=1)
+
+
+    # Each September 1st, add in new kids and remove old ones:
+    school_start_day_list = [244 + 365*i for i in range(number_of_years)]
+
+    for school_start_day in school_start_day_list:
+
+        ages = np.array(df_age_dependence["age"])
+        relative_attendances = np.array(df_age_dependence["relative_attendance"])
+
+        # For kids entering
+        change_individual_property(campaign,
+                                   target_property_name="SchoolStatus",
+                                   target_property_value="AttendsSchool",
+                                   target_age_min=5.5,
+                                   target_age_max=7,
+                                   coverage=sac_in_school_fraction*relative_attendances[0],
+                                   ip_restrictions=[{"SchoolStatus": "DoesNotAttendSchool"}],
+                                   max_duration=1,
+                                   start_day=school_start_day)
+
+        # For kids leaving
+        change_individual_property(campaign,
+                                   target_property_name="SchoolStatus",
+                                   target_property_value="DoesNotAttendSchool",
+                                   target_age_min=18,
+                                   target_age_max=19,
+                                   coverage=1,
+                                   max_duration=1,
+                                   start_day=school_start_day)
+
+        # For kids changing grades
+        for i in range(len(ages)):
+            age = ages[i]
+
+            if 6 < age < 18:
+                prev_age_attendance = relative_attendances[i-1]
+                current_age_attendance = relative_attendances[i]
+                loss_in_relative_attendance = (prev_age_attendance-current_age_attendance)/prev_age_attendance
+
+                if loss_in_relative_attendance > 0:
+                    change_individual_property(campaign,
+                                               target_property_name="SchoolStatus",
+                                               target_property_value="DoesNotAttendSchool",
+                                               target_age_min=age,
+                                               target_age_max=age+1,
+                                               coverage=loss_in_relative_attendance,
+                                               ip_restrictions=[{"SchoolStatus": "AttendsSchool"}],
+                                               max_duration=1,
+                                               start_day=school_start_day)
+
+
+
+def set_school_children_ips(campaign, sac_in_school_fraction=0.9, age_dependence="simple", target_age_range="default"):
+    def _simple_age_ips(agemin, agemax):
+        # Initial setup
+        change_individual_property(campaign,
+                                   target_property_name="SchoolStatus",
+                                   target_property_value="AttendsSchool",
+                                   target_age_min=agemin,
+                                   target_age_max=agemax,
+                                   coverage=sac_in_school_fraction,
+                                   max_duration=1,
+                                   start_day=1)
+
+        # Each September 1st, add in new kids and remove old ones:
+        for school_start_day in [244, 365+244]:
+            change_individual_property(campaign,
+                                       target_property_name="SchoolStatus",
+                                       target_property_value="AttendsSchool",
+                                       target_age_min=agemin,
+                                       target_age_max=agemin+1.5,
+                                       coverage=sac_in_school_fraction,
+                                       ip_restrictions=[{"SchoolStatus": "DoesNotAttendSchool"}],
+                                       max_duration=1,
+                                       start_day=school_start_day)
+
+            change_individual_property(campaign,
+                                       target_property_name="SchoolStatus",
+                                       target_property_value="DoesNotAttendSchool",
+                                       target_age_min=agemax,
+                                       target_age_max=agemax + 1,
+                                       coverage=1,
+                                       max_duration=1,
+                                       start_day=school_start_day)
+
+    if target_age_range == "default":
+        if age_dependence == "simple":
+            _simple_age_ips(5.5, 15)
+        elif age_dependence == "complex":
+            set_school_children_ips_for_complex_age_dist(campaign, sac_in_school_fraction=sac_in_school_fraction)
+
+    elif target_age_range == "u5":
+        _simple_age_ips(0.25,5)
+    elif target_age_range == "u16":
+        _simple_age_ips(0.25,15)
 
 
 
 
-#fixme use new jsuresh-helpers function import_infections_through_outbreak
+def constant_annual_importation(campaign, total_importations_per_year):
+    days_between_importations = int(np.round(365/total_importations_per_year))
+
+    import_infections_through_outbreak(campaign,
+                                       days_between_outbreaks=days_between_importations,
+                                       start_day=1,
+                                       num_infections=1)
 
 
-def seasonal_daily_importations(campaign, total_importations_per_year, archetype="Southern"):
-    if archetype == "Southern":
-        seasonal_spline = pd.read_csv("southern_new_infection_spline.csv")
-        spline_sum = np.sum(seasonal_spline["new_infections"])
-        rescale_factor = total_importations_per_year/spline_sum
+def seasonal_daily_importations(campaign, archetype, total_importations_per_year):
+    raise NotImplementedError
 
-        for d in np.arange(365):
-            import_infections_through_outbreak(campaign,
-                                               days_between_outbreaks=365,
-                                               start_day=d,
-                                               num_infections=rescale_factor*seasonal_spline["new_infections"].iloc[d])
+    #fixme only working archetype is Southern
 
-        return {"total_importations_per_year": total_importations_per_year}
-
-    else:
-        raise NotImplementedError
+    # if archetype == "Southern":
+    #     seasonal_spline = pd.read_csv(os.path.join(manifest.additional_csv_folder, "southern_new_infection_spline.csv"))
+    #     spline_sum = np.sum(seasonal_spline["new_infections"])
+    #     rescale_factor = total_importations_per_year/spline_sum
+    #
+    #     for d in np.arange(365):
+    #         import_infections_through_outbreak(campaign,
+    #                                            days_between_outbreaks=365,
+    #                                            start_day=d,
+    #                                            num_infections=rescale_factor*seasonal_spline["new_infections"].iloc[d])
+    #
+    #     return {"total_importations_per_year": total_importations_per_year}
+    #
+    # else:
+    #     raise NotImplementedError

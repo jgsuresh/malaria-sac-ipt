@@ -22,7 +22,7 @@ def create_and_submit_experiment():
     experiment_name = "test_sim"
 
     # parameters to sweep over:
-    archetypes = ["Eastern", "Southern"]
+    archetypes = ["Eastern", "Southern", "Sahel"]
     larval_habitat_scales = np.array([8.9,9.0])
     number_of_seeds = 1
 
@@ -46,8 +46,6 @@ def create_and_submit_experiment():
 
     print("Adding asset dir...")
     task.common_assets.add_directory(assets_directory=manifest.assets_input_dir)
-
-    add_burnin_reports(task, include_inset=True)
 
 
     # Create simulation sweep with builder

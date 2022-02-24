@@ -113,6 +113,7 @@ archetype_seasonal_usage = {
 
 smc_days_in_year = np.array([206,237,267,298])
 
+
 def add_bednets_for_population_and_births(campaign,
                                           coverage,
                                           start_day=1,
@@ -381,7 +382,7 @@ def add_standard_interventions(campaign):
 
 def build_campaign(scenario_number=-1):
     # Campaign object is built simply by importing
-    campaign.schema_path = manifest.schema_file
+    campaign.set_schema(manifest.schema_file)
 
     add_standard_interventions(campaign)
     add_scenario_specific_interventions(campaign, scenario_number)
