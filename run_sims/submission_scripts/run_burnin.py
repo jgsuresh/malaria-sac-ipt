@@ -14,7 +14,8 @@ from run_sims import manifest
 from run_sims.build_config import set_full_config
 from run_sims.other import build_demographics_from_file, include_post_processing
 from run_sims.reports import add_burnin_reports
-from run_sims.sweeps import set_run_number, archetype_and_habitat_sweep, archetype_and_habitat_sweep_for_burnins
+from run_sims.sweeps import set_run_number, archetype_and_habitat_sweep, archetype_and_habitat_sweep_for_burnins, \
+    dummy_sweep_for_campaign_viz
 
 
 def create_and_submit_experiment():
@@ -23,7 +24,7 @@ def create_and_submit_experiment():
 
     # parameters to sweep over:
     archetypes = ["Eastern", "Southern", "Sahel"]
-    larval_habitat_scales = np.array([8.9,9.0])
+    larval_habitat_scales = np.array([8.0,9.0])
     number_of_seeds = 1
 
     # platform = Platform("Calculon", num_cores=1, node_group="idm_abcd", priority="Lowest")
@@ -52,6 +53,7 @@ def create_and_submit_experiment():
     builder = SimulationBuilder()
     builder.add_sweep_definition(archetype_and_habitat_sweep_for_burnins, list(itertools.product(archetypes, larval_habitat_scales)))
     builder.add_sweep_definition(set_run_number, range(number_of_seeds))
+    builder.add_sweep_definition(dummy_sweep_for_campaign_viz, [platform])
 
     # create experiment from builder
     print("Prompting for COMPS creds if necessary...")
