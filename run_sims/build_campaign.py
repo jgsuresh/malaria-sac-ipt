@@ -309,12 +309,15 @@ def add_burnin_historical_interventions(campaign, archetype):
 def build_burnin_campaign(archetype):
     campaign = build_standard_campaign_object(manifest=manifest)
     add_burnin_historical_interventions(campaign, archetype)
+    constant_annual_importation(campaign, total_importations_per_year=25)
     return campaign
 
 
-def build_nonburnin_campaign(archetype):
+def build_scenario_campaign(archetype, scenario_number):
     campaign = build_standard_campaign_object(manifest=manifest)
-    raise NotImplementedError #fixme
+    add_scenario_specific_interventions(campaign, scenario_number=scenario_number, archetype=archetype)
+    constant_annual_importation(campaign, total_importations_per_year=25)
+    return campaign
 
 
 
@@ -414,11 +417,11 @@ def add_scenario_specific_smc(campaign, age_range="default"):
 
 
 
-def add_scenario_specific_interventions(campaign, scenario_number, archetype="Southern"):
+def add_scenario_specific_interventions(campaign, scenario_number, archetype):
     # open scenario df and get this number
     scenario_df = pd.read_csv(os.path.join(manifest.additional_csv_folder, "scenario_master_list.csv"))
-    scenario_dict = scenario_df[np.logical_and(scenario_df["archetype"]==archetype,
-                                               scenario_df["scenario_number"]==scenario_number)].to_dict("records")[0]
+    scenario_dict = scenario_df[np.logical_and(scenario_df["archetype"] == archetype,
+                                               scenario_df["scenario_number"] == scenario_number)].to_dict("records")[0]
 
     set_school_children_ips(campaign=campaign,
                             sac_in_school_fraction=(1-scenario_dict["out_of_school_rate"]),
