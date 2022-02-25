@@ -28,6 +28,7 @@ def set_archetype_specifics(simulation, archetype, is_burnin=False):
     build_demographics = partial(build_demographics_from_file, archetype=archetype)
     simulation.task.create_demog_from_callback(build_demographics)
 
+
     if archetype == "Southern" or archetype == "Magude":
         simulation.task.config.parameters.Demographics_Filenames = ["demo_southern.json"]
     elif archetype == "Sahel":
