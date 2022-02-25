@@ -1,12 +1,23 @@
 from functools import partial
 
+from COMPS.Data import SimulationFile
+
 from run_sims.build_campaign import add_burnin_historical_interventions, build_burnin_campaign
 from run_sims.build_config import set_archetype_ento
 from run_sims.other import build_demographics_from_file
 from run_sims.reports import add_burnin_reports
 
 
+# Set the run number and additionally drop in a visualization pointer file
 def set_run_number(simulation, value):
+    # Add the malaria-interventions visualization pointer file
+    comps_sim = simulation.get_platform_object()
+    index_contents = "https://comps.idmod.org/asset/download/LAIz4q2vjSfCzYX2BYorh2jiEhao4tmiYQP1gKm1uI0_/UmVzZXJ2ZWRGb3JGdXR1cmVVc2U_/XFxJQVpDVkZJTDAxLklETUhQQy5BWlJcSURNXEhvbWVcYnJlc3NsZXJcb3V0cHV0XGRmY1w5MzJcZmI2XGRmYzkzMmZiLTZjNzktZWMxMS1hOWYyLTk0NDBjOWJlMmM1MVxpbnRlcnZlbnRpb25zLmh0bWw_/interventions.html";
+    comps_sim.add_file(simulationfile=SimulationFile("index.html", "input"),
+                       data=bytes(index_contents, "utf-8"))
+    comps_sim.save()
+
+    # Return the run number for the sim
     simulation.task.config.parameters.Run_Number = value
     return {"Run_Number": value}
 
@@ -16,7 +27,6 @@ def set_archetype_specifics(simulation, archetype, is_burnin=False):
     # Things each archetype has: demographics file, entomology, historical interventions
     build_demographics = partial(build_demographics_from_file, archetype=archetype)
     simulation.task.create_demog_from_callback(build_demographics)
-
 
     if archetype == "Southern" or archetype == "Magude":
         simulation.task.config.parameters.Demographics_Filenames = ["demo_southern.json"]
