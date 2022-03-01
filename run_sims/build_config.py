@@ -12,9 +12,9 @@ def set_full_config(config, is_burnin):
     set_project_config_params(config)
 
     if is_burnin:
-        config.parameters.Simulation_Duration = 50 * 365
+        config.parameters.Simulation_Duration = 20 * 365
         config.parameters.Serialized_Population_Writing_Type = "TIMESTEP"
-        config.parameters.Serialization_Time_Steps = [50 * 365]
+        config.parameters.Serialization_Time_Steps = [20 * 365]
         config.parameters.Serialization_Precision = "REDUCED"
     else:
         config.parameters.Simulation_Duration = 2 * 365

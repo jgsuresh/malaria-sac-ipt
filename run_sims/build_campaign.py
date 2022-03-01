@@ -121,7 +121,9 @@ def add_bednets_for_population_and_births(campaign,
                                           start_day=1,
                                           seasonal_dependence=None,
                                           discard_config_type="default",
-                                          age_dependence=default_bednet_age_usage):
+                                          age_dependence=default_bednet_age_usage,
+                                          include_birthnets=True,
+                                          birthnet_listening_duration=-1):
 
     if seasonal_dependence is None:
         seasonal_dependence = {}
@@ -140,20 +142,22 @@ def add_bednets_for_population_and_births(campaign,
                                      blocking_decay_rate=1/730.)
     campaign.add(regular_bednets_event)
 
-    birth_bednets_event = UDBednet(camp=campaign,
-                                   triggers=["Births"],
-                                   start_day=start_day,
-                                   coverage=coverage,
-                                   age_dependence=age_dependence,
-                                   seasonal_dependence=seasonal_dependence,
-                                   discard_config=discard_config[discard_config_type],
-                                   killing_eff=0.6, #explicitly putting in killing/blocking even though these are defaults, in case UDBednet defaults change down the road
-                                   killing_constant_duration=0,
-                                   killing_decay_rate=1 / 1460.,
-                                   blocking_eff=0.9,
-                                   blocking_constant_duration=0,
-                                   blocking_decay_rate=1/730.)
-    campaign.add(birth_bednets_event)
+    if include_birthnets:
+        birth_bednets_event = UDBednet(camp=campaign,
+                                       triggers=["Births"],
+                                       start_day=start_day,
+                                       coverage=coverage,
+                                       age_dependence=age_dependence,
+                                       seasonal_dependence=seasonal_dependence,
+                                       discard_config=discard_config[discard_config_type],
+                                       duration=birthnet_listening_duration,
+                                       killing_eff=0.6, #explicitly putting in killing/blocking even though these are defaults, in case UDBednet defaults change down the road
+                                       killing_constant_duration=0,
+                                       killing_decay_rate=1 / 1460.,
+                                       blocking_eff=0.9,
+                                       blocking_constant_duration=0,
+                                       blocking_decay_rate=1/730.)
+        campaign.add(birth_bednets_event)
 
 
 
@@ -169,13 +173,15 @@ def add_burnin_historical_bednets(campaign, archetype="Southern", start_year=197
 
     for index, row in df.iterrows():
         # Assume 50 year burnin, so 2000 is year 30
-        campaign_start_day = int((row["year"]-start_year)*365)
+        campaign_start_day = int((row["year"]-start_year)*365) + 1
 
         add_bednets_for_population_and_births(campaign=campaign,
                                               coverage=row["cov_all"],
                                               start_day=campaign_start_day,
                                               seasonal_dependence=archetype_seasonal_usage[archetype],
-                                              discard_config_type="flat_annual")
+                                              discard_config_type="flat_annual",
+                                              include_birthnets=True,
+                                              birthnet_listening_duration=365)
 
 
 def add_burnin_historical_healthseeking(campaign, archetype="Southern", start_year=1970):
@@ -299,16 +305,16 @@ def add_primaquine(campaign):
                       )
 
 
-def add_burnin_historical_interventions(campaign, archetype):
-    add_burnin_historical_healthseeking(campaign, archetype)
-    add_burnin_historical_bednets(campaign, archetype)
+def add_burnin_historical_interventions(campaign, archetype, start_year=1970):
+    add_burnin_historical_healthseeking(campaign, archetype, start_year=start_year)
+    add_burnin_historical_bednets(campaign, archetype, start_year=start_year)
     if archetype == "Sahel":
-        add_burnin_historical_smc(campaign)
+        add_burnin_historical_smc(campaign, start_year=start_year)
 
 
-def build_burnin_campaign(archetype):
+def build_burnin_campaign(archetype, start_year=1970):
     campaign = build_standard_campaign_object(manifest=manifest)
-    add_burnin_historical_interventions(campaign, archetype)
+    add_burnin_historical_interventions(campaign, archetype, start_year=start_year)
     constant_annual_importation(campaign, total_importations_per_year=25)
     return campaign
 

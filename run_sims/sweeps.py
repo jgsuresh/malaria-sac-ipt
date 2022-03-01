@@ -17,7 +17,8 @@ def set_run_number(simulation, value):
 
 
 def dummy_sweep_for_campaign_viz(simulation, value):
-    comps_sim = simulation.get_platform_object(platform=value)
+    comps_sim = simulation.get_platform_object()
+    # comps_sim = simulation.get_platform_object(platform=value)
     # comps_sim = simulation.get_platform_object(platform=Platform("MalariaSandbox", num_cores=1, node_group="emod_abcd", priority="Highest"))
     index_contents = "https://comps.idmod.org/asset/download/LAIz4q2vjSfCzYX2BYorh2jiEhao4tmiYQP1gKm1uI0_/UmVzZXJ2ZWRGb3JGdXR1cmVVc2U_/XFxJQVpDVkZJTDAxLklETUhQQy5BWlJcSURNXEhvbWVcYnJlc3NsZXJcb3V0cHV0XGRmY1w5MzJcZmI2XGRmYzkzMmZiLTZjNzktZWMxMS1hOWYyLTk0NDBjOWJlMmM1MVxpbnRlcnZlbnRpb25zLmh0bWw_/interventions.html"
     comps_sim.add_file(simulationfile=SimulationFile(os.path.join(manifest.additional_csv_folder, "index.html"), "input"),
@@ -48,7 +49,7 @@ def set_archetype_specifics(simulation, archetype, is_burnin=False):
 
     # If running a burnin, add archetype-specific historical interventions
     if is_burnin:
-        build_campaign_partial = partial(build_burnin_campaign, archetype=archetype)
+        build_campaign_partial = partial(build_burnin_campaign, archetype=archetype, start_year=2000)
         simulation.task.create_campaign_from_callback(build_campaign_partial)
 
         add_burnin_reports(simulation.task, archetype=archetype)

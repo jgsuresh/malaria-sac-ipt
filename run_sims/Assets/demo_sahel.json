@@ -5,10 +5,10 @@
    "NodeAttributes": {
     "Latitude": 10.1875,
     "Longitude": -3.8125,
-    "InitialPopulation": 5000,
+    "InitialPopulation": 500,
     "BirthRate": 0.48287671232,
     "LarvalHabitatMultiplier": [
-      {"Factor": 5,
+      {"Factor": 0.5,
       "Habitat": "LINEAR_SPLINE",
       "Species": "gambiae"}
     ]
