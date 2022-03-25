@@ -12,9 +12,9 @@ def set_full_config(config, is_burnin):
     set_project_config_params(config)
 
     if is_burnin:
-        config.parameters.Simulation_Duration = 20 * 365
+        config.parameters.Simulation_Duration = 50 * 365
         config.parameters.Serialized_Population_Writing_Type = "TIMESTEP"
-        config.parameters.Serialization_Time_Steps = [20 * 365]
+        config.parameters.Serialization_Time_Steps = [50 * 365]
         config.parameters.Serialization_Precision = "REDUCED"
     else:
         config.parameters.Simulation_Duration = 2 * 365
@@ -39,9 +39,22 @@ def set_project_config_params(config):
     config.parameters.Enable_Demographics_Birth = 1
     config.parameters.Age_Initialization_Distribution_Type = "DISTRIBUTION_SIMPLE"
 
+    config.parameters.Enable_Demographics_Risk = 1
+    config.parameters.Enable_Disease_Mortality = 0
+
+    config.parameters.Enable_Vector_Migration = 0
+
     config.parameters.Climate_Model = "CLIMATE_CONSTANT"
     config.parameters.Base_Air_Temperature = 27
     config.parameters.Base_Land_Temperature = 27
+
+    # Random other things
+    config.parameters.Report_Parasite_Smear_Sensitivity = 0.025 # replaces old "Parasite_Smear_Sensitivity": 0.025,
+    # config.parameters.Measurement_Sensitivity = 0.025 # replaces old "Parasite_Smear_Sensitivity": 0.025,
+    config.parameters.Report_Detection_Threshold_Blood_Smear_Parasites = 0
+    config.parameters.Report_Detection_Threshold_True_Parasite_Density = 40
+
+
 
     set_log_level(config)
     # set_ento(config, archetype=archetype)
@@ -69,6 +82,7 @@ def set_archetype_ento(config, habitat_scale, archetype="Southern"):
         set_species_param(config, species, "Adult_Life_Expectancy", 20)
         set_species_param(config, species, "Vector_Sugar_Feeding_Frequency", "VECTOR_SUGAR_FEEDING_NONE")
         set_species_param(config, species, "Anthropophily", 0.65)
+        set_species_param(config, species, "Acquire_Modifier", 0.8)
         # Remove any habitats that are set by default
         set_species_param(config, species, "Habitats", [], overwrite=True)
 

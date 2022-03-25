@@ -20,15 +20,23 @@ from run_sims.sweeps import set_run_number, archetype_and_habitat_sweep, archety
 
 def create_and_submit_experiment():
     # ========================================================
-    experiment_name = "test_sim"
+    experiment_name = "IPTsc burnins_Central"
 
     # parameters to sweep over:
-    archetypes = ["Sahel"]
-    larval_habitat_scales = np.array([8.0])
+    # archetypes = ["Sahel", "Central", "Southern"]
+    # larval_habitat_scales = np.array([8.0,8.1,8.2,8.3,8.4,8.5,8.6,8.7,8.8,8.9,9.0,9.1,9.2,9.3,9.4,9.5,9.6,9.7])
+    # larval_habitat_scales = np.array([7.0,7.1,7.2,7.3,7.4,7.5,7.6,7.7,7.8,7.9])
+
+    # archetypes = ["Sahel"]
+    # larval_habitat_scales = np.array([8.33,8.67, 9.08, 9.55, 10.1]) #Sahel - targeting aEIR of 1,3,10,30,100
+    # archetypes = ["Southern"]
+    # larval_habitat_scales = np.array([7.73,8.08,8.47,8.93,9.47]) #Southern - targeting aEIR of 1,3,10,30,100
+    archetypes = ["Central"]
+    larval_habitat_scales = np.array([7.44,7.58,8.01,8.45,8.98]) #Central - targeting aEIR of 1,3,10,30,100
     number_of_seeds = 1
 
-    # platform = Platform("Calculon", num_cores=1, node_group="idm_abcd", priority="Lowest")
-    platform = Platform("Calculon", num_cores=1, node_group="idm_48cores", priority="Highest")
+    platform = Platform("Calculon", num_cores=1, node_group="idm_abcd", priority="Normal")
+    # platform = Platform("Calculon", num_cores=1, node_group="idm_48cores", priority="Highest")
 
     # =========================================================
 
@@ -53,7 +61,6 @@ def create_and_submit_experiment():
     builder = SimulationBuilder()
     builder.add_sweep_definition(archetype_and_habitat_sweep_for_burnins, list(itertools.product(archetypes, larval_habitat_scales)))
     builder.add_sweep_definition(set_run_number, range(number_of_seeds))
-    # builder.add_sweep_definition(dummy_sweep_for_campaign_viz, [platform])
 
     # create experiment from builder
     print("Prompting for COMPS creds if necessary...")

@@ -39,12 +39,13 @@ def create_and_submit_experiment(platform, experiment_name):
 
     # parameters to sweep over:
     archetypes = ["Sahel", "Southern"]
-    larval_habitat_scales = np.array([8.9,9.0])
+    baseline_eirs = np.array([1,3,30,100])
     number_of_seeds = 1
 
     # Create simulation sweep with builder
     builder = SimulationBuilder()
-    builder.add_sweep_definition(archetype_and_habitat_sweep_for_burnins, list(itertools.product(archetypes, larval_habitat_scales)))
+    builder.add_sweep_definition(archetype_and_habitat_sweep_for_burnins, list(itertools.product(archetypes, baseline_eirs)))
+    builder.add_sweep_definition(set_run_number, range(number_of_seeds))
     builder.add_sweep_definition(set_run_number, range(number_of_seeds))
 
     # create experiment from builder

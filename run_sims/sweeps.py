@@ -49,10 +49,11 @@ def set_archetype_specifics(simulation, archetype, is_burnin=False):
 
     # If running a burnin, add archetype-specific historical interventions
     if is_burnin:
-        build_campaign_partial = partial(build_burnin_campaign, archetype=archetype, start_year=2000)
+        build_campaign_partial = partial(build_burnin_campaign, archetype=archetype, start_year=1970)
         simulation.task.create_campaign_from_callback(build_campaign_partial)
 
         add_burnin_reports(simulation.task, archetype=archetype)
+
 
 
 

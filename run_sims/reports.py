@@ -46,7 +46,8 @@ def add_burnin_reports(emod_task, archetype, include_inset=True):
         "Bednet_Discarded",
         "Bednet_Got_New_One",
         "Bednet_Using",
-        "Received_Treatment"]
+        "Received_Treatment",
+        "NonDiseaseDeaths"]
 
     if archetype == "Sahel":
         events_to_count += ["Received_SMC"]
