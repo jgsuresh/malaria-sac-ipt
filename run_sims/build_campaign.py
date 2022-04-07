@@ -140,7 +140,7 @@ def add_bednets_for_population_and_births(campaign,
                                                                  killing_decay_time_constant=1460.,
                                                                  blocking_initial_effect=0.9,
                                                                  blocking_box_duration=0,
-                                                                 blocking_decay_time_constant=1/730.)
+                                                                 blocking_decay_time_constant=730.)
 
     if include_birthnets:
         birth_bednets_event = add_triggered_usage_dependent_bednet(campaign=campaign,
@@ -157,7 +157,7 @@ def add_bednets_for_population_and_births(campaign,
                                                                    killing_decay_time_constant=1460.,
                                                                    blocking_initial_effect=0.9,
                                                                    blocking_box_duration=0,
-                                                                   blocking_decay_time_constant=1 / 730.)
+                                                                   blocking_decay_time_constant=730.)
 
 
 

@@ -17,8 +17,7 @@ def set_full_config(config, is_burnin):
         config.parameters.Serialization_Time_Steps = [50 * 365]
         config.parameters.Serialization_Precision = "REDUCED"
     else:
-        # config.parameters.Simulation_Duration = 2 * 365
-        config.parameters.Simulation_Duration = 50
+        config.parameters.Simulation_Duration = 2 * 365
     return config
 
 

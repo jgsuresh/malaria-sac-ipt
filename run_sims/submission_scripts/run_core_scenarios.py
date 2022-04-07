@@ -21,6 +21,8 @@ def create_and_submit_experiment(platform, experiment_name):
     # parameters to sweep over:
     archetypes = ["Sahel", "Central", "Southern"]
     baseline_eirs = [1,3,10,30,100]
+    # archetypes = ["Central"]
+    # baseline_eirs = [1]
     core_scenario_numbers = [1] #if None, run all
     number_of_seeds = 1
 

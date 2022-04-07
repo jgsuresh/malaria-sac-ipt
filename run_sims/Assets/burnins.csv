@@ -1,0 +1,16 @@
+archetype,habitat_scale,sim_id,outpath,baseline_eir
+Sahel,8.33,d8d9cc48-9fb6-ec11-a9f6-9440c9be2c51,//mnt/idm2/home/jsuresh/output/IPTsc burnins_Central_20220407_181939/ddd/9cc/489/ddd9cc48-9fb6-ec11-a9f6-9440c9be2c51,1
+Sahel,8.67,d9d9cc48-9fb6-ec11-a9f6-9440c9be2c51,//mnt/idm2/home/jsuresh/output/IPTsc burnins_Central_20220407_181939/dfd/9cc/489/dfd9cc48-9fb6-ec11-a9f6-9440c9be2c51,3
+Sahel,9.08,dad9cc48-9fb6-ec11-a9f6-9440c9be2c51,//mnt/idm2/home/jsuresh/output/IPTsc burnins_Central_20220407_181939/e1d/9cc/489/e1d9cc48-9fb6-ec11-a9f6-9440c9be2c51,10
+Sahel,9.55,dbd9cc48-9fb6-ec11-a9f6-9440c9be2c51,//mnt/idm2/home/jsuresh/output/IPTsc burnins_Central_20220407_181939/ded/9cc/489/ded9cc48-9fb6-ec11-a9f6-9440c9be2c51,30
+Sahel,10.1,dcd9cc48-9fb6-ec11-a9f6-9440c9be2c51,//mnt/idm2/home/jsuresh/output/IPTsc burnins_Central_20220407_181939/e8d/9cc/489/e8d9cc48-9fb6-ec11-a9f6-9440c9be2c51,100
+Southern,7.73,7acf7d50-9fb6-ec11-a9f6-9440c9be2c51,//mnt/idm2/home/jsuresh/output/IPTsc burnins_Central_20220407_181955/ebf/a22/629/ebfa2262-9fb6-ec11-a9f6-9440c9be2c51,1
+Southern,8.08,7bcf7d50-9fb6-ec11-a9f6-9440c9be2c51,//mnt/idm2/home/jsuresh/output/IPTsc burnins_Central_20220407_181955/e9f/a22/629/e9fa2262-9fb6-ec11-a9f6-9440c9be2c51,3
+Southern,8.47,7ccf7d50-9fb6-ec11-a9f6-9440c9be2c51,//mnt/idm2/home/jsuresh/output/IPTsc burnins_Central_20220407_181955/eaf/a22/629/eafa2262-9fb6-ec11-a9f6-9440c9be2c51,10
+Southern,8.93,7dcf7d50-9fb6-ec11-a9f6-9440c9be2c51,//mnt/idm2/home/jsuresh/output/IPTsc burnins_Central_20220407_181955/e7f/a22/629/e7fa2262-9fb6-ec11-a9f6-9440c9be2c51,30
+Southern,9.47,7ecf7d50-9fb6-ec11-a9f6-9440c9be2c51,//mnt/idm2/home/jsuresh/output/IPTsc burnins_Central_20220407_181955/e8f/a22/629/e8fa2262-9fb6-ec11-a9f6-9440c9be2c51,100
+Central,7.44,b8e98361-9eb6-ec11-a9f6-9440c9be2c51,//mnt/idm2/home/jsuresh/output/IPTsc burnins_Central_20220407_181311/47d/83f/6a9/47d83f6a-9eb6-ec11-a9f6-9440c9be2c51,1
+Central,7.58,b9e98361-9eb6-ec11-a9f6-9440c9be2c51,//mnt/idm2/home/jsuresh/output/IPTsc burnins_Central_20220407_181311/46d/83f/6a9/46d83f6a-9eb6-ec11-a9f6-9440c9be2c51,3
+Central,8.01,bae98361-9eb6-ec11-a9f6-9440c9be2c51,//mnt/idm2/home/jsuresh/output/IPTsc burnins_Central_20220407_181311/45d/83f/6a9/45d83f6a-9eb6-ec11-a9f6-9440c9be2c51,10
+Central,8.45,bbe98361-9eb6-ec11-a9f6-9440c9be2c51,//mnt/idm2/home/jsuresh/output/IPTsc burnins_Central_20220407_181311/44d/83f/6a9/44d83f6a-9eb6-ec11-a9f6-9440c9be2c51,30
+Central,8.98,bce98361-9eb6-ec11-a9f6-9440c9be2c51,//mnt/idm2/home/jsuresh/output/IPTsc burnins_Central_20220407_181311/49d/83f/6a9/49d83f6a-9eb6-ec11-a9f6-9440c9be2c51,100

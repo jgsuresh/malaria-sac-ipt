@@ -26,10 +26,10 @@ def create_and_submit_experiment():
 
     # archetypes = ["Sahel"]
     # larval_habitat_scales = np.array([8.33,8.67, 9.08, 9.55, 10.1]) #Sahel - targeting aEIR of 1,3,10,30,100
-    # archetypes = ["Southern"]
-    # larval_habitat_scales = np.array([7.73,8.08,8.47,8.93,9.47]) #Southern - targeting aEIR of 1,3,10,30,100
-    archetypes = ["Central"]
-    larval_habitat_scales = np.array([7.44,7.58,8.01,8.45,8.98]) #Central - targeting aEIR of 1,3,10,30,100
+    archetypes = ["Southern"]
+    larval_habitat_scales = np.array([7.73,8.08,8.47,8.93,9.47]) #Southern - targeting aEIR of 1,3,10,30,100
+    # archetypes = ["Central"]
+    # larval_habitat_scales = np.array([7.44,7.58,8.01,8.45,8.98]) #Central - targeting aEIR of 1,3,10,30,100
     number_of_seeds = 1
 
     # platform = Platform("Calculon", num_cores=1, node_group="idm_abcd", priority="Normal")
