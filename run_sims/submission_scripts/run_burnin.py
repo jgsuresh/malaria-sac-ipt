@@ -3,7 +3,6 @@ import pathlib
 from functools import partial
 
 import numpy as np
-from emodpy.bamboo import get_model_files
 from emodpy.emod_task import EMODTask
 from emodpy.utils import EradicationBambooBuilds
 from idmtools.builders import SimulationBuilder
@@ -12,10 +11,8 @@ from idmtools.entities.experiment import Experiment
 
 from run_sims import manifest
 from run_sims.build_config import set_full_config
-from run_sims.other import build_demographics_from_file, include_post_processing
-from run_sims.reports import add_burnin_reports
-from run_sims.sweeps import set_run_number, archetype_and_habitat_sweep, archetype_and_habitat_sweep_for_burnins, \
-    dummy_sweep_for_campaign_viz
+from run_sims.other import include_post_processing
+from run_sims.sweeps import set_run_number, archetype_and_habitat_sweep_for_burnins
 
 
 def create_and_submit_experiment():
@@ -35,8 +32,8 @@ def create_and_submit_experiment():
     larval_habitat_scales = np.array([7.44,7.58,8.01,8.45,8.98]) #Central - targeting aEIR of 1,3,10,30,100
     number_of_seeds = 1
 
-    platform = Platform("Calculon", num_cores=1, node_group="idm_abcd", priority="Normal")
-    # platform = Platform("Calculon", num_cores=1, node_group="idm_48cores", priority="Highest")
+    # platform = Platform("Calculon", num_cores=1, node_group="idm_abcd", priority="Normal")
+    platform = Platform("Calculon", num_cores=1, node_group="idm_48cores", priority="Highest")
 
     # =========================================================
 
@@ -55,7 +52,7 @@ def create_and_submit_experiment():
 
     print("Adding asset dir...")
     task.common_assets.add_directory(assets_directory=manifest.assets_input_dir)
-
+    task.set_sif(manifest.sif)
 
     # Create simulation sweep with builder
     builder = SimulationBuilder()

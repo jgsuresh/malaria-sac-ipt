@@ -55,23 +55,26 @@ def add_burnin_reports(emod_task, archetype, include_inset=True):
     add_report_event_counter(emod_task,
                              manifest=manifest,
                              event_trigger_list=events_to_count,
-                             duration_days=365*50)
+                             start_day=0,
+                             end_day=365*50)
 
 
 def add_testing_reports(emod_task):
     add_scenario_reports(emod_task, include_summary=True, include_inset=True, include_bednet_events_in_counter=True)
 
-    add_report_node_demographics(emod_task, manifest=manifest, individual_property_to_collect='SchoolStatus', stratify_by_gender=0)
+    add_report_node_demographics(emod_task, manifest=manifest, ip_key_to_collect='SchoolStatus', stratify_by_gender=0)
 
 
     add_malaria_summary_report(emod_task,
                                manifest=manifest,
-                               individual_property_filter="SchoolStatus:AttendsSchool",
-                               report_description="AttendsSchool",
-                               age_bins=summary_report_age_bins)
+                               must_have_ip_key_value="SchoolStatus:AttendsSchool",
+                               filename_suffix="AttendsSchool",
+                               age_bins=summary_report_age_bins,
+                               pretty_format=1)
 
     add_malaria_summary_report(emod_task,
                                manifest=manifest,
-                               individual_property_filter="SchoolStatus:DoesNotAttendSchool",
-                               report_description="DoesNotAttendSchool",
-                               age_bins=summary_report_age_bins)
+                               must_have_ip_key_value="SchoolStatus:DoesNotAttendSchool",
+                               filename_suffix="DoesNotAttendSchool",
+                               age_bins=summary_report_age_bins,
+                               pretty_format=1)

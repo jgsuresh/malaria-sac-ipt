@@ -5,7 +5,8 @@ import pandas as pd
 from emod_api.interventions.common import change_individual_property
 from emodpy_malaria.interventions.adherentdrug import adherent_drug
 from emodpy_malaria.interventions.drug_campaign import add_drug_campaign
-from emodpy_malaria.interventions.udbednet import UDBednet
+from emodpy_malaria.interventions.ivermectin import add_triggered_ivermectin
+from emodpy_malaria.interventions.usage_dependent_bednet import add_scheduled_usage_dependent_bednet, add_triggered_usage_dependent_bednet
 
 from jsuresh_helpers.interventions.healthseeking import add_hs_by_age_and_severity
 from jsuresh_helpers.interventions.importations import import_infections_through_outbreak
@@ -128,36 +129,35 @@ def add_bednets_for_population_and_births(campaign,
     if seasonal_dependence is None:
         seasonal_dependence = {}
 
-    regular_bednets_event = UDBednet(camp=campaign,
-                                     start_day=start_day,
-                                     coverage=coverage,
-                                     age_dependence=age_dependence,
-                                     seasonal_dependence=seasonal_dependence,
-                                     discard_config=discard_config[discard_config_type],
-                                     killing_eff=0.6, #explicitly putting in killing/blocking even though these are defaults, in case UDBednet defaults change down the road
-                                     killing_constant_duration=0,
-                                     killing_decay_rate=1 / 1460.,
-                                     blocking_eff=0.9,
-                                     blocking_constant_duration=0,
-                                     blocking_decay_rate=1/730.)
-    campaign.add(regular_bednets_event)
+    regular_bednets_event = add_scheduled_usage_dependent_bednet(campaign=campaign,
+                                                                 start_day=start_day,
+                                                                 demographic_coverage=coverage,
+                                                                 age_dependence=age_dependence,
+                                                                 seasonal_dependence=seasonal_dependence,
+                                                                 discard_config=discard_config[discard_config_type],
+                                                                 killing_initial_effect=0.6, #explicitly putting in killing/blocking even though these are defaults, in case UDBednet defaults change down the road
+                                                                 killing_box_duration=0,
+                                                                 killing_decay_time_constant=1460.,
+                                                                 blocking_initial_effect=0.9,
+                                                                 blocking_box_duration=0,
+                                                                 blocking_decay_time_constant=1/730.)
 
     if include_birthnets:
-        birth_bednets_event = UDBednet(camp=campaign,
-                                       triggers=["Births"],
-                                       start_day=start_day,
-                                       coverage=coverage,
-                                       age_dependence=age_dependence,
-                                       seasonal_dependence=seasonal_dependence,
-                                       discard_config=discard_config[discard_config_type],
-                                       duration=birthnet_listening_duration,
-                                       killing_eff=0.6, #explicitly putting in killing/blocking even though these are defaults, in case UDBednet defaults change down the road
-                                       killing_constant_duration=0,
-                                       killing_decay_rate=1 / 1460.,
-                                       blocking_eff=0.9,
-                                       blocking_constant_duration=0,
-                                       blocking_decay_rate=1/730.)
-        campaign.add(birth_bednets_event)
+        birth_bednets_event = add_triggered_usage_dependent_bednet(campaign=campaign,
+                                                                   trigger_condition_list=["Births"],
+                                                                   start_day=start_day,
+                                                                   demographic_coverage=coverage,
+                                                                   age_dependence=age_dependence,
+                                                                   seasonal_dependence=seasonal_dependence,
+                                                                   discard_config=discard_config[discard_config_type],
+                                                                   listening_duration=birthnet_listening_duration,
+                                                                   killing_initial_effect=0.6,
+                                                                   # explicitly putting in killing/blocking even though these are defaults, in case UDBednet defaults change down the road
+                                                                   killing_box_duration=0,
+                                                                   killing_decay_time_constant=1460.,
+                                                                   blocking_initial_effect=0.9,
+                                                                   blocking_box_duration=0,
+                                                                   blocking_decay_time_constant=1 / 730.)
 
 
 
@@ -325,7 +325,11 @@ def build_scenario_campaign(archetype, scenario_number):
     constant_annual_importation(campaign, total_importations_per_year=25)
     return campaign
 
-
+def build_test_campaign(archetype, scenario_number):
+    campaign = build_standard_campaign_object(manifest=manifest)
+    add_bednets_for_population_and_births(campaign, coverage=0.5)
+    add_hs_by_age_and_severity(campaign, u5_hs_rate=0.6)
+    return campaign
 
 def add_scenario_specific_itns(campaign, itn_coverage_level, archetype):
     if itn_coverage_level == "default":
@@ -423,7 +427,7 @@ def add_scenario_specific_smc(campaign, age_range="default"):
 
 
 
-def add_scenario_specific_interventions(campaign, scenario_number, archetype):
+def add_scenario_specific_interventions(campaign, archetype, scenario_number):
     # open scenario df and get this number
     scenario_df = pd.read_csv(os.path.join(manifest.additional_csv_folder, "scenario_master_list.csv"))
     scenario_dict = scenario_df[np.logical_and(scenario_df["archetype"] == archetype,
@@ -434,8 +438,11 @@ def add_scenario_specific_interventions(campaign, scenario_number, archetype):
                             age_dependence="complex",
                             target_age_range=scenario_dict["target_age_range"])
 
-    add_scenario_specific_itns(campaign, scenario_dict["itn_coverage"], archetype=archetype)
-    add_scenario_specific_healthseeking(campaign, scenario_dict["hs_rate"])
+    add_scenario_specific_itns(campaign,
+                               itn_coverage_level=scenario_dict["itn_coverage"],
+                               archetype=archetype)
+    add_scenario_specific_healthseeking(campaign,
+                                        hs_rate=scenario_dict["hs_rate"])
 
     if scenario_dict["interval"] != "None":
         add_scenario_specific_ipt(campaign, scenario_dict, archetype)
@@ -444,8 +451,9 @@ def add_scenario_specific_interventions(campaign, scenario_number, archetype):
         add_scenario_specific_smc(campaign, age_range=scenario_dict["smc_age_range"])
 
     if scenario_dict["ivermectin"]:
-        raise NotImplementedError
-        # add_ivermec(cb)
+        add_triggered_ivermectin(campaign,
+                                 trigger_condition_list=["Received_Campaign_Drugs"],
+                                 killing_box_duration=7)
 
     if scenario_dict["primaquine"]:
         add_primaquine(campaign)

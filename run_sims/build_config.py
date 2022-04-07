@@ -17,9 +17,8 @@ def set_full_config(config, is_burnin):
         config.parameters.Serialization_Time_Steps = [50 * 365]
         config.parameters.Serialization_Precision = "REDUCED"
     else:
-        config.parameters.Simulation_Duration = 2 * 365
-        # Draw from serialized file here
-
+        # config.parameters.Simulation_Duration = 2 * 365
+        config.parameters.Simulation_Duration = 50
     return config
 
 
@@ -28,7 +27,7 @@ def set_core_config_params(config):
     set_team_defaults(config, manifest)
 
     # IP white list (non-schema)
-    config.parameters["Disable_IP_Whitelist"] = 1
+    # config.parameters["Disable_IP_Whitelist"] = 1
 
 
 def set_project_config_params(config):
@@ -53,11 +52,6 @@ def set_project_config_params(config):
     # config.parameters.Measurement_Sensitivity = 0.025 # replaces old "Parasite_Smear_Sensitivity": 0.025,
     config.parameters.Report_Detection_Threshold_Blood_Smear_Parasites = 0
     config.parameters.Report_Detection_Threshold_True_Parasite_Density = 40
-
-
-
-    set_log_level(config)
-    # set_ento(config, archetype=archetype)
 
 
 def set_archetype_ento(config, habitat_scale, archetype="Southern"):

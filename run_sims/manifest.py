@@ -10,6 +10,7 @@ plugins_folder = os.path.join(base_folder, "download/reporter_plugins")
 current_directory = ""
 ep4_path = os.path.join(base_folder, "Assets")
 burnin_directory = os.path.join(base_folder, "Assets")
+sif = os.path.join(base_folder, "Assets/sif.id")
 
 # Demographics files for different archetypes
 # demographics_file_path = os.path.join(base_folder, "Assets"
