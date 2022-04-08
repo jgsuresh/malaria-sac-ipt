@@ -80,8 +80,8 @@ def master_sweep_for_core_scenarios(simulation, values):
     set_archetype_ento(simulation.task.config, archetype=archetype, habitat_scale=habitat_scale)
 
     #Build campaign for specific scenario
-    # build_campaign_without_args = partial(build_scenario_campaign, archetype=archetype, scenario_number=scenario_number)
-    build_campaign_without_args = partial(build_test_campaign, archetype=archetype, scenario_number=scenario_number)
+    build_campaign_without_args = partial(build_scenario_campaign, archetype=archetype, scenario_number=scenario_number)
+    # build_campaign_without_args = partial(build_test_campaign, archetype=archetype, scenario_number=scenario_number)
     simulation.task.create_campaign_from_callback(build_campaign_without_args)
 
     return {"archetype": archetype, "baseline_eir": baseline_eir, "scenario_number": scenario_number}

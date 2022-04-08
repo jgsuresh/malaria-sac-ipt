@@ -300,7 +300,7 @@ def add_primaquine(campaign):
                       'MDA',
                       drug_code="PMQ",
                       start_days=[1],
-                      trigger_condition_list=['Received_Campaign_Drugs', 'Received_RCD_Drugs'],
+                      trigger_condition_list=['Received_Campaign_Drugs'],
                       receiving_drugs_event_name='Received_Primaquine'
                       )
 
@@ -329,6 +329,22 @@ def build_test_campaign(archetype, scenario_number):
     campaign = build_standard_campaign_object(manifest=manifest)
     add_bednets_for_population_and_births(campaign, coverage=0.5)
     add_hs_by_age_and_severity(campaign, u5_hs_rate=0.6)
+    # set_school_children_ips_for_complex_age_dist(campaign, sac_in_school_fraction=1.0)
+    # change_individual_property(campaign,
+    #                            target_property_name="SchoolStatus",
+    #                            target_property_value="AttendsSchool",
+    #                            target_age_min=5,
+    #                            target_age_max=15,
+    #                            ip_restrictions=[{"SchoolStatus": "DoesNotAttendSchool"}],
+    #                            coverage=1.0,
+    #                            max_duration=1,
+    #                            start_day=20)
+    change_individual_property(campaign,
+                               target_property_name="SchoolStatus",
+                               target_property_value="AttendsSchool",
+                               max_duration=1,
+                               coverage=1.0,
+                               start_day=10)
     return campaign
 
 def add_scenario_specific_itns(campaign, itn_coverage_level, archetype):
@@ -384,21 +400,48 @@ def add_scenario_specific_ipt(campaign, scenario_dict, archetype, receiving_drug
     timings_df = pd.read_csv(os.path.join(manifest.additional_csv_folder, "ipt_schedule.csv"))
     timings_df = timings_df[np.logical_and(timings_df["archetype"]==archetype,
                                            timings_df["interval"]==scenario_dict["interval"])].reset_index(drop=True)
-    campaign_days = np.array(timings_df["day"])
+
 
     # Assuming that we do the same thing for 2 years:
-    campaign_days = np.append(campaign_days, campaign_days+365)
+    # campaign_days = np.append(campaign_days, campaign_days+365)
+    #
+    # add_drug_campaign(campaign,
+    #                   campaign_type=dtk_campaign_type,
+    #                   drug_code=drug_code,
+    #                   start_days=list(campaign_days),
+    #                   coverage=scenario_dict["within_school_coverage"],
+    #                   ind_property_restrictions=[{"SchoolStatus": "AttendsSchool"}],
+    #                   diagnostic_type='BLOOD_SMEAR_PARASITES',
+    #                   diagnostic_threshold=0,
+    #                   receiving_drugs_event_name=receiving_drugs_event_name)
 
-    add_drug_campaign(campaign,
-                      campaign_type=dtk_campaign_type,
-                      drug_code=drug_code,
-                      start_days=list(campaign_days),
-                      coverage=scenario_dict["within_school_coverage"],
-                      ind_property_restrictions=[{"SchoolStatus": "AttendsSchool"}],
-                      diagnostic_type='BLOOD_SMEAR_PARASITES',
-                      diagnostic_threshold=0,
-                      receiving_drugs_event_name=receiving_drugs_event_name)
+    if scenario_dict["interval"] == "day":
+        add_drug_campaign(campaign,
+                          campaign_type=dtk_campaign_type,
+                          drug_code=drug_code,
+                          start_days=[1],
+                          repetitions=-1,
+                          tsteps_btwn_repetitions=1,
+                          coverage=scenario_dict["within_school_coverage"],
+                          ind_property_restrictions=[{"SchoolStatus": "AttendsSchool"}],
+                          diagnostic_type='PF_HRP2',
+                          diagnostic_threshold=5,
+                          receiving_drugs_event_name=receiving_drugs_event_name)
 
+    else:
+        campaign_days = np.array(timings_df["day"])
+
+        add_drug_campaign(campaign,
+                          campaign_type=dtk_campaign_type,
+                          drug_code=drug_code,
+                          start_days=list(campaign_days),
+                          repetitions=-1,
+                          tsteps_btwn_repetitions=365,
+                          coverage=scenario_dict["within_school_coverage"],
+                          ind_property_restrictions=[{"SchoolStatus": "AttendsSchool"}],
+                          diagnostic_type='PF_HRP2',
+                          diagnostic_threshold=5,
+                          receiving_drugs_event_name=receiving_drugs_event_name)
 
 
 def add_scenario_specific_smc(campaign, age_range="default"):
@@ -476,12 +519,14 @@ def set_school_children_ips_for_complex_age_dist(campaign, sac_in_school_fractio
         change_individual_property(campaign,
                                    target_property_name="SchoolStatus",
                                    target_property_value="AttendsSchool",
-                                   target_age_min=age_min,
-                                   target_age_max=age_max,
+                                   target_age_min=float(age_min), # float because of https://github.com/InstituteforDiseaseModeling/emod-api/issues/501
+                                   target_age_max=float(age_max), # float because of https://github.com/InstituteforDiseaseModeling/emod-api/issues/501
                                    coverage=sac_in_school_fraction*row["relative_attendance"],
                                    max_duration=1,
                                    start_day=1)
 
+
+    #fixme The following could probably be done more elegantly with change_individual_property_at_age
 
     # Each September 1st, add in new kids and remove old ones:
     school_start_day_list = [244 + 365*i for i in range(number_of_years)]
@@ -495,8 +540,8 @@ def set_school_children_ips_for_complex_age_dist(campaign, sac_in_school_fractio
         change_individual_property(campaign,
                                    target_property_name="SchoolStatus",
                                    target_property_value="AttendsSchool",
-                                   target_age_min=5.5,
-                                   target_age_max=7,
+                                   target_age_min=float(5.5), # float because of https://github.com/InstituteforDiseaseModeling/emod-api/issues/501
+                                   target_age_max=float(7), # float because of https://github.com/InstituteforDiseaseModeling/emod-api/issues/501
                                    coverage=sac_in_school_fraction*relative_attendances[0],
                                    ip_restrictions=[{"SchoolStatus": "DoesNotAttendSchool"}],
                                    max_duration=1,
@@ -506,8 +551,8 @@ def set_school_children_ips_for_complex_age_dist(campaign, sac_in_school_fractio
         change_individual_property(campaign,
                                    target_property_name="SchoolStatus",
                                    target_property_value="DoesNotAttendSchool",
-                                   target_age_min=18,
-                                   target_age_max=19,
+                                   target_age_min=float(18), # float because of https://github.com/InstituteforDiseaseModeling/emod-api/issues/501
+                                   target_age_max=float(19), # float because of https://github.com/InstituteforDiseaseModeling/emod-api/issues/501
                                    coverage=1,
                                    max_duration=1,
                                    start_day=school_start_day)
@@ -521,12 +566,13 @@ def set_school_children_ips_for_complex_age_dist(campaign, sac_in_school_fractio
                 current_age_attendance = relative_attendances[i]
                 loss_in_relative_attendance = (prev_age_attendance-current_age_attendance)/prev_age_attendance
 
+
                 if loss_in_relative_attendance > 0:
                     change_individual_property(campaign,
                                                target_property_name="SchoolStatus",
                                                target_property_value="DoesNotAttendSchool",
-                                               target_age_min=age,
-                                               target_age_max=age+1,
+                                               target_age_min=float(age), # float because of https://github.com/InstituteforDiseaseModeling/emod-api/issues/501
+                                               target_age_max=float(age+1), # float because of https://github.com/InstituteforDiseaseModeling/emod-api/issues/501
                                                coverage=loss_in_relative_attendance,
                                                ip_restrictions=[{"SchoolStatus": "AttendsSchool"}],
                                                max_duration=1,
@@ -588,6 +634,8 @@ def constant_annual_importation(campaign, total_importations_per_year):
                                        days_between_outbreaks=days_between_importations,
                                        start_day=1,
                                        num_infections=1)
+
+    return campaign
 
 
 def seasonal_daily_importations(campaign, archetype, total_importations_per_year):
