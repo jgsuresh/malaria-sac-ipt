@@ -11,26 +11,27 @@ from idmtools.entities.experiment import Experiment
 from run_sims import manifest
 from run_sims.build_config import set_full_config
 from run_sims.other import include_post_processing
-from run_sims.reports import add_testing_reports
+from run_sims.reports import add_testing_reports, add_scenario_reports
 from run_sims.sweeps import set_run_number, master_sweep_for_core_scenarios
 
 
 def create_and_submit_experiment(platform, experiment_name):
     # ========================================================
-    experiment_name = "IPTsc core scenarios - TEST - from burnin"
+    experiment_name = "IPTsc core scenarios - Sahel"
+    # experiment_name = "IPTsc core scenarios - TEST - events"
 
     # parameters to sweep over:
     # archetypes = ["Sahel", "Central", "Southern"]
-    # baseline_eirs = [1,3,10,30,100]
-    baseline_eirs = [1]
     archetypes = ["Sahel"]
+    baseline_eirs = [1,3,10,30,100]
     # baseline_eirs = [1]
-    core_scenario_numbers = [1, 27] #if None, run all
+    core_scenario_numbers = list(range(45))
+    # core_scenario_numbers = [1, 27, 41] #if None, run all
     # core_scenario_numbers = [1, 34, 35, 37, 42] #if None, run all
-    number_of_seeds = 5
+    number_of_seeds = 3
 
-    # platform = Platform("Calculon", num_cores=1, node_group="idm_abcd", priority="Normal")
-    platform = Platform("Calculon", num_cores=1, node_group="idm_48cores", priority="Highest")
+    platform = Platform("Calculon", num_cores=1, node_group="idm_abcd", priority="Normal")
+    # platform = Platform("Calculon", num_cores=1, node_group="idm_48cores", priority="Highest")
 
     # =========================================================
 
@@ -51,8 +52,8 @@ def create_and_submit_experiment(platform, experiment_name):
     print("Adding asset dir...")
     task.common_assets.add_directory(assets_directory=manifest.assets_input_dir)
     task.set_sif(manifest.sif)
-    add_testing_reports(task)
-
+    # add_testing_reports(task)
+    add_scenario_reports(task)
 
     # Create simulation sweep with builder
     builder = SimulationBuilder()

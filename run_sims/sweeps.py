@@ -11,7 +11,7 @@ from run_sims.build_campaign import add_burnin_historical_interventions, build_b
     build_test_campaign
 from run_sims.build_config import set_archetype_ento
 from run_sims.other import build_demographics_from_file
-from run_sims.reports import add_burnin_reports
+from run_sims.reports import add_burnin_reports, add_scenario_reports
 
 
 def set_run_number(simulation, value):

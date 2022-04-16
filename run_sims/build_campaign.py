@@ -318,12 +318,26 @@ def build_burnin_campaign(archetype, start_year=1970):
     constant_annual_importation(campaign, total_importations_per_year=25)
     return campaign
 
+def add_custom_events(campaign):
+    # Add to custom events (used to do this by directly editing config.parameters.Custom_Individual_Events
+    campaign.get_send_trigger("Received_Treatment", old=True)
+    campaign.get_send_trigger("Received_Test", old=True)
+    campaign.get_send_trigger("Received_Campaign_Drugs", old=True)
+    campaign.get_send_trigger("Received_SMC", old=True)
+    campaign.get_send_trigger("Received_Primaquine", old=True)
+    campaign.get_send_trigger("Received_Ivermectin", old=True)
+    campaign.get_send_trigger("Bednet_Got_New_One", old=True)
+    campaign.get_send_trigger("Bednet_Using", old=True)
+    campaign.get_send_trigger("Bednet_Discarded", old=True)
+
 
 def build_scenario_campaign(archetype, scenario_number):
     campaign = build_standard_campaign_object(manifest=manifest)
     add_scenario_specific_interventions(campaign, scenario_number=scenario_number, archetype=archetype)
     constant_annual_importation(campaign, total_importations_per_year=25)
+    add_custom_events(campaign)
     return campaign
+
 
 def build_test_campaign(archetype, scenario_number):
     campaign = build_standard_campaign_object(manifest=manifest)
@@ -346,6 +360,7 @@ def build_test_campaign(archetype, scenario_number):
                                coverage=1.0,
                                start_day=10)
     return campaign
+
 
 def add_scenario_specific_itns(campaign, itn_coverage_level, archetype):
     if itn_coverage_level == "default":

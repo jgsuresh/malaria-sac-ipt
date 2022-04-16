@@ -3,12 +3,12 @@ from emodpy_malaria.reporters.builtin import add_malaria_summary_report, add_rep
 
 from run_sims import manifest
 
-summary_report_age_bins = list(range(20)) + list(range(20, 125, 5))
+# summary_report_age_bins = list(range(20)) + list(range(20, 125, 5))
+summary_report_age_bins = list(range(120)) # Larger report but can use dtk_post_process to get essential outputs
 
 
-def add_scenario_reports(emod_task, include_summary=True, include_inset=True, include_bednet_events_in_counter=False):
-    if include_summary:
-        add_malaria_summary_report(emod_task, manifest=manifest, age_bins=summary_report_age_bins, start_day=365)
+def add_scenario_reports(emod_task, include_inset=True, include_bednet_events_in_counter=False, ):
+    add_malaria_summary_report(emod_task, manifest=manifest, age_bins=summary_report_age_bins, reporting_interval=365)
 
     events_to_count = [
         "Received_Treatment",
@@ -22,6 +22,7 @@ def add_scenario_reports(emod_task, include_summary=True, include_inset=True, in
         events_to_count += ["Bednet_Discarded", "Bednet_Got_New_One", "Bednet_Using"]
 
     add_report_event_counter(emod_task, manifest=manifest, event_trigger_list=events_to_count)
+    # add_report_event_counter(emod_task, manifest=manifest)
 
 
     if include_inset:
