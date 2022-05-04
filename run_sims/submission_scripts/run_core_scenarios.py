@@ -15,20 +15,22 @@ from run_sims.reports import add_testing_reports, add_scenario_reports
 from run_sims.sweeps import set_run_number, master_sweep_for_core_scenarios
 
 
-def create_and_submit_experiment(platform, experiment_name):
+def create_and_submit_experiment():
     # ========================================================
-    experiment_name = "IPTsc core scenarios - Sahel"
+    experiment_name = "IPTsc core scenarios - Central and Southern"
+    # experiment_name = "IPTsc core scenarios - Sahel"
     # experiment_name = "IPTsc core scenarios - TEST - events"
 
     # parameters to sweep over:
     # archetypes = ["Sahel", "Central", "Southern"]
-    archetypes = ["Sahel"]
+    # archetypes = ["Sahel"]
+    archetypes = ["Southern", "Central"]
     baseline_eirs = [1,3,10,30,100]
-    # baseline_eirs = [1]
-    core_scenario_numbers = list(range(45))
+    # core_scenario_numbers = list(range(64))
+    core_scenario_numbers = list(range(56))
     # core_scenario_numbers = [1, 27, 41] #if None, run all
     # core_scenario_numbers = [1, 34, 35, 37, 42] #if None, run all
-    number_of_seeds = 3
+    number_of_seeds = 4
 
     platform = Platform("Calculon", num_cores=1, node_group="idm_abcd", priority="Normal")
     # platform = Platform("Calculon", num_cores=1, node_group="idm_48cores", priority="Highest")
@@ -86,6 +88,4 @@ if __name__ == "__main__":
     emod_malaria_bootstrap.setup(pathlib.Path(manifest.eradication_path).parent)
     print("...done.")
 
-    # platform = Platform("Calculon", num_cores=1, node_group="idm_abcd", priority="Lowest")
-    platform = Platform("Calculon", num_cores=1, node_group="idm_48cores", priority="Highest")
-    create_and_submit_experiment(experiment_name="test sim", platform=platform)
+    create_and_submit_experiment()

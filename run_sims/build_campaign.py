@@ -338,6 +338,14 @@ def build_scenario_campaign(archetype, scenario_number):
     add_custom_events(campaign)
     return campaign
 
+def build_term_timing_campaign(archetype, timing_scenario_number):
+    campaign = build_standard_campaign_object(manifest=manifest)
+    add_term_timing_interventions(campaign, scenario_number=timing_scenario_number, archetype=archetype)
+    constant_annual_importation(campaign, total_importations_per_year=25)
+    add_custom_events(campaign)
+    return campaign
+
+
 
 def build_test_campaign(archetype, scenario_number):
     campaign = build_standard_campaign_object(manifest=manifest)
@@ -417,19 +425,6 @@ def add_scenario_specific_ipt(campaign, scenario_dict, archetype, receiving_drug
                                            timings_df["interval"]==scenario_dict["interval"])].reset_index(drop=True)
 
 
-    # Assuming that we do the same thing for 2 years:
-    # campaign_days = np.append(campaign_days, campaign_days+365)
-    #
-    # add_drug_campaign(campaign,
-    #                   campaign_type=dtk_campaign_type,
-    #                   drug_code=drug_code,
-    #                   start_days=list(campaign_days),
-    #                   coverage=scenario_dict["within_school_coverage"],
-    #                   ind_property_restrictions=[{"SchoolStatus": "AttendsSchool"}],
-    #                   diagnostic_type='BLOOD_SMEAR_PARASITES',
-    #                   diagnostic_threshold=0,
-    #                   receiving_drugs_event_name=receiving_drugs_event_name)
-
     if scenario_dict["interval"] == "day":
         add_drug_campaign(campaign,
                           campaign_type=dtk_campaign_type,
@@ -499,8 +494,9 @@ def add_scenario_specific_interventions(campaign, archetype, scenario_number):
     add_scenario_specific_itns(campaign,
                                itn_coverage_level=scenario_dict["itn_coverage"],
                                archetype=archetype)
-    add_scenario_specific_healthseeking(campaign,
-                                        hs_rate=scenario_dict["hs_rate"])
+    add_hs_by_age_and_severity(campaign, u5_hs_rate=scenario_dict["hs_rate"])
+    # add_scenario_specific_healthseeking(campaign,
+    #                                     hs_rate=scenario_dict["hs_rate"])
 
     if scenario_dict["interval"] != "None":
         add_scenario_specific_ipt(campaign, scenario_dict, archetype)
@@ -518,6 +514,48 @@ def add_scenario_specific_interventions(campaign, archetype, scenario_number):
 
     return scenario_dict
 
+
+def add_term_timing_interventions(campaign, archetype, scenario_number):
+    set_school_children_ips(campaign=campaign,
+                            sac_in_school_fraction=(1-0.15),
+                            age_dependence="complex",
+                            target_age_range="default")
+
+    add_scenario_specific_itns(campaign,
+                               itn_coverage_level="default",
+                               archetype=archetype)
+
+    add_hs_by_age_and_severity(campaign, u5_hs_rate=0.8)
+
+    if archetype == "Sahel":
+        add_scenario_specific_smc(campaign, age_range="default")
+
+    # IPTsc:
+    dtk_campaign_type = "MDA"
+    drug_code = "DP"
+
+    # open scenario df and get this number
+    scenario_df = pd.read_csv(os.path.join(manifest.additional_csv_folder, "iptsc_timing_options_without_terms.csv"))
+    scenario_dict = scenario_df[scenario_df["scenario_number"] == scenario_number].to_dict("records")[0]
+
+    campaign_days = [scenario_dict["d1"], scenario_dict["d2"], scenario_dict["d3"]]
+
+    add_drug_campaign(campaign,
+                      campaign_type=dtk_campaign_type,
+                      drug_code=drug_code,
+                      start_days=campaign_days,
+                      repetitions=-1,
+                      tsteps_btwn_repetitions=365,
+                      coverage=0.9, #within-school coverage
+                      ind_property_restrictions=[{"SchoolStatus": "AttendsSchool"}],
+                      diagnostic_type='PF_HRP2',
+                      diagnostic_threshold=5,
+                      receiving_drugs_event_name="Received_Campaign_Drugs")
+
+    return {"d1": campaign_days[0],
+            "d2": campaign_days[1],
+            "d3": campaign_days[2],
+            "timing_scenario": scenario_number}
 
 
 def set_school_children_ips_for_complex_age_dist(campaign, sac_in_school_fraction=0.9, number_of_years=2):

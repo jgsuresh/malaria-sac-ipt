@@ -1,5 +1,6 @@
 # Typical analysis output files
 *.log
+*log.*
 *.data
 *.csv
 *.json

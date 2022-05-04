@@ -58,17 +58,17 @@ def set_ento(config):
     '''
 
 
-def set_log_level(config, loglevel_default="WARNING"):
-    # non-schema parameters:
-    config.parameters["logLevel_default"] = loglevel_default,
-    config.parameters["logLevel_JsonConfigurable"] = "WARNING"
-    config.parameters["Enable_Log_Throttling"] = 1
-
-    #schema parameters:
-    config.parameters.Memory_Usage_Warning_Threshold_Working_Set_MB = 50000
-    config.parameters.Memory_Usage_Halting_Threshold_Working_Set_MB = 60000
-
-    return config
+# def set_log_level(config, loglevel_default="WARNING"):
+#     # non-schema parameters:
+#     config.parameters["logLevel_default"] = loglevel_default,
+#     config.parameters["logLevel_JsonConfigurable"] = "WARNING"
+#     config.parameters["Enable_Log_Throttling"] = 1
+#
+#     #schema parameters:
+#     config.parameters.Memory_Usage_Warning_Threshold_Working_Set_MB = 50000
+#     config.parameters.Memory_Usage_Halting_Threshold_Working_Set_MB = 60000
+#
+#     return config
 
 def set_project_specific_params(config):
     config.parameters.Age_Initialization_Distribution_Type = "DISTRIBUTION_SIMPLE"

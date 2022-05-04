@@ -8,7 +8,7 @@ from idmtools.core.platform_factory import Platform
 
 from run_sims import manifest
 from run_sims.build_campaign import add_burnin_historical_interventions, build_burnin_campaign, build_scenario_campaign, \
-    build_test_campaign
+    build_test_campaign, build_term_timing_campaign
 from run_sims.build_config import set_archetype_ento
 from run_sims.other import build_demographics_from_file
 from run_sims.reports import add_burnin_reports, add_scenario_reports
@@ -124,3 +124,31 @@ def core_scenarios_sweep(simulation, scenario_number):
     #     add_primaquine(cb)
     #
     # return scenario_dict
+
+
+def master_sweep_for_term_timing_scenarios(simulation, values):
+    archetype = values[0]
+    baseline_eir = values[1]
+    timing_scenario_number = values[2]
+
+    # Get info about burnins
+    df = pd.read_csv(os.path.join(manifest.additional_csv_folder, "burnins.csv"))
+    sub_df = df[np.logical_and(df["archetype"]==archetype,
+                               df["baseline_eir"]==baseline_eir)].reset_index(drop=True)
+    burnin_outpath = sub_df["outpath"].iloc[0]
+    habitat_scale = sub_df["habitat_scale"].iloc[0]
+
+    # Set up serialization drawing from burnins
+    simulation.task.config.parameters.Serialized_Population_Reading_Type = "READ"
+    simulation.task.config.parameters.Serialized_Population_Path = os.path.join(burnin_outpath, "output/")
+    simulation.task.config.parameters.Serialized_Population_Filenames = ["state-18250.dtk"]
+
+    # Set up archetype-specific demographics file, entomology, and campaign (also uses scenario number)
+    set_archetype_specifics(simulation, archetype, is_burnin=False)
+    set_archetype_ento(simulation.task.config, archetype=archetype, habitat_scale=habitat_scale)
+
+    #Build campaign for specific scenario
+    build_campaign_without_args = partial(build_term_timing_campaign, archetype=archetype, timing_scenario_number=timing_scenario_number)
+    simulation.task.create_campaign_from_callback(build_campaign_without_args)
+
+    return {"archetype": archetype, "baseline_eir": baseline_eir, "timing_scenario_number": timing_scenario_number}

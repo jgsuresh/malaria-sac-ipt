@@ -35,9 +35,10 @@ def run_analyzer_as_ssmt(experiment_id,
 
 
 class DownloadData(IAnalyzer):
-    def __init__(self):
+    def __init__(self, exp_id=None):
         filenames = ["output/full_sim_data.json", "output/endpoint_data.json"]
         super().__init__(filenames=filenames)
+        self.exp_id = exp_id
 
     def map(self, data, simulation):
         sim_data = copy(data[self.filenames[0]])
@@ -60,14 +61,14 @@ class DownloadData(IAnalyzer):
     def reduce(self, all_data):
         sim_data_full = self.combine(all_data)
         sim_data_full.sort_values(by=["archetype", "scenario_number", "baseline_eir", "Run_Number"], ignore_index=True, inplace=True)
-        sim_data_full.to_csv("sim_data.csv", index=False)
+        sim_data_full.to_csv(f"sim_data_{self.exp_id}.csv", index=False)
         return sim_data_full
 
 
 if __name__ == "__main__":
-    # experiment_id = "9b00d20f-fcbc-ec11-a9f6-9440c9be2c51"
-    experiment_id = "5937fcbd-1abd-ec11-a9f6-9440c9be2c51"
+    # experiment_id = "7dfbe25b-29c0-ec11-a9f6-9440c9be2c51" #Sahel
+    experiment_id = "5d3e97d2-2bc0-ec11-a9f6-9440c9be2c51" #Southern and Central
     run_analyzer_as_ssmt(experiment_id=experiment_id,
                          analyzers=[DownloadData],
-                         analyzer_args=[{}])
+                         analyzer_args=[{"exp_id": experiment_id}])
     # run_analyzer_locally(experiment_id, [DownloadData], analyzer_args=[{}])

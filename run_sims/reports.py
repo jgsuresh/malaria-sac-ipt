@@ -12,7 +12,7 @@ def add_scenario_reports(emod_task, include_inset=True, include_bednet_events_in
 
     events_to_count = [
         "Received_Treatment",
-        # "Received_Test",
+        "Received_Test",
         "Received_Campaign_Drugs",
         "Received_SMC",
         # "Received_Ivermectin",
@@ -24,11 +24,15 @@ def add_scenario_reports(emod_task, include_inset=True, include_bednet_events_in
     add_report_event_counter(emod_task, manifest=manifest, event_trigger_list=events_to_count)
     # add_report_event_counter(emod_task, manifest=manifest)
 
-
     if include_inset:
         emod_task.config.parameters.Enable_Default_Reporting = 1
     else:
         emod_task.config.parameters.Enable_Default_Reporting = 0
+
+    # Limit stdout
+    emod_task.config.parameters["logLevel_default"] = "WARNING"
+    emod_task.config.parameters["logLevel_JsonConfigurable"] = "WARNING"
+    emod_task.config.parameters["Enable_Log_Throttling"] = 1
 
 
 def add_burnin_reports(emod_task, archetype, include_inset=True):
