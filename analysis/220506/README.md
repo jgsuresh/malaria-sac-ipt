@@ -1,0 +1,1 @@
+Goal: Trying to understand how campaign timings might affect results.  Specifically, what if we could do the 3 campaigns anytime in the year we wanted to

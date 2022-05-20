@@ -18,19 +18,20 @@ from run_sims.sweeps import set_run_number, master_sweep_for_core_scenarios, mas
 
 def create_and_submit_experiment():
     # ========================================================
-    experiment_name = "IPTsc timing sweep"
+    experiment_name = "IPTsc timing sweep - part 2"
 
     # parameters to sweep over:
     archetypes = ["Sahel", "Central", "Southern"]
     baseline_eirs = [10]
     number_of_seeds = 4
-    # term_timing_scenarios = np.arange(10710) #[1,2,3]
+    term_timing_scenarios = np.arange(10710).tolist() #[1,2,3]
+    term_timing_scenarios = term_timing_scenarios[5355:]
     # term_timing_scenarios = np.arange(5)
-    # term_timing_scenarios = list(np.arange(1,4).astype(int))
-    term_timing_scenarios = [1,2,3]
+    # term_timing_scenarios = list(np.arange(1,4).astype(np.int))
+    # term_timing_scenarios = [1,2,3]
 
-    # platform = Platform("Calculon", num_cores=1, node_group="idm_abcd", priority="BelowNormal")
-    platform = Platform("Calculon", num_cores=1, node_group="idm_48cores", priority="Highest")
+    platform = Platform("Calculon", num_cores=1, node_group="idm_abcd", priority="BelowNormal")
+    # platform = Platform("Calculon", num_cores=1, node_group="idm_48cores", priority="Highest")
 
     # =========================================================
 

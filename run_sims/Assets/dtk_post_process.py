@@ -89,7 +89,9 @@ def application(output_folder="output"):
         "iptsc_drugs_used": _return_sum("Received_Campaign_Drugs"),
         "cases_treated": _return_sum("Received_Treatment"),
         "severe_cases_treated": _return_sum("NewSevereCase"),
-        "received_smc": _return_sum("Received_SMC")
+        "received_smc": _return_sum("Received_SMC"),
+        "received_ivermectin": _return_sum("Received_Ivermectin"),
+        "received_primaquine": _return_sum("Received_Primaquine")
     }
 
     json.dump(full_sim_data, open(os.path.join(output_folder, "full_sim_data.json"), 'w'), indent=4)

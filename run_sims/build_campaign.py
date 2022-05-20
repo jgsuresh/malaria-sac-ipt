@@ -228,7 +228,7 @@ def add_smc(campaign, u5_coverage, start_days, age_range="default"):
     smc_adherent_drug_config = smc_adherent_configuration(campaign=campaign)
 
     if age_range == "default":
-        add_drug_campaign(camp=campaign,
+        add_drug_campaign(campaign=campaign,
                           campaign_type='SMC',
                           start_days=start_days,
                           coverage=u5_coverage,
@@ -239,7 +239,7 @@ def add_smc(campaign, u5_coverage, start_days, age_range="default"):
 
         # Some unintentional coverage of 5-10 year olds
         o5_coverage = (0.2/0.9)*u5_coverage
-        add_drug_campaign(camp=campaign,
+        add_drug_campaign(campaign=campaign,
                           campaign_type='SMC',
                           start_days=start_days,
                           coverage=o5_coverage,
@@ -249,7 +249,7 @@ def add_smc(campaign, u5_coverage, start_days, age_range="default"):
                           )
 
     elif age_range == "u10":
-        add_drug_campaign(camp=campaign,
+        add_drug_campaign(campaign=campaign,
                           campaign_type='SMC',
                           start_days=start_days,
                           coverage=u5_coverage,
@@ -259,7 +259,7 @@ def add_smc(campaign, u5_coverage, start_days, age_range="default"):
                           )
 
     elif age_range == "u15":
-        add_drug_campaign(camp=campaign,
+        add_drug_campaign(campaign=campaign,
                           campaign_type='SMC',
                           start_days=start_days,
                           coverage=u5_coverage,
@@ -299,7 +299,7 @@ def add_primaquine(campaign):
     add_drug_campaign(campaign,
                       'MDA',
                       drug_code="PMQ",
-                      start_days=[1],
+                      start_days=[2], # Since code subtracts this by 1, and sim start date in config is 1
                       trigger_condition_list=['Received_Campaign_Drugs'],
                       receiving_drugs_event_name='Received_Primaquine'
                       )

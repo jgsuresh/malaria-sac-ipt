@@ -17,20 +17,21 @@ from run_sims.sweeps import set_run_number, master_sweep_for_core_scenarios
 
 def create_and_submit_experiment():
     # ========================================================
-    experiment_name = "IPTsc core scenarios - Central and Southern"
-    # experiment_name = "IPTsc core scenarios - Sahel"
+    experiment_name = "IPTsc core scenarios - Sahel"
+    # experiment_name = "IPTsc core scenarios - Southern and Central"
     # experiment_name = "IPTsc core scenarios - TEST - events"
 
     # parameters to sweep over:
     # archetypes = ["Sahel", "Central", "Southern"]
-    # archetypes = ["Sahel"]
-    archetypes = ["Southern", "Central"]
+    archetypes = ["Sahel"]
+    # archetypes = ["Southern", "Central"]
     baseline_eirs = [1,3,10,30,100]
-    # core_scenario_numbers = list(range(64))
-    core_scenario_numbers = list(range(56))
+    core_scenario_numbers = list(range(64)) # All scenarios for Sahel (more than other archetypes b/c of SMC)
+    # core_scenario_numbers = list(range(56)) # All scenarios for Central and Southern
+    # core_scenario_numbers = [13,22,30]
     # core_scenario_numbers = [1, 27, 41] #if None, run all
     # core_scenario_numbers = [1, 34, 35, 37, 42] #if None, run all
-    number_of_seeds = 4
+    number_of_seeds = 5
 
     platform = Platform("Calculon", num_cores=1, node_group="idm_abcd", priority="Normal")
     # platform = Platform("Calculon", num_cores=1, node_group="idm_48cores", priority="Highest")

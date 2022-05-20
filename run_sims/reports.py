@@ -15,8 +15,8 @@ def add_scenario_reports(emod_task, include_inset=True, include_bednet_events_in
         "Received_Test",
         "Received_Campaign_Drugs",
         "Received_SMC",
-        # "Received_Ivermectin",
-        # "Received_Primaquine"
+        "Received_Ivermectin",
+        "Received_Primaquine"
     ]
     if include_bednet_events_in_counter:
         events_to_count += ["Bednet_Discarded", "Bednet_Got_New_One", "Bednet_Using"]

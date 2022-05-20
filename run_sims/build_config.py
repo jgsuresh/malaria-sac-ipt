@@ -50,7 +50,6 @@ def set_project_config_params(config):
     config.parameters.Report_Parasite_Smear_Sensitivity = 0.025 # replaces old "Parasite_Smear_Sensitivity": 0.025,
     # config.parameters.Measurement_Sensitivity = 0.025 # replaces old "Parasite_Smear_Sensitivity": 0.025,
     config.parameters.Report_Detection_Threshold_Blood_Smear_Parasites = 0
-    config.parameters.Report_Detection_Threshold_True_Parasite_Density = 40
 
 
 def set_archetype_ento(config, habitat_scale, archetype="Southern"):
