@@ -1,0 +1,13 @@
+﻿unit,old_cost,new_cost,absolute_change,relative_change,reason_for_difference,other_notes
+ASAQ,0.62,0.5,-0.12,-0.193548387,different cost source (MOP22),
+SPAQ,0.061,0.35,0.289,4.737704918,old cost was sum of SP and AQ separately.  May also be per tablet rather than for full treatment schedule,makes major difference for SPAQ scenarios
+DP,0.26,2.14,1.88,7.230769231,"previous cost accidentally per tablet, rather than for full treatment schedule",makes major difference for DP scenarios.  Drugs now ~25% of cost for monthly DP IPT
+AL,0.18,0.69,0.51,2.833333333,,still very small overall contribution
+RDT,0.4,0.48,0.08,0.2,different cost source (MOP22),
+Ivermectin,0.051,0.091,0.04,0.784313725,"higher inflation, and assuming higher dosage for older kids",
+Primaquine,0.045,0.13,0.085,1.888888889,different cost source (MOP22),
+SMC (per child per YEAR),20.22,5.15,-15.07,-0.745301682,miscommunication about whether SMC cost was per round or per year,major difference
+ITN,3.88,2.48,-1.4,-0.360824742,different cost source (MOP22),
+CHW (per child per campaign),0.40 (zambia) to 0.93 (sahel),0.74,0.34 (zambia) to -0.19 (sahel),0.85 (zambia) to -0.20 (sahel),"averaging to get single number, and higher inflation",
+severe,79.59 (zambia) to 30.93 (sahel),61,-18.59 (zambia) to 30.07 (sahel),-0.23 (zambia) to 0.97 (sahel),"averaging to get single number, and higher inflation",
+facility,7.74 (zambia) to 9.78 (sahel),9.67,1.93 (zambia) to -0.11 (sahel),0.25 (zambia) to -0.01 (sahel),"averaging to get single number, and higher inflation",
