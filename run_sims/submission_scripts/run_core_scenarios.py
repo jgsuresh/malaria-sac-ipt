@@ -17,23 +17,31 @@ from run_sims.sweeps import set_run_number, master_sweep_for_core_scenarios
 
 def create_and_submit_experiment():
     # ========================================================
-    experiment_name = "IPTsc core scenarios - Sahel"
-    # experiment_name = "IPTsc core scenarios - Southern and Central"
+    # experiment_name = "IPTsc core scenarios - Sahel - by eir - new ITN timing"
+    # experiment_name = "IPTsc core scenarios - Southern and Central - by pfpr2"
     # experiment_name = "IPTsc core scenarios - TEST - events"
+    # experiment_name = "IPTsc transmission-targeting - Southern and Central - pfpr"
+    experiment_name = "IPTsc transmission-targeting - Sahel - pfpr"
 
     # parameters to sweep over:
     # archetypes = ["Sahel", "Central", "Southern"]
     archetypes = ["Sahel"]
     # archetypes = ["Southern", "Central"]
-    baseline_eirs = [1,3,10,30,100]
-    core_scenario_numbers = list(range(64)) # All scenarios for Sahel (more than other archetypes b/c of SMC)
-    # core_scenario_numbers = list(range(56)) # All scenarios for Central and Southern
-    # core_scenario_numbers = [13,22,30]
-    # core_scenario_numbers = [1, 27, 41] #if None, run all
-    # core_scenario_numbers = [1, 34, 35, 37, 42] #if None, run all
-    number_of_seeds = 5
+    # transmission_selection_type = "eir"
+    # transmission_levels = [1,3,10,30,100]
+    transmission_selection_type = "pfpr"
+    transmission_levels = [0.01,0.05,0.1,0.2,0.3,0.4]
 
-    platform = Platform("Calculon", num_cores=1, node_group="idm_abcd", priority="Normal")
+    # core_scenario_numbers = list(range(64)) # All scenarios for Sahel (more than other archetypes b/c of SMC)
+    # core_scenario_numbers = list(range(56)) # All scenarios for Central and Southern
+    # core_scenario_numbers = [56,57,58,59,60,61] # extra scenarios for Cent/South
+    core_scenario_numbers = [64,65,66,67,68,69] # extra scenarios for Sahel
+
+    number_of_seeds = 10
+    # smc_drug_configs = ["default", "annie", "erin"]
+    smc_drug_configs = ["annie"]
+
+    platform = Platform("Calculon", num_cores=1, node_group="idm_abcd", priority="AboveNormal")
     # platform = Platform("Calculon", num_cores=1, node_group="idm_48cores", priority="Highest")
 
     # =========================================================
@@ -61,8 +69,9 @@ def create_and_submit_experiment():
     # Create simulation sweep with builder
     builder = SimulationBuilder()
 
-    sweep_values = list(itertools.product(archetypes, baseline_eirs, core_scenario_numbers))
-    builder.add_sweep_definition(master_sweep_for_core_scenarios, sweep_values)
+    scenario_sweep = partial(master_sweep_for_core_scenarios, baseline_transmission_metric=transmission_selection_type)
+    sweep_values = list(itertools.product(archetypes, transmission_levels, core_scenario_numbers, smc_drug_configs))
+    builder.add_sweep_definition(scenario_sweep, sweep_values)
 
     builder.add_sweep_definition(set_run_number, range(number_of_seeds))
 
@@ -84,9 +93,9 @@ if __name__ == "__main__":
     plan = EradicationBambooBuilds.MALARIA_LINUX
 
     # Download latest Eradication
-    print("Retrieving Eradication and schema.json packaged with emod-malaria...")
-    import emod_malaria.bootstrap as emod_malaria_bootstrap
-    emod_malaria_bootstrap.setup(pathlib.Path(manifest.eradication_path).parent)
-    print("...done.")
+    # print("Retrieving Eradication and schema.json packaged with emod-malaria...")
+    # import emod_malaria.bootstrap as emod_malaria_bootstrap
+    # emod_malaria_bootstrap.setup(pathlib.Path(manifest.eradication_path).parent)
+    # print("...done.")
 
     create_and_submit_experiment()

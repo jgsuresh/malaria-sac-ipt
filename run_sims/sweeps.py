@@ -6,9 +6,11 @@ import pandas as pd
 from COMPS.Data import SimulationFile
 from idmtools.core.platform_factory import Platform
 
+from jsuresh_helpers.running_emodpy import build_standard_campaign_object
 from run_sims import manifest
 from run_sims.build_campaign import add_burnin_historical_interventions, build_burnin_campaign, build_scenario_campaign, \
-    build_test_campaign, build_term_timing_campaign
+    build_test_campaign, build_term_timing_campaign, add_scenario_specific_interventions, constant_annual_importation, \
+    add_custom_events, build_smc_drug_config_test_campaign
 from run_sims.build_config import set_archetype_ento
 from run_sims.other import build_demographics_from_file
 from run_sims.reports import add_burnin_reports, add_scenario_reports
@@ -58,15 +60,21 @@ def set_archetype_specifics(simulation, archetype, is_burnin=False):
         add_burnin_reports(simulation.task, archetype=archetype)
 
 
-def master_sweep_for_core_scenarios(simulation, values):
+def master_sweep_for_core_scenarios(simulation, values, baseline_transmission_metric):
     archetype = values[0]
-    baseline_eir = values[1]
+    transmission_level = values[1]
     scenario_number = values[2]
+    smc_drug_config = values[3]
 
     # Get info about burnins
     df = pd.read_csv(os.path.join(manifest.additional_csv_folder, "burnins.csv"))
-    sub_df = df[np.logical_and(df["archetype"]==archetype,
-                               df["baseline_eir"]==baseline_eir)].reset_index(drop=True)
+    if baseline_transmission_metric == "eir":
+        sub_df = df[np.logical_and(df["archetype"] == archetype,
+                                   df["burnin_approx_aeir"] == transmission_level)].reset_index(drop=True)
+    elif baseline_transmission_metric == "pfpr":
+        sub_df = df[np.logical_and(df["archetype"] == archetype,
+                                   df["burnin_approx_pfpr_2-10"] == transmission_level)].reset_index(drop=True)
+
     burnin_outpath = sub_df["outpath"].iloc[0]
     habitat_scale = sub_df["habitat_scale"].iloc[0]
 
@@ -80,11 +88,83 @@ def master_sweep_for_core_scenarios(simulation, values):
     set_archetype_ento(simulation.task.config, archetype=archetype, habitat_scale=habitat_scale)
 
     #Build campaign for specific scenario
-    build_campaign_without_args = partial(build_scenario_campaign, archetype=archetype, scenario_number=scenario_number)
+    build_campaign_without_args = partial(build_scenario_campaign, archetype=archetype, scenario_number=scenario_number, smc_drug_config=smc_drug_config)
     # build_campaign_without_args = partial(build_test_campaign, archetype=archetype, scenario_number=scenario_number)
     simulation.task.create_campaign_from_callback(build_campaign_without_args)
 
-    return {"archetype": archetype, "baseline_eir": baseline_eir, "scenario_number": scenario_number}
+    return {"archetype": archetype,
+            "baseline_transmission_metric": baseline_transmission_metric,
+            "transmission_level": transmission_level,
+            "scenario_number": scenario_number,
+            "smc_drug_config": smc_drug_config}
+
+
+
+# def core_scenario_sweep(simulation, archetype, scenario_number, burnin_approx_aeir=None, burnin_approx_pfpr2_10=None, smc_drug_config="annie"):
+#     # Get info about burnins
+#     df = pd.read_csv(os.path.join(manifest.additional_csv_folder, "burnins.csv"))
+#     choose_archetype = df["archetype"]==archetype
+#     if burnin_approx_aeir is not None and burnin_approx_pfpr2_10 is not None:
+#         raise ValueError("Both can't be selected")
+#     elif burnin_approx_aeir is None and burnin_approx_pfpr2_10 is None:
+#
+#     elif burnin_approx_aeir is not None:
+#         choose_transmission = df["burnin_approx_aeir"] = burnin_approx_aeir
+#     elif burnin_approx_pfpr2_10 is not None:
+#         choose_transmission = df["burnin_approx_aeir"] = burnin_approx_aeir
+#
+#     sub_df = df[np.logical_and(df["archetype"]==archetype,
+#                                df["burnin_approx_aeir"]==baseline_eir)].reset_index(drop=True)
+#     burnin_outpath = sub_df["outpath"].iloc[0]
+#     habitat_scale = sub_df["habitat_scale"].iloc[0]
+#
+#     # Set up serialization drawing from burnins
+#     simulation.task.config.parameters.Serialized_Population_Reading_Type = "READ"
+#     simulation.task.config.parameters.Serialized_Population_Path = os.path.join(burnin_outpath, "output/")
+#     simulation.task.config.parameters.Serialized_Population_Filenames = ["state-18250.dtk"]
+#
+#     # Set up archetype-specific demographics file, entomology, and campaign (also uses scenario number)
+#     set_archetype_specifics(simulation, archetype, is_burnin=False)
+#     set_archetype_ento(simulation.task.config, archetype=archetype, habitat_scale=habitat_scale)
+#
+#     #Build campaign for specific scenario
+#     build_campaign_without_args = partial(build_scenario_campaign, archetype=archetype, scenario_number=scenario_number, smc_drug_config=smc_drug_config)
+#     # build_campaign_without_args = partial(build_test_campaign, archetype=archetype, scenario_number=scenario_number)
+#     simulation.task.create_campaign_from_callback(build_campaign_without_args)
+#
+#     return {"archetype": archetype, "baseline_eir": baseline_eir, "scenario_number": scenario_number, "smc_drug_config": smc_drug_config}
+#
+#
+#
+# def core_scenario_sweep_eir(simulation, values):
+#     archetype = values[0]
+#     baseline_eir = values[1]
+#     scenario_number = values[2]
+#     smc_drug_config = values[3]
+#
+#     # Get info about burnins
+#     df = pd.read_csv(os.path.join(manifest.additional_csv_folder, "burnins.csv"))
+#     sub_df = df[np.logical_and(df["archetype"]==archetype,
+#                                df["burnin_approx_aeir"]==baseline_eir)].reset_index(drop=True)
+#     burnin_outpath = sub_df["outpath"].iloc[0]
+#     habitat_scale = sub_df["habitat_scale"].iloc[0]
+#
+#     # Set up serialization drawing from burnins
+#     simulation.task.config.parameters.Serialized_Population_Reading_Type = "READ"
+#     simulation.task.config.parameters.Serialized_Population_Path = os.path.join(burnin_outpath, "output/")
+#     simulation.task.config.parameters.Serialized_Population_Filenames = ["state-18250.dtk"]
+#
+#     # Set up archetype-specific demographics file, entomology, and campaign (also uses scenario number)
+#     set_archetype_specifics(simulation, archetype, is_burnin=False)
+#     set_archetype_ento(simulation.task.config, archetype=archetype, habitat_scale=habitat_scale)
+#
+#     #Build campaign for specific scenario
+#     build_campaign_without_args = partial(build_scenario_campaign, archetype=archetype, scenario_number=scenario_number, smc_drug_config=smc_drug_config)
+#     # build_campaign_without_args = partial(build_test_campaign, archetype=archetype, scenario_number=scenario_number)
+#     simulation.task.create_campaign_from_callback(build_campaign_without_args)
+#
+#     return {"archetype": archetype, "baseline_eir": baseline_eir, "scenario_number": scenario_number, "smc_drug_config": smc_drug_config}
+
 
 
 def archetype_and_habitat_sweep_for_burnins(simulation, values):
@@ -152,3 +232,33 @@ def master_sweep_for_term_timing_scenarios(simulation, values):
     simulation.task.create_campaign_from_callback(build_campaign_without_args)
 
     return {"archetype": archetype, "baseline_eir": baseline_eir, "timing_scenario_number": timing_scenario_number}
+
+
+
+def master_sweep_for_smc_drug_param_test(simulation, values):
+    baseline_eir = values[0]
+    smc_drug_config = values[1]
+
+    archetype = "Sahel"
+
+    # Get info about burnins
+    df = pd.read_csv(os.path.join(manifest.additional_csv_folder, "burnins.csv"))
+    sub_df = df[np.logical_and(df["archetype"]==archetype,
+                               df["baseline_eir"]==baseline_eir)].reset_index(drop=True)
+    burnin_outpath = sub_df["outpath"].iloc[0]
+    habitat_scale = sub_df["habitat_scale"].iloc[0]
+
+    # Set up serialization drawing from burnins
+    simulation.task.config.parameters.Serialized_Population_Reading_Type = "READ"
+    simulation.task.config.parameters.Serialized_Population_Path = os.path.join(burnin_outpath, "output/")
+    simulation.task.config.parameters.Serialized_Population_Filenames = ["state-18250.dtk"]
+
+    # Set up archetype-specific demographics file, entomology, and campaign (also uses scenario number)
+    set_archetype_specifics(simulation, archetype, is_burnin=False)
+    set_archetype_ento(simulation.task.config, archetype=archetype, habitat_scale=habitat_scale)
+
+    build_campaign_without_args = partial(build_smc_drug_config_test_campaign, drug_config=smc_drug_config)
+    simulation.task.create_campaign_from_callback(build_campaign_without_args)
+
+    return {"archetype": archetype, "baseline_eir": baseline_eir, "smc_drug_config": smc_drug_config}
+

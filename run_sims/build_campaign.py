@@ -206,11 +206,25 @@ def add_burnin_historical_healthseeking(campaign, archetype="Southern", start_ye
 
 
 
-def smc_adherent_configuration(campaign, adherence=0.8, sp_resist_day1_multiply=0.87):
+def smc_adherent_configuration(campaign, adherence=0.8, sp_resist_day1_multiply=0.87, drug_config="default"):
     # Copied from HBHI setup
-    doses = [["Sulfadoxine", "Pyrimethamine",'Amodiaquine'],
-             ['Amodiaquine'],
-             ['Amodiaquine']]
+
+    if drug_config=="default":
+        doses = [["Sulfadoxine", "Pyrimethamine",'Amodiaquine'],
+                 ['Amodiaquine'],
+                 ['Amodiaquine']]
+    elif drug_config=="annie":
+        doses = [["SulfadoxinePyrimethamine_Annie",'Amodiaquine_Annie'],
+                 ['Amodiaquine_Annie'],
+                 ['Amodiaquine_Annie']]
+    elif drug_config=="erin":
+        doses = [["Sulfadoxine_Erin", "Pyrimethamine_Erin",'Amodiaquine_Erin'],
+                 ['Amodiaquine_Erin'],
+                 ['Amodiaquine_Erin']]
+    elif drug_config=="asaq":
+        doses = [["Artesunate","Amodiaquine"],
+                 ["Artesunate","Amodiaquine"],
+                 ["Artesunate","Amodiaquine"]]
     adherence_values = [sp_resist_day1_multiply, adherence, adherence]
 
     smc_adherent_config = adherent_drug(campaign=campaign,
@@ -223,9 +237,9 @@ def smc_adherent_configuration(campaign, adherence=0.8, sp_resist_day1_multiply=
     return smc_adherent_config
 
 
-def add_smc(campaign, u5_coverage, start_days, age_range="default"):
+def add_smc(campaign, u5_coverage, start_days, age_range="default", drug_config="default"):
     # Copied from HBHI setup
-    smc_adherent_drug_config = smc_adherent_configuration(campaign=campaign)
+    smc_adherent_drug_config = smc_adherent_configuration(campaign=campaign, drug_config=drug_config)
 
     if age_range == "default":
         add_drug_campaign(campaign=campaign,
@@ -270,7 +284,7 @@ def add_smc(campaign, u5_coverage, start_days, age_range="default"):
 
 
 
-def add_burnin_historical_smc(campaign, start_year=1970):
+def add_burnin_historical_smc(campaign, start_year=1970, drug_config="default"):
     # CB suggestion: 2016 at 70% and increase 5% every year to 2020 and then hold at 90%
     u5_cov_dict = {2016: 0.70,
                    2017: 0.75,
@@ -282,7 +296,7 @@ def add_burnin_historical_smc(campaign, start_year=1970):
         u5_cov = u5_cov_dict[year]
         dtk_start_days = (year-start_year)*365 + smc_days_in_year
 
-        add_smc(campaign, u5_coverage=u5_cov, start_days=dtk_start_days)
+        add_smc(campaign, u5_coverage=u5_cov, start_days=dtk_start_days, drug_config=drug_config)
 
 
 #fixme Ideally, wait for Svetlana's quality-of-life updates for an add_ivermectin function, instead of having to do it this way:
@@ -331,12 +345,35 @@ def add_custom_events(campaign):
     campaign.get_send_trigger("Bednet_Discarded", old=True)
 
 
-def build_scenario_campaign(archetype, scenario_number):
+def build_scenario_campaign(archetype, scenario_number, smc_drug_config="default"):
     campaign = build_standard_campaign_object(manifest=manifest)
-    add_scenario_specific_interventions(campaign, scenario_number=scenario_number, archetype=archetype)
+    add_scenario_specific_interventions(campaign, scenario_number=scenario_number, archetype=archetype, smc_drug_config=smc_drug_config)
     constant_annual_importation(campaign, total_importations_per_year=25)
     add_custom_events(campaign)
     return campaign
+
+
+def build_smc_drug_config_test_campaign(drug_config):
+    campaign = build_standard_campaign_object(manifest=manifest)
+
+    set_school_children_ips(campaign=campaign,
+                            sac_in_school_fraction=1,
+                            age_dependence="complex",
+                            target_age_range="default")
+
+    add_scenario_specific_itns(campaign,
+                               itn_coverage_level="default",
+                               archetype="Sahel")
+    add_hs_by_age_and_severity(campaign, u5_hs_rate=0.8)
+
+    if drug_config != "none":
+        add_scenario_specific_smc(campaign, age_range="default", drug_config=drug_config)
+
+    constant_annual_importation(campaign, total_importations_per_year=25)
+    add_custom_events(campaign)
+
+    return campaign
+
 
 def build_term_timing_campaign(archetype, timing_scenario_number):
     campaign = build_standard_campaign_object(manifest=manifest)
@@ -385,8 +422,14 @@ def add_scenario_specific_itns(campaign, itn_coverage_level, archetype):
         print(itn_coverage_level)
         raise NotImplementedError
 
+    if archetype == "Sahel":
+        start_day = 175  # ITN distribution right before rainy season
+    else:
+        start_day = 1
+
     add_bednets_for_population_and_births(campaign,
-                                          dtk_coverage,
+                                          coverage=dtk_coverage,
+                                          start_day=start_day,
                                           seasonal_dependence=archetype_seasonal_usage[archetype],
                                           discard_config_type="default",
                                           age_dependence=age_dependence)
@@ -415,7 +458,8 @@ def add_scenario_specific_ipt(campaign, scenario_dict, archetype, receiving_drug
 
     drug_code = scenario_dict["drug_type"]
     if drug_code == "SPAQ":
-        drug_code = "SPA"
+        # drug_code = "SPA"
+        drug_code = "SPAQ_Annie"
     if drug_code == "ASAQ":
         drug_code = "ASA"
 
@@ -454,13 +498,13 @@ def add_scenario_specific_ipt(campaign, scenario_dict, archetype, receiving_drug
                           receiving_drugs_event_name=receiving_drugs_event_name)
 
 
-def add_scenario_specific_smc(campaign, age_range="default"):
+def add_scenario_specific_smc(campaign, age_range="default", drug_config="default"):
     # Both years get 2 years of 90% coverage SMC
     for year in [0,1]:
         dtk_start_days = year*365 + smc_days_in_year
 
         if age_range in ["default", "u10", "u15"]:
-            add_smc(campaign, u5_coverage=0.9, start_days=dtk_start_days, age_range=age_range)
+            add_smc(campaign, u5_coverage=0.9, start_days=dtk_start_days, age_range=age_range, drug_config=drug_config)
         elif age_range == "u10_with_DP":
             add_drug_campaign(campaign,
                               campaign_type="MDA",
@@ -480,7 +524,7 @@ def add_scenario_specific_smc(campaign, age_range="default"):
 
 
 
-def add_scenario_specific_interventions(campaign, archetype, scenario_number):
+def add_scenario_specific_interventions(campaign, archetype, scenario_number, smc_drug_config="default"):
     # open scenario df and get this number
     scenario_df = pd.read_csv(os.path.join(manifest.additional_csv_folder, "scenario_master_list.csv"))
     scenario_dict = scenario_df[np.logical_and(scenario_df["archetype"] == archetype,
@@ -502,7 +546,7 @@ def add_scenario_specific_interventions(campaign, archetype, scenario_number):
         add_scenario_specific_ipt(campaign, scenario_dict, archetype)
 
     if scenario_dict["smc_on"]:
-        add_scenario_specific_smc(campaign, age_range=scenario_dict["smc_age_range"])
+        add_scenario_specific_smc(campaign, age_range=scenario_dict["smc_age_range"], drug_config=smc_drug_config)
 
     if scenario_dict["ivermectin"]:
         add_triggered_ivermectin(campaign,

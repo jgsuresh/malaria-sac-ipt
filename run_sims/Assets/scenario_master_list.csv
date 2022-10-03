@@ -55,6 +55,12 @@ Southern,52,DP,IPT,term,default,0.8,0.4,0.15,default,False,False,False,default
 Southern,53,DP,IPT,term,default,0.8,0.6,0.15,default,False,False,False,default
 Southern,54,DP,IPT,term,default,0.8,0.8,0.15,default,False,False,False,default
 Southern,55,DP,IPT,term,default,0.8,1.0,0.15,default,False,False,False,default
+Southern,56,ASAQ,IPT,term,default,0.8,0.9,0.15,default,False,True,False,default
+Southern,57,ASAQ,IPT,term,default,0.8,0.9,0.15,default,False,False,True,default
+Southern,58,ASAQ,IPT,month,default,0.8,0.9,0.15,default,False,True,False,default
+Southern,59,ASAQ,IPT,month,default,0.8,0.9,0.15,default,False,False,True,default
+Southern,60,DP,IPT,month,default,0.8,0.9,0.15,default,False,True,False,default
+Southern,61,DP,IPT,month,default,0.8,0.9,0.15,default,False,False,True,default
 Sahel,0,SPAQ,IPT,term,default,0.8,0.9,0.0,default,True,False,False,default
 Sahel,1,SPAQ,IPT,term,default,0.8,0.9,0.15,default,True,False,False,default
 Sahel,2,SPAQ,IPT,term,default,0.8,0.9,0.3,default,True,False,False,default
@@ -119,6 +125,12 @@ Sahel,60,DP,IPT,term,default,0.8,0.4,0.15,default,True,False,False,default
 Sahel,61,DP,IPT,term,default,0.8,0.6,0.15,default,True,False,False,default
 Sahel,62,DP,IPT,term,default,0.8,0.8,0.15,default,True,False,False,default
 Sahel,63,DP,IPT,term,default,0.8,1.0,0.15,default,True,False,False,default
+Sahel,64,SPAQ,IPT,term,default,0.8,0.9,0.15,default,True,True,False,default
+Sahel,65,SPAQ,IPT,term,default,0.8,0.9,0.15,default,True,False,True,default
+Sahel,66,SPAQ,IPT,month,default,0.8,0.9,0.15,default,True,True,False,default
+Sahel,67,SPAQ,IPT,month,default,0.8,0.9,0.15,default,True,False,True,default
+Sahel,68,DP,IPT,month,default,0.8,0.9,0.15,default,True,True,False,default
+Sahel,69,DP,IPT,month,default,0.8,0.9,0.15,default,True,False,True,default
 Central,0,ASAQ,IPT,term,default,0.8,0.9,0.0,default,False,False,False,default
 Central,1,ASAQ,IPT,term,default,0.8,0.9,0.15,default,False,False,False,default
 Central,2,ASAQ,IPT,term,default,0.8,0.9,0.3,default,False,False,False,default
@@ -175,3 +187,9 @@ Central,52,DP,IPT,term,default,0.8,0.4,0.15,default,False,False,False,default
 Central,53,DP,IPT,term,default,0.8,0.6,0.15,default,False,False,False,default
 Central,54,DP,IPT,term,default,0.8,0.8,0.15,default,False,False,False,default
 Central,55,DP,IPT,term,default,0.8,1.0,0.15,default,False,False,False,default
+Central,56,ASAQ,IPT,term,default,0.8,0.9,0.15,default,False,True,False,default
+Central,57,ASAQ,IPT,term,default,0.8,0.9,0.15,default,False,False,True,default
+Central,58,ASAQ,IPT,month,default,0.8,0.9,0.15,default,False,True,False,default
+Central,59,ASAQ,IPT,month,default,0.8,0.9,0.15,default,False,False,True,default
+Central,60,DP,IPT,month,default,0.8,0.9,0.15,default,False,True,False,default
+Central,61,DP,IPT,month,default,0.8,0.9,0.15,default,False,False,True,default
