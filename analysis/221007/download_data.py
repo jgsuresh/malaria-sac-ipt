@@ -70,16 +70,7 @@ class DownloadData(IAnalyzer):
 
 
 if __name__ == "__main__":
-    # experiment_id = "98932d94-bf3d-ed11-a9fc-b88303911bc1" #Sahel - by pfpr (updated ITN timing)
-    # experiment_id = "219c1f57-7e3f-ed11-a9fc-b88303911bc1" #Sahel - extra scenarios - by pfpr
-    # experiment_id = "c85adb8e-873b-ed11-a9fc-b88303911bc1" #Southern and Central - by pfpr
-    experiment_id = "da4f7f61-7f46-ed11-a9fd-b88303911bc1" #Southern and Central - by pfpr - NEW ASAQ
-    # experiment_id = "e330e3fd-a83e-ed11-a9fc-b88303911bc1" #Southern and Central - extra scenarios - by pfpr
-
-    # experiment_id = "b47f29f2-c13d-ed11-a9fc-b88303911bc1" #Sahel - by eir
-    # experiment_id = "f7a5f10e-0544-ed11-a9fc-b88303911bc1" #Sahel - extra scenarios - by eir
-    # experiment_id = "b2759556-853b-ed11-a9fc-b88303911bc1" #Southern and Central - by eir
-    # experiment_id = "6b09923f-0844-ed11-a9fc-b88303911bc1" #Southern and Central - extra scenarios - by eir
+    experiment_id = "c46f26f9-7546-ed11-a9fd-b88303911bc1"
     run_analyzer_as_ssmt(experiment_id=experiment_id,
                          analyzers=[DownloadData],
                          analyzer_args=[{"exp_id": experiment_id}])

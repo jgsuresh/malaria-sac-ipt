@@ -69,7 +69,7 @@ def compute_costs(df):
     df["cost_facility_high"] = df["cases_treated"] * cost_dict["facility_treatment_high"]
 
     df["cost_severe"] = df["severe_cases_treated"] * cost_dict["severe"]
-    df["cost_ITNs"] = df["itn_coverage"].apply(lambda x: 3500 if x=="default" else 4500)
+    df["cost_ITNs"] = df["itn_coverage"].apply(lambda x: 0.7*5000*2.48 if x=="default" else 0.9*5000*2.48)
     df["cost_ivermectin"] = df["received_ivermectin"] * cost_dict["Ivermectin"]
     df["cost_primaquine"] = df["received_primaquine"] * cost_dict["Primaquine"]
 
@@ -97,13 +97,21 @@ def compute_costs(df):
                       df["cost_ITNs"] + df["cost_SMC_mean"] + df["cost_ivermectin"] + df["cost_primaquine"] + \
                       df["IPTsc_overhead_cost_mean"]
 
-    df["cost_low_IPTsc_only"] = df["cost_IPTsc_commodities"] + df["cost_facility_low"] + df["cost_severe"] + \
+    df["cost_low_IPTsc_only"] = df["cost_IPTsc_commodities"] + df["cost_facility_mean"] + df["cost_severe"] + \
                       df["cost_ITNs"] + df["cost_SMC_mean"] + df["cost_ivermectin"] + df["cost_primaquine"] + \
                       df["IPTsc_overhead_cost_low"]
 
-    df["cost_high_IPTsc_only"] = df["cost_IPTsc_commodities"] + df["cost_facility_high"] + df["cost_severe"] + \
+    df["cost_high_IPTsc_only"] = df["cost_IPTsc_commodities"] + df["cost_facility_mean"] + df["cost_severe"] + \
                       df["cost_ITNs"] + df["cost_SMC_mean"] + df["cost_ivermectin"] + df["cost_primaquine"] + \
                       df["IPTsc_overhead_cost_high"]
+
+    df["cost_low_SMC_only"] = df["cost_IPTsc_commodities"] + df["cost_facility_mean"] + df["cost_severe"] + \
+                      df["cost_ITNs"] + df["cost_SMC_low"] + df["cost_ivermectin"] + df["cost_primaquine"] + \
+                      df["IPTsc_overhead_cost_mean"]
+
+    df["cost_high_SMC_only"] = df["cost_IPTsc_commodities"] + df["cost_facility_mean"] + df["cost_severe"] + \
+                      df["cost_ITNs"] + df["cost_SMC_high"] + df["cost_ivermectin"] + df["cost_primaquine"] + \
+                      df["IPTsc_overhead_cost_mean"]
 
     df["cost_low"] = df["cost_IPTsc_commodities"] + df["cost_facility_low"] + df["cost_severe"] + \
                       df["cost_ITNs"] + df["cost_SMC_low"] + df["cost_ivermectin"] + df["cost_primaquine"] + \
@@ -112,6 +120,7 @@ def compute_costs(df):
     df["cost_high"] = df["cost_IPTsc_commodities"] + df["cost_facility_high"] + df["cost_severe"] + \
                       df["cost_ITNs"] + df["cost_SMC_high"] + df["cost_ivermectin"] + df["cost_primaquine"] + \
                       df["IPTsc_overhead_cost_high"]
+
 
 if __name__=="__main__":
     df = pd.read_csv("220831/sim_data_full.csv")

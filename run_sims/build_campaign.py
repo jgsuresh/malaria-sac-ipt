@@ -375,6 +375,26 @@ def build_smc_drug_config_test_campaign(drug_config):
     return campaign
 
 
+def build_asaq_config_test_campaign(drug_config):
+    campaign = build_standard_campaign_object(manifest=manifest)
+
+    set_school_children_ips(campaign=campaign,
+                            sac_in_school_fraction=1,
+                            age_dependence="complex",
+                            target_age_range="default")
+
+    add_scenario_specific_itns(campaign,
+                               itn_coverage_level="default",
+                               archetype="Sahel")
+    add_hs_by_age_and_severity(campaign, u5_hs_rate=0.8)
+
+    constant_annual_importation(campaign, total_importations_per_year=25)
+    add_custom_events(campaign)
+
+    return campaign
+
+
+
 def build_term_timing_campaign(archetype, timing_scenario_number):
     campaign = build_standard_campaign_object(manifest=manifest)
     add_term_timing_interventions(campaign, scenario_number=timing_scenario_number, archetype=archetype)
@@ -447,7 +467,10 @@ def add_scenario_specific_healthseeking(cb, hs_rate):
 
 
 
-def add_scenario_specific_ipt(campaign, scenario_dict, archetype, receiving_drugs_event_name="Received_Campaign_Drugs"):
+def add_scenario_specific_ipt(campaign,
+                              scenario_dict,
+                              archetype,
+                              receiving_drugs_event_name="Received_Campaign_Drugs"):
     # scenario dict has drug_type,screen_type,interval,school_coverage
     if scenario_dict["screen_type"] == "IPT":
         dtk_campaign_type = "MDA"

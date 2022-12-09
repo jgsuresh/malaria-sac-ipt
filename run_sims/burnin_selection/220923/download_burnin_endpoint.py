@@ -41,8 +41,7 @@ class SimEndpoint(IAnalyzer):
     def __init__(self,
                  experiment_id=None,
                  window_size=3*365,
-                 only_keep_tags=None,
-                 rdt_channel_as_hrp2=True
+                 only_keep_tags=None
                  ):
 
 
@@ -54,7 +53,6 @@ class SimEndpoint(IAnalyzer):
         self.experiment_id = experiment_id
         self.window_size = window_size
         self.only_keep_tags = only_keep_tags
-        self.rdt_channel_as_hrp2 = rdt_channel_as_hrp2
 
 
     def map(self, data, simulation):
@@ -64,18 +62,37 @@ class SimEndpoint(IAnalyzer):
         inset_dict = data[self.filenames[0]]
 
         aeir = np.sum(inset_dict["Channels"]["Daily EIR"]["Data"][-self.window_size:])*365/self.window_size
-        if self.rdt_channel_as_hrp2:
-            annual_rdt_prev = np.mean(inset_dict["Channels"]["PfHRP2 Prevalence"]["Data"][-self.window_size:])
-        else:
-            annual_rdt_prev = np.mean(inset_dict["Channels"]["Blood Smear Parasite Prevalence"]["Data"][-self.window_size:])
+        annual_rdt_prev = np.mean(inset_dict["Channels"]["PfHRP2 Prevalence"]["Data"][-self.window_size:])
         pfemp_frac = np.mean(inset_dict["Channels"]["Variant Fraction-PfEMP1 Major"]["Data"][-self.window_size:])
         pop = np.mean(inset_dict["Channels"]["Statistical Population"]["Data"][-self.window_size:])
         annual_cases_per_1000 = np.sum(inset_dict["Channels"]["New Clinical Cases"]["Data"][-self.window_size:])*365/self.window_size * 1000/pop
+
+        # Get rdt prevalence during TRANSMISSION SEASON (fuzzily defined):
+        archetype = simulation.tags["archetype"]
+        if archetype == "Central":
+            season_start = 1
+            season_end = 365
+        elif archetype == "Southern":
+            season_start = 60
+            season_end = season_start + 120
+        elif archetype == "Sahel":
+            season_start = 240
+            season_end = season_start + 120
+        else:
+            raise NotImplementedError
+
+        wet_season_rdt_prev = np.mean(
+            inset_dict["Channels"]["PfHRP2 Prevalence"]["Data"][-3 * 365 + season_start:-3 * 365 + season_end] +
+            inset_dict["Channels"]["PfHRP2 Prevalence"]["Data"][-2 * 365 + season_start:-2 * 365 + season_end] +
+            inset_dict["Channels"]["PfHRP2 Prevalence"]["Data"][-1 * 365 + season_start:-1 * 365 + season_end]
+            )
+
 
         sim_dict["aeir"] = aeir
         sim_dict["annual_cases_per_1000"] = annual_cases_per_1000
         sim_dict["annual_rdt_prev"] = annual_rdt_prev
         sim_dict["pfemp_frac"] = pfemp_frac
+        sim_dict["wet_season_rdt_prev"] = wet_season_rdt_prev
 
         # COUNTER
         counter_dict = data[self.filenames[1]]
