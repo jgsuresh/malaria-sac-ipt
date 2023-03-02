@@ -73,8 +73,13 @@ if __name__ == "__main__":
     # experiment_id = "98932d94-bf3d-ed11-a9fc-b88303911bc1" #Sahel - by pfpr (updated ITN timing)
     # experiment_id = "219c1f57-7e3f-ed11-a9fc-b88303911bc1" #Sahel - extra scenarios - by pfpr
     # experiment_id = "c85adb8e-873b-ed11-a9fc-b88303911bc1" #Southern and Central - by pfpr
-    experiment_id = "da4f7f61-7f46-ed11-a9fd-b88303911bc1" #Southern and Central - by pfpr - NEW ASAQ
+    # experiment_id = "da4f7f61-7f46-ed11-a9fd-b88303911bc1" #Southern and Central - by pfpr - NEW ASAQ
     # experiment_id = "e330e3fd-a83e-ed11-a9fc-b88303911bc1" #Southern and Central - extra scenarios - by pfpr
+    # experiment_id = "643e3a04-cb7c-ed11-aa00-b88303911bc1" # Sahel -pfpr - transmission targeting
+    # experiment_id = "7acf4b3f-cf7c-ed11-aa00-b88303911bc1" # South/Central -pfpr - transmission targeting
+    # experiment_id = "e5b8cd59-de7c-ed11-aa00-b88303911bc1" # South/Central -pfpr - transmission targeting.  more seeds
+    # experiment_id = "02c497c9-007d-ed11-aa00-b88303911bc1" # South/Central -pfpr - transmission targeting.  more seeds 2
+    experiment_id = "bdd2b5f7-6d7d-ed11-aa00-b88303911bc1" #all archetypes, IST
 
     # experiment_id = "b47f29f2-c13d-ed11-a9fc-b88303911bc1" #Sahel - by eir
     # experiment_id = "f7a5f10e-0544-ed11-a9fc-b88303911bc1" #Sahel - extra scenarios - by eir

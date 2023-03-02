@@ -74,7 +74,8 @@ if __name__ == "__main__":
     # experiment_id = "600fc461-d266-ed11-a9ff-b88303911bc1" # Southern/Central, pfpr, new ASAQ, health-seeking sweep.  Yes IPTsc
     # experiment_id = "921ef07f-8f76-ed11-aa00-b88303911bc1" # Sahel, pfpr, new ASAQ, health-seeking sweep (both yes/no IPTsc)
     # experiment_id = "fac14d60-9d76-ed11-aa00-b88303911bc1" # Sahel, pfpr, new ASAQ, health-seeking sweep (both yes/no IPTsc). 100 seeds!!
-    experiment_id = "8a020b38-1777-ed11-aa00-b88303911bc1" # Sahel, pfpr, new ASAQ, health-seeking sweep (both yes/no IPTsc). 100 MORE seeds!!
+    # experiment_id = "8a020b38-1777-ed11-aa00-b88303911bc1" # Sahel, pfpr, new ASAQ, health-seeking sweep (both yes/no IPTsc). 100 MORE seeds!!
+    experiment_id = "1de39b01-5b77-ed11-aa00-b88303911bc1" # Sahel, pfpr, new ASAQ, health-seeking sweep (both yes/no IPTsc). 100 MORE MORE seeds!!
 
     # school coverage
     # experiment_id = "1189c512-9176-ed11-aa00-b88303911bc1" # Sahel, pfpr, new ASAQ.  needed to be rerun

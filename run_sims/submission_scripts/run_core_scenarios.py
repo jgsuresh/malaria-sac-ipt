@@ -24,13 +24,16 @@ def create_and_submit_experiment():
     # experiment_name = "IPTsc transmission-targeting - Sahel - eir"
     # experiment_name = "IPTsc core scenarios - Southern and Central - by pfpr - new ASAQ"
     # experiment_name = "IPTsc - Southern and Central - by pfpr - HS sweep 2 - more seeds"
-    experiment_name = "IPTsc - Sahel - by pfpr - HS sweep full - 100 seeds v3"
+    # experiment_name = "IPTsc - Sahel - by pfpr - HS sweep full - 100 seeds v3"
+    # experiment_name = "IPTsc - Sahel - by pfpr - iver-prim - 50 seeds"
+    # experiment_name = "IPTsc - South - by pfpr - iver-prim - more seeds 3"
+    experiment_name = "IPTsc - all archetypes - pfpr - IST"
     # experiment_name = "IPTsc - Sahel - by pfpr - school-cov sweep - more seeds"
     # experiment_name = "IPTsc - South and Central - by pfpr - school-cov sweep - more seeds"
 
     # parameters to sweep over:
-    # archetypes = ["Sahel", "Central", "Southern"]
-    archetypes = ["Sahel"]
+    archetypes = ["Sahel", "Central", "Southern"]
+    # archetypes = ["Sahel"]
     # archetypes = ["Southern", "Central"]
     # archetypes = ["Southern"]
     # transmission_selection_type = "eir"
@@ -51,7 +54,24 @@ def create_and_submit_experiment():
     # Sahel HS sweep with/without IPTsc
     # control_scenarios = [50, 51, 52, 30, 53]
     # intervention_scenarios = [46, 47, 48, 13, 49]
-    core_scenario_numbers = [50, 51, 52, 30, 53, 46, 47, 48, 13, 49]
+    # core_scenario_numbers = [50, 51, 52, 30, 53, 46, 47, 48, 13, 49]
+    # core_scenario_numbers = [1,64,65, # sahel, transmission-targeting
+    #                          4,66,67,
+    #                          13,44,43, # note: Sahel scenarios are opposite order of ivermectin/primaquine
+    #                          16,68,69]
+
+    # core_scenario_numbers = [1,56,57, # southern + central, transmission-targeting
+    #                          4,58,59,
+    #                          13,34,35,
+    #                          16,60,61]
+
+    # core_scenario_numbers = [30,1,57, # southern + central, transmission-targeting
+    #                          4,59,
+    #                          13,35,
+    #                          16,61]
+    # core_scenario_numbers = [30,16,61]
+
+    core_scenario_numbers = [7,10,19,22]
 
     # school coverage sweep:
     # core_scenario_numbers = [54,55,56,57,58] #Sahel
@@ -66,10 +86,10 @@ def create_and_submit_experiment():
 #
 # }
 
-    number_of_seeds = 100
-    start_seed = 200
-    # number_of_seeds=50
-    # start_seed =0
+    number_of_seeds = 50
+    start_seed = 100
+    # number_of_seeds = 200
+    # start_seed = 250
 
     # smc_drug_configs = ["default", "annie", "erin"]
     smc_drug_configs = ["annie"]
