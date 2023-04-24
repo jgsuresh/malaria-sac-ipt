@@ -1,6 +1,6 @@
 import os
 
-base_folder = "C:/Users/joshsu/Code/malaria-sac-ipt/run_sims/"
+base_folder = "C:/Users/joshsu/OneDrive - Bill & Melinda Gates Foundation/Code/malaria-sac-ipt/run_sims/"
 
 # Ensure the following locations exist
 schema_file = os.path.join(base_folder, "download/schema.json")

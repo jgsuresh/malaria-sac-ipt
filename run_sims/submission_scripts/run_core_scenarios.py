@@ -86,7 +86,7 @@ def create_and_submit_experiment():
 #
 # }
 
-    number_of_seeds = 50
+    number_of_seeds = 1
     start_seed = 100
     # number_of_seeds = 200
     # start_seed = 250
