@@ -1,199 +1,99 @@
-archetype,scenario_number,drug_type,screen_type,interval,itn_coverage,hs_rate,within_school_coverage,out_of_school_rate,target_age_range,smc_on,ivermectin,primaquine,smc_age_range
-Southern,0,ASAQ_4,IPT,term,default,0.8,0.9,0.0,default,False,False,False,default
-Southern,1,ASAQ_4,IPT,term,default,0.8,0.9,0.15,default,False,False,False,default
-Southern,2,ASAQ_4,IPT,term,default,0.8,0.9,0.3,default,False,False,False,default
-Southern,3,ASAQ_4,IPT,month,default,0.8,0.9,0.0,default,False,False,False,default
-Southern,4,ASAQ_4,IPT,month,default,0.8,0.9,0.15,default,False,False,False,default
-Southern,5,ASAQ_4,IPT,month,default,0.8,0.9,0.3,default,False,False,False,default
-Southern,6,ASAQ_4,IST,term,default,0.8,0.9,0.0,default,False,False,False,default
-Southern,7,ASAQ_4,IST,term,default,0.8,0.9,0.15,default,False,False,False,default
-Southern,8,ASAQ_4,IST,term,default,0.8,0.9,0.3,default,False,False,False,default
-Southern,9,ASAQ_4,IST,month,default,0.8,0.9,0.0,default,False,False,False,default
-Southern,10,ASAQ_4,IST,month,default,0.8,0.9,0.15,default,False,False,False,default
-Southern,11,ASAQ_4,IST,month,default,0.8,0.9,0.3,default,False,False,False,default
-Southern,12,DP,IPT,term,default,0.8,0.9,0.0,default,False,False,False,default
-Southern,13,DP,IPT,term,default,0.8,0.9,0.15,default,False,False,False,default
-Southern,14,DP,IPT,term,default,0.8,0.9,0.3,default,False,False,False,default
-Southern,15,DP,IPT,month,default,0.8,0.9,0.0,default,False,False,False,default
-Southern,16,DP,IPT,month,default,0.8,0.9,0.15,default,False,False,False,default
-Southern,17,DP,IPT,month,default,0.8,0.9,0.3,default,False,False,False,default
-Southern,18,DP,IST,term,default,0.8,0.9,0.0,default,False,False,False,default
-Southern,19,DP,IST,term,default,0.8,0.9,0.15,default,False,False,False,default
-Southern,20,DP,IST,term,default,0.8,0.9,0.3,default,False,False,False,default
-Southern,21,DP,IST,month,default,0.8,0.9,0.0,default,False,False,False,default
-Southern,22,DP,IST,month,default,0.8,0.9,0.15,default,False,False,False,default
-Southern,23,DP,IST,month,default,0.8,0.9,0.3,default,False,False,False,default
-Southern,24,DP,IPT,term,high,0.8,0.9,0.15,default,False,False,False,default
-Southern,25,DP,IPT,term,default,0.6,0.9,0.15,default,False,False,False,default
-Southern,26,DP,IPT,term,default,0.8,1.0,0.15,default,False,False,False,default
-Southern,27,DP,IPT,day,default,0.8,1.0,0.0,default,False,False,False,default
-Southern,28,DP,IPT,day,default,0.8,1.0,0.0,u5,False,False,False,default
-Southern,29,DP,IPT,day,default,0.8,1.0,0.0,u16,False,False,False,default
-Southern,30,None,None,None,default,0.8,0.9,0.0,default,False,False,False,default
-Southern,31,None,None,None,high,0.8,0.9,0.15,default,False,False,False,default
-Southern,32,DP,IPT,term,default,0.8,0.9,0.0,u5,False,False,False,default
-Southern,33,DP,IPT,term,default,0.8,0.63,0.0,default,False,False,False,default
-Southern,34,DP,IPT,term,default,0.8,0.9,0.15,default,False,True,False,default
-Southern,35,DP,IPT,term,default,0.8,0.9,0.15,default,False,False,True,default
-Southern,36,DP,IPT,term,default,0.8,0.9,0.15,default,False,True,True,default
-Southern,37,DP,IPT,day,default,0.8,1.0,0.0,default,False,True,True,default
-Southern,38,DP,IPT,term,default,0.2,0.9,0.15,default,False,False,False,default
-Southern,39,DP,IPT,term,default,0.4,0.9,0.15,default,False,False,False,default
-Southern,40,DP,IPT,term,default,0.6,0.9,0.15,default,False,False,False,default
-Southern,41,DP,IPT,term,default,1.0,0.9,0.15,default,False,False,False,default
-Southern,42,None,None,None,default,0.2,0.9,0.0,default,False,False,False,default
-Southern,43,None,None,None,default,0.4,0.9,0.0,default,False,False,False,default
-Southern,44,None,None,None,default,0.6,0.9,0.0,default,False,False,False,default
-Southern,45,None,None,None,default,1.0,0.9,0.0,default,False,False,False,default
-Southern,46,DP,IPT,term,default,0.8,0.9,0.,default,False,False,False,default
-Southern,47,DP,IPT,term,default,0.8,0.9,0.2,default,False,False,False,default
-Southern,48,DP,IPT,term,default,0.8,0.9,0.4,default,False,False,False,default
-Southern,49,DP,IPT,term,default,0.8,0.9,0.6,default,False,False,False,default
-Southern,50,DP,IPT,term,default,0.8,0.9,0.8,default,False,False,False,default
-Southern,51,DP,IPT,term,default,0.8,0.2,0.15,default,False,False,False,default
-Southern,52,DP,IPT,term,default,0.8,0.4,0.15,default,False,False,False,default
-Southern,53,DP,IPT,term,default,0.8,0.6,0.15,default,False,False,False,default
-Southern,54,DP,IPT,term,default,0.8,0.8,0.15,default,False,False,False,default
-Southern,55,DP,IPT,term,default,0.8,1.0,0.15,default,False,False,False,default
-Southern,56,ASAQ_4,IPT,term,default,0.8,0.9,0.15,default,False,True,False,default
-Southern,57,ASAQ_4,IPT,term,default,0.8,0.9,0.15,default,False,False,True,default
-Southern,58,ASAQ_4,IPT,month,default,0.8,0.9,0.15,default,False,True,False,default
-Southern,59,ASAQ_4,IPT,month,default,0.8,0.9,0.15,default,False,False,True,default
-Southern,60,DP,IPT,month,default,0.8,0.9,0.15,default,False,True,False,default
-Southern,61,DP,IPT,month,default,0.8,0.9,0.15,default,False,False,True,default
-Southern,62,ASAQ_4,IPT,month,default,0.8,0.9,0.15,default,False,False,False,default
-Southern,63,ASAQ_4,IPT,month,default,0.8,0.9,0.15,default,False,False,False,default
-Southern,64,ASAQ_4,IPT,month,default,0.8,0.9,0.15,default,False,False,False,default
-Southern,65,ASAQ_4,IPT,month,default,0.8,0.9,0.15,default,False,False,False,default
-Sahel,0,SPAQ,IPT,term,default,0.8,0.9,0.0,default,True,False,False,default
-Sahel,1,SPAQ,IPT,term,default,0.8,0.9,0.15,default,True,False,False,default
-Sahel,2,SPAQ,IPT,term,default,0.8,0.9,0.3,default,True,False,False,default
-Sahel,3,SPAQ,IPT,month,default,0.8,0.9,0.0,default,True,False,False,default
-Sahel,4,SPAQ,IPT,month,default,0.8,0.9,0.15,default,True,False,False,default
-Sahel,5,SPAQ,IPT,month,default,0.8,0.9,0.3,default,True,False,False,default
-Sahel,6,SPAQ,IST,term,default,0.8,0.9,0.0,default,True,False,False,default
-Sahel,7,SPAQ,IST,term,default,0.8,0.9,0.15,default,True,False,False,default
-Sahel,8,SPAQ,IST,term,default,0.8,0.9,0.3,default,True,False,False,default
-Sahel,9,SPAQ,IST,month,default,0.8,0.9,0.0,default,True,False,False,default
-Sahel,10,SPAQ,IST,month,default,0.8,0.9,0.15,default,True,False,False,default
-Sahel,11,SPAQ,IST,month,default,0.8,0.9,0.3,default,True,False,False,default
-Sahel,12,DP,IPT,term,default,0.8,0.9,0.0,default,True,False,False,default
-Sahel,13,DP,IPT,term,default,0.8,0.9,0.15,default,True,False,False,default
-Sahel,14,DP,IPT,term,default,0.8,0.9,0.3,default,True,False,False,default
-Sahel,15,DP,IPT,month,default,0.8,0.9,0.0,default,True,False,False,default
-Sahel,16,DP,IPT,month,default,0.8,0.9,0.15,default,True,False,False,default
-Sahel,17,DP,IPT,month,default,0.8,0.9,0.3,default,True,False,False,default
-Sahel,18,DP,IST,term,default,0.8,0.9,0.0,default,True,False,False,default
-Sahel,19,DP,IST,term,default,0.8,0.9,0.15,default,True,False,False,default
-Sahel,20,DP,IST,term,default,0.8,0.9,0.3,default,True,False,False,default
-Sahel,21,DP,IST,month,default,0.8,0.9,0.0,default,True,False,False,default
-Sahel,22,DP,IST,month,default,0.8,0.9,0.15,default,True,False,False,default
-Sahel,23,DP,IST,month,default,0.8,0.9,0.3,default,True,False,False,default
-Sahel,24,DP,IPT,term,high,0.8,0.9,0.15,default,True,False,False,default
-Sahel,25,DP,IPT,term,default,0.6,0.9,0.15,default,True,False,False,default
-Sahel,26,DP,IPT,term,default,0.8,1.0,0.15,default,True,False,False,default
-Sahel,27,DP,IPT,day,default,0.8,1.0,0.0,default,True,False,False,default
-Sahel,28,DP,IPT,day,default,0.8,1.0,0.0,u5,True,False,False,default
-Sahel,29,DP,IPT,day,default,0.8,1.0,0.0,u16,True,False,False,default
-Sahel,30,None,None,None,default,0.8,0.9,0.0,default,True,False,False,default
-Sahel,31,None,None,None,high,0.8,0.9,0.15,default,True,False,False,default
-Sahel,32,DP,IPT,term,default,0.8,0.9,0.0,u5,True,False,False,default
-Sahel,33,DP,IPT,term,default,0.8,0.63,0.0,default,True,False,False,default
-Sahel,34,DP,IPT,term,default,0.8,0.9,0.15,default,False,False,False,default
-Sahel,35,None,None,None,default,0.8,0.9,0.0,default,True,False,False,u10
-Sahel,36,None,None,None,default,0.8,0.9,0.0,default,True,False,False,u15
-Sahel,37,DP,IPT,day,default,0.8,1.0,0.0,default,True,True,True,default
-Sahel,38,DP,IPT,term,default,0.8,0.9,0.15,default,False,False,False,default
-Sahel,39,DP,IPT,term,default,0.8,0.9,0.15,default,False,False,True,default
-Sahel,40,DP,IPT,term,default,0.8,0.9,0.15,default,False,True,False,default
-Sahel,41,DP,IPT,term,default,0.8,0.9,0.15,default,False,True,True,default
-Sahel,42,DP,IPT,term,default,0.8,0.9,0.15,default,True,False,False,default
-Sahel,43,DP,IPT,term,default,0.8,0.9,0.15,default,True,False,True,default
-Sahel,44,DP,IPT,term,default,0.8,0.9,0.15,default,True,True,False,default
-Sahel,45,DP,IPT,term,default,0.8,0.9,0.15,default,True,True,True,default
-Sahel,46,DP,IPT,term,default,0.2,0.9,0.15,default,True,False,False,default
-Sahel,47,DP,IPT,term,default,0.4,0.9,0.15,default,True,False,False,default
-Sahel,48,DP,IPT,term,default,0.6,0.9,0.15,default,True,False,False,default
-Sahel,49,DP,IPT,term,default,1.0,0.9,0.15,default,True,False,False,default
-Sahel,50,None,None,None,default,0.2,0.9,0.0,default,True,False,False,default
-Sahel,51,None,None,None,default,0.4,0.9,0.0,default,True,False,False,default
-Sahel,52,None,None,None,default,0.6,0.9,0.0,default,True,False,False,default
-Sahel,53,None,None,None,default,1.0,0.9,0.0,default,True,False,False,default
-Sahel,54,DP,IPT,term,default,0.8,0.9,0,default,True,False,False,default
-Sahel,55,DP,IPT,term,default,0.8,0.9,0.2,default,True,False,False,default
-Sahel,56,DP,IPT,term,default,0.8,0.9,0.4,default,True,False,False,default
-Sahel,57,DP,IPT,term,default,0.8,0.9,0.6,default,True,False,False,default
-Sahel,58,DP,IPT,term,default,0.8,0.9,0.8,default,True,False,False,default
-Sahel,59,DP,IPT,term,default,0.8,0.2,0.15,default,True,False,False,default
-Sahel,60,DP,IPT,term,default,0.8,0.4,0.15,default,True,False,False,default
-Sahel,61,DP,IPT,term,default,0.8,0.6,0.15,default,True,False,False,default
-Sahel,62,DP,IPT,term,default,0.8,0.8,0.15,default,True,False,False,default
-Sahel,63,DP,IPT,term,default,0.8,1.0,0.15,default,True,False,False,default
-Sahel,64,SPAQ,IPT,term,default,0.8,0.9,0.15,default,True,True,False,default
-Sahel,65,SPAQ,IPT,term,default,0.8,0.9,0.15,default,True,False,True,default
-Sahel,66,SPAQ,IPT,month,default,0.8,0.9,0.15,default,True,True,False,default
-Sahel,67,SPAQ,IPT,month,default,0.8,0.9,0.15,default,True,False,True,default
-Sahel,68,DP,IPT,month,default,0.8,0.9,0.15,default,True,True,False,default
-Sahel,69,DP,IPT,month,default,0.8,0.9,0.15,default,True,False,True,default
-Central,0,ASAQ_4,IPT,term,default,0.8,0.9,0.0,default,False,False,False,default
-Central,1,ASAQ_4,IPT,term,default,0.8,0.9,0.15,default,False,False,False,default
-Central,2,ASAQ_4,IPT,term,default,0.8,0.9,0.3,default,False,False,False,default
-Central,3,ASAQ_4,IPT,month,default,0.8,0.9,0.0,default,False,False,False,default
-Central,4,ASAQ_4,IPT,month,default,0.8,0.9,0.15,default,False,False,False,default
-Central,5,ASAQ_4,IPT,month,default,0.8,0.9,0.3,default,False,False,False,default
-Central,6,ASAQ_4,IST,term,default,0.8,0.9,0.0,default,False,False,False,default
-Central,7,ASAQ_4,IST,term,default,0.8,0.9,0.15,default,False,False,False,default
-Central,8,ASAQ_4,IST,term,default,0.8,0.9,0.3,default,False,False,False,default
-Central,9,ASAQ_4,IST,month,default,0.8,0.9,0.0,default,False,False,False,default
-Central,10,ASAQ_4,IST,month,default,0.8,0.9,0.15,default,False,False,False,default
-Central,11,ASAQ_4,IST,month,default,0.8,0.9,0.3,default,False,False,False,default
-Central,12,DP,IPT,term,default,0.8,0.9,0.0,default,False,False,False,default
-Central,13,DP,IPT,term,default,0.8,0.9,0.15,default,False,False,False,default
-Central,14,DP,IPT,term,default,0.8,0.9,0.3,default,False,False,False,default
-Central,15,DP,IPT,month,default,0.8,0.9,0.0,default,False,False,False,default
-Central,16,DP,IPT,month,default,0.8,0.9,0.15,default,False,False,False,default
-Central,17,DP,IPT,month,default,0.8,0.9,0.3,default,False,False,False,default
-Central,18,DP,IST,term,default,0.8,0.9,0.0,default,False,False,False,default
-Central,19,DP,IST,term,default,0.8,0.9,0.15,default,False,False,False,default
-Central,20,DP,IST,term,default,0.8,0.9,0.3,default,False,False,False,default
-Central,21,DP,IST,month,default,0.8,0.9,0.0,default,False,False,False,default
-Central,22,DP,IST,month,default,0.8,0.9,0.15,default,False,False,False,default
-Central,23,DP,IST,month,default,0.8,0.9,0.3,default,False,False,False,default
-Central,24,DP,IPT,term,high,0.8,0.9,0.15,default,False,False,False,default
-Central,25,DP,IPT,term,default,0.6,0.9,0.15,default,False,False,False,default
-Central,26,DP,IPT,term,default,0.8,1.0,0.15,default,False,False,False,default
-Central,27,DP,IPT,day,default,0.8,1.0,0.0,default,False,False,False,default
-Central,28,DP,IPT,day,default,0.8,1.0,0.0,u5,False,False,False,default
-Central,29,DP,IPT,day,default,0.8,1.0,0.0,u16,False,False,False,default
-Central,30,None,None,None,default,0.8,0.9,0.0,default,False,False,False,default
-Central,31,None,None,None,high,0.8,0.9,0.15,default,False,False,False,default
-Central,32,DP,IPT,term,default,0.8,0.9,0.0,u5,False,False,False,default
-Central,33,DP,IPT,term,default,0.8,0.63,0.0,default,False,False,False,default
-Central,34,DP,IPT,term,default,0.8,0.9,0.15,default,False,True,False,default
-Central,35,DP,IPT,term,default,0.8,0.9,0.15,default,False,False,True,default
-Central,36,DP,IPT,term,default,0.8,0.9,0.15,default,False,True,True,default
-Central,37,DP,IPT,day,default,0.8,1.0,0.0,default,False,True,True,default
-Central,38,DP,IPT,term,default,0.2,0.9,0.15,default,False,False,False,default
-Central,39,DP,IPT,term,default,0.4,0.9,0.15,default,False,False,False,default
-Central,40,DP,IPT,term,default,0.6,0.9,0.15,default,False,False,False,default
-Central,41,DP,IPT,term,default,1.0,0.9,0.15,default,False,False,False,default
-Central,42,None,None,None,default,0.2,0.9,0.0,default,False,False,False,default
-Central,43,None,None,None,default,0.4,0.9,0.0,default,False,False,False,default
-Central,44,None,None,None,default,0.6,0.9,0.0,default,False,False,False,default
-Central,45,None,None,None,default,1.0,0.9,0.0,default,False,False,False,default
-Central,46,DP,IPT,term,default,0.8,0.9,0.,default,False,False,False,default
-Central,47,DP,IPT,term,default,0.8,0.9,0.2,default,False,False,False,default
-Central,48,DP,IPT,term,default,0.8,0.9,0.4,default,False,False,False,default
-Central,49,DP,IPT,term,default,0.8,0.9,0.6,default,False,False,False,default
-Central,50,DP,IPT,term,default,0.8,0.9,0.8,default,False,False,False,default
-Central,51,DP,IPT,term,default,0.8,0.2,0.15,default,False,False,False,default
-Central,52,DP,IPT,term,default,0.8,0.4,0.15,default,False,False,False,default
-Central,53,DP,IPT,term,default,0.8,0.6,0.15,default,False,False,False,default
-Central,54,DP,IPT,term,default,0.8,0.8,0.15,default,False,False,False,default
-Central,55,DP,IPT,term,default,0.8,1.0,0.15,default,False,False,False,default
-Central,56,ASAQ_4,IPT,term,default,0.8,0.9,0.15,default,False,True,False,default
-Central,57,ASAQ_4,IPT,term,default,0.8,0.9,0.15,default,False,False,True,default
-Central,58,ASAQ_4,IPT,month,default,0.8,0.9,0.15,default,False,True,False,default
-Central,59,ASAQ_4,IPT,month,default,0.8,0.9,0.15,default,False,False,True,default
-Central,60,DP,IPT,month,default,0.8,0.9,0.15,default,False,True,False,default
-Central,61,DP,IPT,month,default,0.8,0.9,0.15,default,False,False,True,default
+archetype,scenario_number,iptsc_on,delivery_mode,campaign_timing,screen_type,drug_type,out_of_school_rate,ivermectin,primaquine,itn_coverage,hs_rate,smc_on,smc_coverage,comments
+Southern,0,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,No IPTsc
+Southern,1,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.7,1,FALSE,None,No IPTsc - 100% HS
+Southern,2,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.7,0.8,FALSE,None,No IPTsc - 80% HS
+Southern,3,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.7,0.4,FALSE,None,No IPTsc - 40% HS
+Southern,4,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.7,0.2,FALSE,None,No IPTsc - 20% HS
+Southern,5,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.9,0.6,FALSE,None,No IPTsc - higher ITN
+Southern,6,TRUE,school,term,IPT,ASAQ,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,IPT - ASAQ term
+Southern,7,TRUE,school,month,IPT,ASAQ,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,IPT - ASAQ month
+Southern,8,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,IPT - DP term
+Southern,9,TRUE,school,month,IST,DP,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,IPT - DP month
+Southern,10,TRUE,school,term,IST,ASAQ,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,IST - ASAQ term
+Southern,11,TRUE,school,month,IST,ASAQ,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,IST - ASAQ month
+Southern,12,TRUE,school,term,IST,DP,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,IST - DP term
+Southern,13,TRUE,school,month,IST,DP,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,IST - DP month
+Southern,14,TRUE,school,term,IPT,ASAQ,0.2,TRUE,FALSE,0.7,0.6,FALSE,None,IPT - ASAQ term - ivermectin
+Southern,15,TRUE,school,month,IPT,ASAQ,0.2,TRUE,FALSE,0.7,0.6,FALSE,None,IPT - ASAQ month - ivermectin
+Southern,16,TRUE,school,term,IPT,DP,0.2,TRUE,FALSE,0.7,0.6,FALSE,None,IPT - DP term - ivermectin
+Southern,17,TRUE,school,month,IST,DP,0.2,TRUE,FALSE,0.7,0.6,FALSE,None,IPT - DP month - ivermectin
+Southern,18,TRUE,school,term,IPT,ASAQ,0.2,FALSE,TRUE,0.7,0.6,FALSE,None,IPT - ASAQ term - primaquine
+Southern,19,TRUE,school,month,IPT,ASAQ,0.2,FALSE,TRUE,0.7,0.6,FALSE,None,IPT - ASAQ month - primaquine
+Southern,20,TRUE,school,term,IPT,DP,0.2,FALSE,TRUE,0.7,0.6,FALSE,None,IPT - DP term - primaquine
+Southern,21,TRUE,school,month,IST,DP,0.2,FALSE,TRUE,0.7,0.6,FALSE,None,IPT - DP month - primaquine
+Southern,22,TRUE,school,term,IPT,ASAQ,0,FALSE,FALSE,0.7,0.6,FALSE,None,IPT - ASAQ term - 100% in school
+Southern,23,TRUE,school,month,IPT,ASAQ,0.4,FALSE,FALSE,0.7,0.6,FALSE,None,IPT - ASAQ month - 60% in school
+Southern,24,TRUE,school,term,IPT,DP,0.6,FALSE,FALSE,0.7,0.6,FALSE,None,IPT - DP term - 40% in school
+Southern,25,TRUE,school,month,IST,DP,0.8,FALSE,FALSE,0.7,0.6,FALSE,None,IPT - DP month - 20% in school
+Southern,26,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,1,FALSE,None,IPT - DP term - 100% HS
+Southern,27,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.8,FALSE,None,IPT - DP term - 80% HS
+Southern,28,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.4,FALSE,None,IPT - DP term - 40% HS
+Southern,29,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.2,FALSE,None,IPT - DP term - 20% HS
+Central,0,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,No IPTsc
+Central,1,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.7,1,FALSE,None,No IPTsc - 100% HS
+Central,2,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.7,0.8,FALSE,None,No IPTsc - 80% HS
+Central,3,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.7,0.4,FALSE,None,No IPTsc - 40% HS
+Central,4,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.7,0.2,FALSE,None,No IPTsc - 20% HS
+Central,5,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.9,0.6,FALSE,None,No IPTsc - higher ITN
+Central,6,TRUE,school,term,IPT,ASAQ,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,IPT - ASAQ term
+Central,7,TRUE,school,month,IPT,ASAQ,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,IPT - ASAQ month
+Central,8,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,IPT - DP term
+Central,9,TRUE,school,month,IST,DP,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,IPT - DP month
+Central,10,TRUE,school,term,IST,ASAQ,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,IST - ASAQ term
+Central,11,TRUE,school,month,IST,ASAQ,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,IST - ASAQ month
+Central,12,TRUE,school,term,IST,DP,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,IST - DP term
+Central,13,TRUE,school,month,IST,DP,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,IST - DP month
+Central,14,TRUE,school,term,IPT,ASAQ,0.2,TRUE,FALSE,0.7,0.6,FALSE,None,IPT - ASAQ term - ivermectin
+Central,15,TRUE,school,month,IPT,ASAQ,0.2,TRUE,FALSE,0.7,0.6,FALSE,None,IPT - ASAQ month - ivermectin
+Central,16,TRUE,school,term,IPT,DP,0.2,TRUE,FALSE,0.7,0.6,FALSE,None,IPT - DP term - ivermectin
+Central,17,TRUE,school,month,IST,DP,0.2,TRUE,FALSE,0.7,0.6,FALSE,None,IPT - DP month - ivermectin
+Central,18,TRUE,school,term,IPT,ASAQ,0.2,FALSE,TRUE,0.7,0.6,FALSE,None,IPT - ASAQ term - primaquine
+Central,19,TRUE,school,month,IPT,ASAQ,0.2,FALSE,TRUE,0.7,0.6,FALSE,None,IPT - ASAQ month - primaquine
+Central,20,TRUE,school,term,IPT,DP,0.2,FALSE,TRUE,0.7,0.6,FALSE,None,IPT - DP term - primaquine
+Central,21,TRUE,school,month,IST,DP,0.2,FALSE,TRUE,0.7,0.6,FALSE,None,IPT - DP month - primaquine
+Central,22,TRUE,school,term,IPT,ASAQ,0,FALSE,FALSE,0.7,0.6,FALSE,None,IPT - ASAQ term - 100% in school
+Central,23,TRUE,school,month,IPT,ASAQ,0.4,FALSE,FALSE,0.7,0.6,FALSE,None,IPT - ASAQ month - 60% in school
+Central,24,TRUE,school,term,IPT,DP,0.6,FALSE,FALSE,0.7,0.6,FALSE,None,IPT - DP term - 40% in school
+Central,25,TRUE,school,month,IST,DP,0.8,FALSE,FALSE,0.7,0.6,FALSE,None,IPT - DP month - 20% in school
+Central,26,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,1,FALSE,None,IPT - DP term - 100% HS
+Central,27,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.8,FALSE,None,IPT - DP term - 80% HS
+Central,28,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.4,FALSE,None,IPT - DP term - 40% HS
+Central,29,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.2,FALSE,None,IPT - DP term - 20% HS
+Sahel,0,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.7,0.6,TRUE,0.6,No IPTsc
+Sahel,1,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.7,1,TRUE,0.6,No IPTsc - 100% HS
+Sahel,2,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.7,0.8,TRUE,0.6,No IPTsc - 80% HS
+Sahel,3,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.7,0.4,TRUE,0.6,No IPTsc - 40% HS
+Sahel,4,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.7,0.2,TRUE,0.6,No IPTsc - 20% HS
+Sahel,5,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.9,0.6,TRUE,0.6,No IPTsc - higher ITN
+Sahel,6,TRUE,school,term,IPT,SPAQ,0.2,FALSE,FALSE,0.7,0.6,TRUE,0.6,IPT - SPAQ term
+Sahel,7,TRUE,school,month,IPT,SPAQ,0.2,FALSE,FALSE,0.7,0.6,TRUE,0.6,IPT - SPAQ month
+Sahel,8,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.6,TRUE,0.6,IPT - DP term
+Sahel,9,TRUE,school,month,IST,DP,0.2,FALSE,FALSE,0.7,0.6,TRUE,0.6,IPT - DP month
+Sahel,10,TRUE,school,term,IST,SPAQ,0.2,FALSE,FALSE,0.7,0.6,TRUE,0.6,IST - SPAQ term
+Sahel,11,TRUE,school,month,IST,SPAQ,0.2,FALSE,FALSE,0.7,0.6,TRUE,0.6,IST - SPAQ month
+Sahel,12,TRUE,school,term,IST,DP,0.2,FALSE,FALSE,0.7,0.6,TRUE,0.6,IST - DP term
+Sahel,13,TRUE,school,month,IST,DP,0.2,FALSE,FALSE,0.7,0.6,TRUE,0.6,IST - DP month
+Sahel,14,TRUE,school,term,IPT,SPAQ,0.2,TRUE,FALSE,0.7,0.6,TRUE,0.6,IPT - SPAQ term - ivermectin
+Sahel,15,TRUE,school,month,IPT,SPAQ,0.2,TRUE,FALSE,0.7,0.6,TRUE,0.6,IPT - SPAQ month - ivermectin
+Sahel,16,TRUE,school,term,IPT,DP,0.2,TRUE,FALSE,0.7,0.6,TRUE,0.6,IPT - DP term - ivermectin
+Sahel,17,TRUE,school,month,IST,DP,0.2,TRUE,FALSE,0.7,0.6,TRUE,0.6,IPT - DP month - ivermectin
+Sahel,18,TRUE,school,term,IPT,SPAQ,0.2,FALSE,TRUE,0.7,0.6,TRUE,0.6,IPT - SPAQ term - primaquine
+Sahel,19,TRUE,school,month,IPT,SPAQ,0.2,FALSE,TRUE,0.7,0.6,TRUE,0.6,IPT - SPAQ month - primaquine
+Sahel,20,TRUE,school,term,IPT,DP,0.2,FALSE,TRUE,0.7,0.6,TRUE,0.6,IPT - DP term - primaquine
+Sahel,21,TRUE,school,month,IST,DP,0.2,FALSE,TRUE,0.7,0.6,TRUE,0.6,IPT - DP month - primaquine
+Sahel,22,TRUE,school,term,IPT,SPAQ,0,FALSE,FALSE,0.7,0.6,TRUE,0.6,IPT - SPAQ term - 100% in school
+Sahel,23,TRUE,school,month,IPT,SPAQ,0.4,FALSE,FALSE,0.7,0.6,TRUE,0.6,IPT - SPAQ month - 60% in school
+Sahel,24,TRUE,school,term,IPT,DP,0.6,FALSE,FALSE,0.7,0.6,TRUE,0.6,IPT - DP term - 40% in school
+Sahel,25,TRUE,school,month,IST,DP,0.8,FALSE,FALSE,0.7,0.6,TRUE,0.6,IPT - DP month - 20% in school
+Sahel,26,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,1,TRUE,0.6,IPT - DP term - 100% HS
+Sahel,27,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.8,TRUE,0.6,IPT - DP term - 80% HS
+Sahel,28,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.4,TRUE,0.6,IPT - DP term - 40% HS
+Sahel,29,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.2,TRUE,0.6,IPT - DP term - 20% HS
+Sahel,30,TRUE,smc_u10,smc,IPT,SPAQ,0.2,FALSE,FALSE,0.7,0.6,TRUE,0.6,u10 SMC - SPAQ
+Sahel,31,TRUE,smc_u15,smc,IPT,SPAQ,0.2,FALSE,FALSE,0.7,0.6,TRUE,0.6,u15 SMC - SPAQ
+Sahel,32,TRUE,smc_u10,smc,IPT,DP,0.2,FALSE,FALSE,0.7,0.6,TRUE,0.6,u10 SMC - DP
+Sahel,33,TRUE,smc_u15,smc,IPT,DP,0.2,FALSE,FALSE,0.7,0.6,TRUE,0.6,u15 SMC - DP
+Sahel,34,TRUE,smc_u10,smc,IPT,SPAQ,0.2,FALSE,FALSE,0.7,0.6,TRUE,0.8,u10 SMC - SPAQ - 80% coverage
+Sahel,35,TRUE,smc_u15,smc,IPT,SPAQ,0.2,FALSE,FALSE,0.7,0.6,TRUE,0.8,u15 SMC - SPAQ - 80% coverage
+Sahel,36,TRUE,smc_u10,smc,IPT,DP,0.2,FALSE,FALSE,0.7,0.6,TRUE,0.8,u10 SMC - DP - 80% coverage
+Sahel,37,TRUE,smc_u15,smc,IPT,DP,0.2,FALSE,FALSE,0.7,0.6,TRUE,0.8,u15 SMC - DP - 80% coverage

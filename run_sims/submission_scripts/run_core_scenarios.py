@@ -17,85 +17,23 @@ from run_sims.sweeps import set_run_number, master_sweep_for_core_scenarios
 
 def create_and_submit_experiment():
     # ========================================================
-    # experiment_name = "IPTsc core scenarios - Sahel - by eir - new ITN timing"
-    # experiment_name = "IPTsc core scenarios - Southern and Central - by pfpr2"
-    # experiment_name = "IPTsc core scenarios - TEST - events"
-    # experiment_name = "IPTsc transmission-targeting - Southern and Central - eir"
-    # experiment_name = "IPTsc transmission-targeting - Sahel - eir"
-    # experiment_name = "IPTsc core scenarios - Southern and Central - by pfpr - new ASAQ"
-    # experiment_name = "IPTsc - Southern and Central - by pfpr - HS sweep 2 - more seeds"
-    # experiment_name = "IPTsc - Sahel - by pfpr - HS sweep full - 100 seeds v3"
-    # experiment_name = "IPTsc - Sahel - by pfpr - iver-prim - 50 seeds"
-    # experiment_name = "IPTsc - South - by pfpr - iver-prim - more seeds 3"
-    experiment_name = "IPTsc - all archetypes - pfpr - IST"
-    # experiment_name = "IPTsc - Sahel - by pfpr - school-cov sweep - more seeds"
-    # experiment_name = "IPTsc - South and Central - by pfpr - school-cov sweep - more seeds"
+    experiment_name = "test"
 
     # parameters to sweep over:
-    archetypes = ["Sahel", "Central", "Southern"]
+    # archetypes = ["Sahel", "Central", "Southern"]
     # archetypes = ["Sahel"]
     # archetypes = ["Southern", "Central"]
-    # archetypes = ["Southern"]
-    # transmission_selection_type = "eir"
-    # transmission_levels = [1,3,10,30,100]
+    archetypes = ["Southern"]
     transmission_selection_type = "pfpr"
     transmission_levels = [0.01,0.05,0.1,0.2,0.3,0.4]
 
-    # core_scenario_numbers = [4,62,63,64,65]
-
-    # core_scenario_numbers = list(range(64)) # All scenarios for Sahel (more than other archetypes b/c of SMC)
-    # core_scenario_numbers = list(range(56)) # All scenarios for Central and Southern
-    # core_scenario_numbers = [56,57,58,59,60,61] # extra scenarios for Cent/South
-    # core_scenario_numbers = [64,65,66,67,68,69] # extra scenarios for Sahel
-
-    # core_scenario_numbers = [38,39,40,13,41] # South/Central HS sweep
-    # core_scenario_numbers = [42,43,44,30,45] # South/Central HS sweep without IPTsc
-
-    # Sahel HS sweep with/without IPTsc
-    # control_scenarios = [50, 51, 52, 30, 53]
-    # intervention_scenarios = [46, 47, 48, 13, 49]
-    # core_scenario_numbers = [50, 51, 52, 30, 53, 46, 47, 48, 13, 49]
-    # core_scenario_numbers = [1,64,65, # sahel, transmission-targeting
-    #                          4,66,67,
-    #                          13,44,43, # note: Sahel scenarios are opposite order of ivermectin/primaquine
-    #                          16,68,69]
-
-    # core_scenario_numbers = [1,56,57, # southern + central, transmission-targeting
-    #                          4,58,59,
-    #                          13,34,35,
-    #                          16,60,61]
-
-    # core_scenario_numbers = [30,1,57, # southern + central, transmission-targeting
-    #                          4,59,
-    #                          13,35,
-    #                          16,61]
-    # core_scenario_numbers = [30,16,61]
-
-    core_scenario_numbers = [7,10,19,22]
-
-    # school coverage sweep:
-    # core_scenario_numbers = [54,55,56,57,58] #Sahel
-    # core_scenario_numbers = [46,47,48,49,50] # South/Central
-
-    # [46,47,48,49,50] #South/Central
-#     54: "100% SACs in school",
-#     55: "80% SACs in school",
-#     56: "60% SACs in school",
-#     57: "40% SACs in school",
-#     59: "20% SACs in school"
-#
-# }
+    core_scenario_numbers = [2]
 
     number_of_seeds = 1
-    start_seed = 100
-    # number_of_seeds = 200
-    # start_seed = 250
+    start_seed = 0
 
-    # smc_drug_configs = ["default", "annie", "erin"]
-    smc_drug_configs = ["annie"]
-
-    platform = Platform("Calculon", num_cores=1, node_group="idm_abcd", priority="AboveNormal")
-    # platform = Platform("Calculon", num_cores=1, node_group="idm_48cores", priority="Highest")
+    # platform = Platform("Calculon", num_cores=1, node_group="idm_abcd", priority="AboveNormal")
+    platform = Platform("Calculon", num_cores=1, node_group="idm_48cores", priority="Highest")
 
     # =========================================================
 
@@ -123,7 +61,7 @@ def create_and_submit_experiment():
     builder = SimulationBuilder()
 
     scenario_sweep = partial(master_sweep_for_core_scenarios, baseline_transmission_metric=transmission_selection_type)
-    sweep_values = list(itertools.product(archetypes, transmission_levels, core_scenario_numbers, smc_drug_configs))
+    sweep_values = list(itertools.product(archetypes, transmission_levels, core_scenario_numbers))
     builder.add_sweep_definition(scenario_sweep, sweep_values)
 
     builder.add_sweep_definition(set_run_number, range(start_seed, number_of_seeds+start_seed))

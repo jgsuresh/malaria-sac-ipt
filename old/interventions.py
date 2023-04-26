@@ -155,9 +155,11 @@ def add_bednets_for_population_and_births(campaign,
 
 
 
-def burnin_historical_bednets(campaign, archetype="Southern", start_year=1970):
+def burnin_historical_bednets(campaign, archetype="Southern", start_year=1970, usage_fudge_factor=1):
     # at certain times, add bednets with different coverages
     # these bednet distributions are each for 1 year, then expire (not normal expiration)
+    # fudge factor reduces effective coverage to account for flat usage, rather than normal expiration
+
 
     # open CSV
     if archetype == "Southern":
@@ -170,7 +172,7 @@ def burnin_historical_bednets(campaign, archetype="Southern", start_year=1970):
         campaign_start_day = int((row["year"]-start_year)*365)
 
         add_bednets_for_population_and_births(campaign,
-                                              coverage=row["cov_all"],
+                                              coverage=row["cov_all"]*usage_fudge_factor,
                                               start_day=campaign_start_day,
                                               seasonal_dependence=archetype_seasonal_usage[archetype],
                                               discard_config_type="flat_annual")

@@ -17,7 +17,7 @@ from run_sims.sweeps import set_run_number, archetype_and_habitat_sweep_for_burn
 
 def create_and_submit_experiment():
     # ========================================================
-    experiment_name = "IPTsc burnins_deep"
+    experiment_name = "IPTsc burnins deep - adjusted ITN cov"
 
     # parameters to sweep over:
     archetypes = ["Sahel", "Central", "Southern"]
@@ -40,8 +40,8 @@ def create_and_submit_experiment():
     # larval_habitat_scales = [9.47,9.5,9.6,9.7,9.8,9.9,10.]
     number_of_seeds = 10
 
-    # platform = Platform("Calculon", num_cores=1, node_group="idm_abcd", priority="BelowNormal")
-    platform = Platform("Calculon", num_cores=1, node_group="idm_cd", priority="BelowNormal")
+    platform = Platform("Calculon", num_cores=1, node_group="idm_abcd", priority="BelowNormal")
+    # platform = Platform("Calculon", num_cores=1, node_group="idm_cd", priority="BelowNormal")
     # platform = Platform("Calculon", num_cores=1, node_group="idm_48cores", priority="Highest")
 
     # =========================================================

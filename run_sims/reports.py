@@ -14,7 +14,9 @@ def add_scenario_reports(emod_task, include_inset=True, include_bednet_events_in
         "Received_Treatment",
         "Received_Test",
         "Received_Campaign_Drugs",
-        "Received_SMC",
+        "Received_SMC_U5",
+        "Received_SMC_5-10",
+        "Received_SMC_5-15",
         "Received_Ivermectin",
         "Received_Primaquine"
     ]
@@ -54,7 +56,7 @@ def add_burnin_reports(emod_task, archetype, include_inset=True):
         "NonDiseaseDeaths"]
 
     if archetype == "Sahel":
-        events_to_count += ["Received_SMC"]
+        events_to_count += ["Received_SMC_U5", "Received_SMC_5-10", "Received_SMC_5-15"]
 
     add_report_event_counter(emod_task,
                              manifest=manifest,

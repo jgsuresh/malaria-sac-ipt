@@ -1,11 +1,13 @@
 # import emodpy_malaria.malaria_config as emodpy_malaria_sim_config_module
+import csv
+import os
+
 from emod_api.config import default_from_schema_no_validation
 from emodpy import emod_task
 from emodpy_malaria.malaria_config import set_team_defaults, add_species, set_species_param, get_species_params
 
 from jsuresh_helpers.running_emodpy import set_log_level
 from run_sims import manifest
-
 
 def set_full_config(config, is_burnin):
     set_core_config_params(config)
@@ -45,6 +47,9 @@ def set_project_config_params(config):
     config.parameters.Climate_Model = "CLIMATE_CONSTANT"
     config.parameters.Base_Air_Temperature = 27
     config.parameters.Base_Land_Temperature = 27
+
+    # Set up custom drugs
+    set_custom_drug_params(config, manifest)
 
     # Random other things
     config.parameters.Report_Parasite_Smear_Sensitivity = 0.025 # replaces old "Parasite_Smear_Sensitivity": 0.025,
@@ -195,3 +200,78 @@ def set_archetype_ento_splines(config, archetype, habitat_scale):
         raise NotImplementedError
 
     return {"hab_scale": habitat_scale}
+
+
+# Add custom drugs
+def set_custom_drug_params(config, manifest):
+    import emod_api.config.default_from_schema_no_validation as dfs
+
+    # Clear any drugs already loaded:
+    config.parameters.Malaria_Drug_Params = []
+
+    # TBD: load csv with drug params and populate from that.
+    with open(os.path.join(manifest.assets_input_dir, 'malaria_drug_params.csv'), newline='') as csvfile:
+        my_reader = csv.reader(csvfile)
+
+        header = next(my_reader)
+        drug_name_idx = header.index("Name")
+        drug_pkpd_model_idx = header.index("PKPD_Model")
+        drug_cmax_idx = header.index("Drug_Cmax")
+        drug_decayt1_idx = header.index("Drug_Decay_T1")
+        drug_decayt2_idx = header.index("Drug_Decay_T2")
+        drug_vd_idx = header.index("Drug_Vd")
+        drug_pkpdc50_idx = header.index("Drug_PKPD_C50")
+        drug_ftdoses_idx = header.index("Drug_Fulltreatment_Doses")
+        drug_dose_interval_idx = header.index("Drug_Dose_Interval")
+        drug_gam02_idx = header.index("Drug_Gametocyte02_Killrate")
+        drug_gam34_idx = header.index("Drug_Gametocyte34_Killrate")
+        drug_gamM_idx = header.index("Drug_GametocyteM_Killrate")
+        drug_hep_idx = header.index("Drug_Hepatocyte_Killrate")
+        drug_maxirbc_idx = header.index("Max_Drug_IRBC_Kill")
+        drug_adher_idx = header.index("Drug_Adherence_Rate")
+        drug_bwexp_idx = header.index("Bodyweight_Exponent")
+        drug_fracdos_key_idx = header.index("Upper_Age_In_Years")
+        drug_fracdos_val_idx = header.index("Fraction_Of_Adult_Dose")
+
+        # for each
+        for row in my_reader:
+            mdp = dfs.schema_to_config_subnode(manifest.schema_file, ["idmTypes", "idmType:MalariaDrugTypeParameters"])
+            mdp.parameters.Drug_Cmax = float(row[drug_cmax_idx])
+            mdp.parameters.Drug_Decay_T1 = float(row[drug_decayt1_idx])
+            mdp.parameters.Drug_Decay_T2 = float(row[drug_decayt2_idx])
+            mdp.parameters.Drug_Vd = float(row[drug_vd_idx])
+            mdp.parameters.Drug_PKPD_C50 = float(row[drug_pkpdc50_idx])
+            mdp.parameters.Drug_Fulltreatment_Doses = float(row[drug_ftdoses_idx])
+            mdp.parameters.Drug_Dose_Interval = float(row[drug_dose_interval_idx])
+            mdp.parameters.Drug_Gametocyte02_Killrate = float(row[drug_gam02_idx])
+            mdp.parameters.Drug_Gametocyte34_Killrate = float(row[drug_gam34_idx])
+            mdp.parameters.Drug_GametocyteM_Killrate = float(row[drug_gamM_idx])
+            mdp.parameters.Drug_Hepatocyte_Killrate = float(row[drug_hep_idx])
+            mdp.parameters.Max_Drug_IRBC_Kill = float(row[drug_maxirbc_idx])
+            mdp.parameters.PKPD_Model = row[drug_pkpd_model_idx]
+            mdp.parameters.Name = row[drug_name_idx]
+            # mdp.parameters.Drug_Adherence_Rate = float(row[ drug_adher_idx ])
+            mdp.parameters.Bodyweight_Exponent = float(row[drug_bwexp_idx])
+
+            try:
+                ages = [float(x) for x in row[drug_fracdos_key_idx].strip('[]').split(",")]
+                values = [float(x) for x in row[drug_fracdos_val_idx].strip('[]').split(",")]
+            except Exception as ex:
+                print("For drug {}, {}".format(row[0], str(ex)))
+                ages = []
+                values = []
+            for idx in range(len(ages)):
+                fdbua = dict()
+                # this is what we want but not ready yet
+                # fdbua = dfs.schema_to_config_subnode(mani.schema_file, ["idmTypes","idmType:DoseMap"] )
+                # fdbua.Upper_Age_In_Years = ages[idx]
+                # fdbua.Fraction_Of_Adult_Dose = values[idx]
+                fdbua["Upper_Age_In_Years"] = ages[idx]
+                fdbua["Fraction_Of_Adult_Dose"] = values[idx]
+                # fdbua.finalize()
+                mdp.parameters.Fractional_Dose_By_Upper_Age.append(fdbua)
+
+            config.parameters.Malaria_Drug_Params.append(mdp.parameters)
+    # end
+
+    return config
