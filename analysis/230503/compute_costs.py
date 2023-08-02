@@ -23,93 +23,119 @@ cost_dict = {
     "ITN": 2.48}
 
 def compute_costs(df):
-    IPT = df["screen_type"]=="IPT"
-    IST = df["screen_type"]=="IST"
+    # Add cost columns:
+    df["cost_IPTsc_overhead_low"] = 0
+    df["cost_IPTsc_overhead_high"] = 0
+    df["cost_IPTsc_consumables"] = 0
+    df["cost_IPTsc_drugs"] = 0
+    df["cost_IPTsc_RDTs"] = 0
 
-    df["IPTsc_drug_unit_cost"] = 0
-    df["IPTsc_drug_unit_cost"][df["drug_type"]=="ASAQ"] = cost_dict["ASAQ"]
-    df["IPTsc_drug_unit_cost"][df["drug_type"]=="SPAQ"] = cost_dict["SPAQ"]
-    df["IPTsc_drug_unit_cost"][df["drug_type"]=="DP"] = cost_dict["DP"]
-    df["IPTsc_drug_unit_cost"][df["drug_type"]=="None"] = 0
+    # ####################
+    # School-based IPTsc #
+    # ####################
 
-    # IPTsc overhead costs.
+    df_school = df.loc[df["delivery_mode"]=="school"]
+    IPT = df_school["screen_type"]=="IPT"
+    IST = df_school["screen_type"]=="IST"
+
+    # Commodity costs:
+    df_school.loc[IST, "cost_IPTsc_RDTs"] = df_school.loc[IST, "iptsc_rdts_used"] * cost_dict["RDT"]
+    df_school["cost_IPTsc_drugs"] = df_school["iptsc_drugs_used_school"] * df_school["drug_type"].map(cost_dict)
+    df_school["cost_IPTsc_consumables"] = df_school["cost_IPTsc_RDTs"] + df_school["cost_IPTsc_drugs"]
+
+    # overhead costs.
     # Low = $0.20 per child per YEAR.
     # (Assume that number per YEAR is calculated as average number seen in each campaign)
-    cost_IPTsc_overhead_low_per_child_per_year = 0.27 # Brooker et al. 2008, adjusted to 2022: $0.2*294.4/215.3
+    cost_schoolbased_overhead_low_per_child_per_year = 0.27 # Brooker et al. 2008, adjusted to 2022: $0.2*294.4/215.3
 
-    df["num_IPTsc_campaigns"] = 0
-    df["num_IPTsc_campaigns"][df["interval"]=="term"] = 3*2 # 3 terms per year for each archetype
-    df["num_IPTsc_campaigns"][df["interval"]=="day"] = 365*2 # 3 terms per year for each archetype
-    # Number of months for "monthly" different by archetype and school calendar
-    df["num_IPTsc_campaigns"][np.logical_and(df["archetype"]=="Southern", df["interval"]=="month")] = 12*2
-    df["num_IPTsc_campaigns"][np.logical_and(df["archetype"]=="Central", df["interval"]=="month")] = 11*2
-    df["num_IPTsc_campaigns"][np.logical_and(df["archetype"]=="Sahel", df["interval"]=="month")] = 9*2
+    df_school["num_school_campaigns"] = 0
+    df_school.loc[df_school["campaign_timing"]=="term", "num_school_campaigns"] = 3*2 # 3 terms per year for each archetype
+    # Number of campaigns for monthly school-based campaigns is different based on archetype's school calendar
+    df_school.loc[df_school["campaign_timing"] == "month", "num_school_campaigns"] = df_school["archetype"].map({"Southern": 12, "Central": 11, "Sahel": 9}) * 2
 
-    df["num_children_reached_per_year"] = 0
-    df["num_children_reached_per_year"][IPT] = df["iptsc_drugs_used"][IPT]/df["num_IPTsc_campaigns"][IPT]
-    df["num_children_reached_per_year"][IST] = df["iptsc_rdts_used"][IST]/df["num_IPTsc_campaigns"][IST]
+    df_school["num_schoolchildren_reached_per_year"] = 0
+    df_school.loc[IPT, "num_schoolchildren_reached_per_year"] = df_school.loc[IPT, "iptsc_drugs_used_school"]/df_school.loc[IPT, "num_school_campaigns"]
+    df_school.loc[IST, "num_schoolchildren_reached_per_year"] = df_school.loc[IST, "iptsc_rdts_used"] /df_school.loc[IST, "num_school_campaigns"]
 
-    df["IPTsc_overhead_cost_low"] = df["num_children_reached_per_year"] * 2 * cost_IPTsc_overhead_low_per_child_per_year
+    df_school["cost_IPTsc_overhead_low"] = df_school["num_schoolchildren_reached_per_year"] * 2 * cost_schoolbased_overhead_low_per_child_per_year
 
 
     # High = $0.74 per child per CAMPAIGN
-    cost_IPTsc_overhead_high_per_child_per_campaign = 0.74
-    df["IPTsc_overhead_cost_high"] = 0
-    df["IPTsc_overhead_cost_high"][IPT] = df["iptsc_drugs_used"][IPT] * cost_IPTsc_overhead_high_per_child_per_campaign
-    df["IPTsc_overhead_cost_high"][IST] = df["iptsc_rdts_used"][IST] * cost_IPTsc_overhead_high_per_child_per_campaign
+    cost_schoolbased_overhead_high_per_child_per_campaign = 0.74
+    df_school["cost_IPTsc_overhead_high"] = 0
+    df_school.loc[IPT, "cost_IPTsc_overhead_high"] = df_school.loc[IPT, "iptsc_drugs_used_school"] * cost_schoolbased_overhead_high_per_child_per_campaign
+    df_school.loc[IST, "cost_IPTsc_overhead_high"] = df_school.loc[IST, "iptsc_rdts_used"] * cost_schoolbased_overhead_high_per_child_per_campaign
 
-    df["IPTsc_overhead_cost_mean"] = (df["IPTsc_overhead_cost_low"] + df["IPTsc_overhead_cost_high"])/2.
 
-    df["cost_IPTsc_RDTs"] = df["iptsc_rdts_used"] * cost_dict["RDT"]
-    df["cost_IPTsc_drugs"] = df["iptsc_drugs_used"] * df["IPTsc_drug_unit_cost"]
-    df["cost_IPTsc_commodities"] = df["cost_IPTsc_RDTs"] + df["cost_IPTsc_drugs"]
+    df.loc[df["delivery_mode"]=="school"] = df_school
 
-    df["cost_facility"] = df["cases_treated"] * (cost_dict["facility_treatment_mean"] + cost_dict["RDT"] + cost_dict["AL"])
+    # # ####################################
+    # # Mass-campaign IPTsc (extended SMC) #
+    # # ####################################
+    df_esmc = df.loc[np.in1d(df["delivery_mode"], ["smc_u10", "smc_u15"])]
+
+    # Commodity costs:
+    df_esmc["cost_IPTsc_drugs"] = (df_esmc["received_smc_5-10"] + df_esmc["received_smc_10-15"]) * df_esmc["drug_type"].map(cost_dict)
+    df_esmc["cost_IPTsc_consumables"] = df_esmc["cost_IPTsc_drugs"]
+
+    # overhead costs.
+    df_esmc["cost_IPTsc_overhead_low"] = 0
+
+    pessimistic_SMC_overhead_per_person_per_season = cost_dict["SMC_per_person_per_season_high"] - 4*cost_dict["SPAQ"]
+    num_SAC_receiving_SMC_per_season = ((df["received_smc_5-10"] + df["received_smc_10-15"])/4)/2  # 4 rounds per year, 2 years in sim
+    df_esmc["cost_IPTsc_overhead_high"] = num_SAC_receiving_SMC_per_season * pessimistic_SMC_overhead_per_person_per_season * 2
+
+    df.loc[np.in1d(df["delivery_mode"], ["smc_u10", "smc_u15"])] = df_esmc
+
+    # Summary:
+    df["cost_IPTsc_low"] = df["cost_IPTsc_consumables"] + df["cost_IPTsc_overhead_low"]
+    df["cost_IPTsc_high"] = df["cost_IPTsc_consumables"] + df["cost_IPTsc_overhead_high"]
+    df["cost_IPTsc_mean"] = (df["cost_IPTsc_low"] + df["cost_IPTsc_high"])/2.
+
+
+    # Non-IPTsc costs
+    num_u5_receiving_SMC_per_season = (df["received_smc_u5"]/4)/2
+    df["cost_SMC_u5_low"] = num_u5_receiving_SMC_per_season * cost_dict["SMC_per_person_per_season_low"] * 2
+    df["cost_SMC_u5_high"] = num_u5_receiving_SMC_per_season * cost_dict["SMC_per_person_per_season_high"] * 2
+    df["cost_SMC_u5_mean"] = (df["cost_SMC_u5_low"]+df["cost_SMC_u5_high"])/2.
+
+    df["cost_facility_low"] = df["cases_treated"] * (cost_dict["facility_treatment_low"] + cost_dict["RDT"] + cost_dict["AL"])
+    df["cost_facility_high"] = df["cases_treated"] * (cost_dict["facility_treatment_high"] + cost_dict["RDT"] + cost_dict["AL"])
+    # df["cost_facility"] = df["cases_treated"] * (cost_dict["facility_treatment_mean"] + cost_dict["RDT"] + cost_dict["AL"])
     df["cost_severe"] = df["severe_cases_treated"] * cost_dict["severe"]
-    df["cost_ITNs"] = df["itn_coverage"].apply(lambda x: 3500 if x=="default" else 4500)
+    df["cost_ITNs"] = df["itn_coverage"].apply(lambda x: 3500 if x==0.7 else 4500)
     df["cost_ivermectin"] = df["received_ivermectin"] * cost_dict["Ivermectin"]
     df["cost_primaquine"] = df["received_primaquine"] * cost_dict["Primaquine"]
 
-    # SMC costs
-    df["num_children_receiving_SMC_annually"] = (df["received_smc"]/4)/2 # 4 rounds per year, 2 years in sim
-    num_children_receiving_standard_SMC_annually = np.mean(df[np.logical_and(df["scenario_number"]==30, df["archetype"]=="Sahel")]["num_children_receiving_SMC_annually"])
 
-    smc_on = df["num_children_receiving_SMC_annually"] > 0
-    df["cost_SMC_low"] = 0
-    df["cost_SMC_high"] = 0
+    # Summary
+    df["cost_low"] = df["cost_IPTsc_low"] + df["cost_facility_low"] + df["cost_severe"] + \
+                      df["cost_ITNs"] + df["cost_SMC_u5_low"] + df["cost_ivermectin"] + df["cost_primaquine"]
 
-    # Optimistic scenario: SMC cost is lowest across countries Gilmartin+21 AND added cost to scale to other children is just cost for more drug doses
-    optimistic_cost_from_standard_SMC = num_children_receiving_standard_SMC_annually * 2 * cost_dict["SMC_per_person_per_season_low"]
-    optimistic_cost_from_scaling_to_other_ages = (df["num_children_receiving_SMC_annually"][smc_on]-num_children_receiving_standard_SMC_annually)*cost_dict["SPAQ"]
-    df["cost_SMC_low"][smc_on] = optimistic_cost_from_standard_SMC + optimistic_cost_from_scaling_to_other_ages
+    df["cost_high"] = df["cost_IPTsc_high"] + df["cost_facility_high"] + df["cost_severe"] + \
+                      df["cost_ITNs"] + df["cost_SMC_u5_high"] + df["cost_ivermectin"] + df["cost_primaquine"]
 
-    # Pessimistic scenario: SMC cost is highest across countries Gilmartin+21 AND added cost to scale to other children is full cost-per-person
-    pessimistic_cost_from_standard_SMC_and_scaling = df["num_children_receiving_SMC_annually"][smc_on]* 2 * cost_dict["SMC_per_person_per_season_high"]
-    df["cost_SMC_high"][smc_on] = pessimistic_cost_from_standard_SMC_and_scaling
+    df["cost_mean"] = (df["cost_low"] + df["cost_high"])/2.
 
-    df["cost_SMC_mean"] = (df["cost_SMC_low"] + df["cost_SMC_high"])/2.
+    df["cost_low_IPTsc_only"] = df["cost_IPTsc_low"] + df["cost_facility_low"] + df["cost_severe"] + \
+                      df["cost_ITNs"] + df["cost_SMC_u5_mean"] + df["cost_ivermectin"] + df["cost_primaquine"]
+
+    df["cost_high_IPTsc_only"] = df["cost_IPTsc_high"] + df["cost_facility_high"] + df["cost_severe"] + \
+                      df["cost_ITNs"] + df["cost_SMC_u5_mean"] + df["cost_ivermectin"] + df["cost_primaquine"]
+
+    df["cost_mean_IPTsc_only"] = (df["cost_low_IPTsc_only"] + df["cost_high_IPTsc_only"])/2.
+    #
+    # df["cost_low"] = df["cost_IPTsc_commodities"] + df["cost_facility_low"] + df["cost_severe"] + \
+    #                   df["cost_ITNs"] + df["cost_SMC_low"] + df["cost_ivermectin"] + df["cost_primaquine"] + \
+    #                   df["IPTsc_overhead_cost_low"]
+    #
+    # df["cost_high"] = df["cost_IPTsc_commodities"] + df["cost_facility_high"] + df["cost_severe"] + \
+    #                   df["cost_ITNs"] + df["cost_SMC_high"] + df["cost_ivermectin"] + df["cost_primaquine"] + \
+    #                   df["IPTsc_overhead_cost_high"]
 
 
-    df["cost_mean"] = df["cost_IPTsc_commodities"] + df["cost_facility_mean"] + df["cost_severe"] + \
-                      df["cost_ITNs"] + df["cost_SMC_mean"] + df["cost_ivermectin"] + df["cost_primaquine"] + \
-                      df["IPTsc_overhead_cost_mean"]
-
-    df["cost_low_IPTsc_only"] = df["cost_IPTsc_commodities"] + df["cost_facility_mean"] + df["cost_severe"] + \
-                      df["cost_ITNs"] + df["cost_SMC_mean"] + df["cost_ivermectin"] + df["cost_primaquine"] + \
-                      df["IPTsc_overhead_cost_low"]
-
-    df["cost_high_IPTsc_only"] = df["cost_IPTsc_commodities"] + df["cost_facility_mean"] + df["cost_severe"] + \
-                      df["cost_ITNs"] + df["cost_SMC_mean"] + df["cost_ivermectin"] + df["cost_primaquine"] + \
-                      df["IPTsc_overhead_cost_high"]
-
-    df["cost_low"] = df["cost_IPTsc_commodities"] + df["cost_facility_low"] + df["cost_severe"] + \
-                      df["cost_ITNs"] + df["cost_SMC_low"] + df["cost_ivermectin"] + df["cost_primaquine"] + \
-                      df["IPTsc_overhead_cost_low"]
-
-    df["cost_high"] = df["cost_IPTsc_commodities"] + df["cost_facility_high"] + df["cost_severe"] + \
-                      df["cost_ITNs"] + df["cost_SMC_high"] + df["cost_ivermectin"] + df["cost_primaquine"] + \
-                      df["IPTsc_overhead_cost_high"]
 
 if __name__=="__main__":
-    df = pd.read_csv("220831/sim_data_full.csv")
+    df = pd.read_csv("sim_data_full.csv")
     compute_costs(df)
+    df.to_csv("sim_data_full_with_costs.csv", index=False)

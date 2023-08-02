@@ -5,90 +5,90 @@ Southern,2,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.7,0.8,FALSE,None,No IPTsc
 Southern,3,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.7,0.4,FALSE,None,No IPTsc - 40% HS
 Southern,4,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.7,0.2,FALSE,None,No IPTsc - 20% HS
 Southern,5,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.9,0.6,FALSE,None,No IPTsc - higher ITN
-Southern,6,TRUE,school,term,IPT,ASAQ,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,IPT - ASAQ term
-Southern,7,TRUE,school,month,IPT,ASAQ,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,IPT - ASAQ month
-Southern,8,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,IPT - DP term
-Southern,9,TRUE,school,month,IST,DP,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,IPT - DP month
+Southern,6,TRUE,school,term,IPT,ASAQ,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,ASAQ term
+Southern,7,TRUE,school,month,IPT,ASAQ,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,ASAQ month
+Southern,8,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,DP term
+Southern,9,TRUE,school,month,IPT,DP,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,DP month
 Southern,10,TRUE,school,term,IST,ASAQ,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,IST - ASAQ term
 Southern,11,TRUE,school,month,IST,ASAQ,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,IST - ASAQ month
 Southern,12,TRUE,school,term,IST,DP,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,IST - DP term
 Southern,13,TRUE,school,month,IST,DP,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,IST - DP month
-Southern,14,TRUE,school,term,IPT,ASAQ,0.2,TRUE,FALSE,0.7,0.6,FALSE,None,IPT - ASAQ term - ivermectin
-Southern,15,TRUE,school,month,IPT,ASAQ,0.2,TRUE,FALSE,0.7,0.6,FALSE,None,IPT - ASAQ month - ivermectin
-Southern,16,TRUE,school,term,IPT,DP,0.2,TRUE,FALSE,0.7,0.6,FALSE,None,IPT - DP term - ivermectin
-Southern,17,TRUE,school,month,IST,DP,0.2,TRUE,FALSE,0.7,0.6,FALSE,None,IPT - DP month - ivermectin
-Southern,18,TRUE,school,term,IPT,ASAQ,0.2,FALSE,TRUE,0.7,0.6,FALSE,None,IPT - ASAQ term - primaquine
-Southern,19,TRUE,school,month,IPT,ASAQ,0.2,FALSE,TRUE,0.7,0.6,FALSE,None,IPT - ASAQ month - primaquine
-Southern,20,TRUE,school,term,IPT,DP,0.2,FALSE,TRUE,0.7,0.6,FALSE,None,IPT - DP term - primaquine
-Southern,21,TRUE,school,month,IST,DP,0.2,FALSE,TRUE,0.7,0.6,FALSE,None,IPT - DP month - primaquine
-Southern,22,TRUE,school,term,IPT,ASAQ,0,FALSE,FALSE,0.7,0.6,FALSE,None,IPT - ASAQ term - 100% in school
-Southern,23,TRUE,school,month,IPT,ASAQ,0.4,FALSE,FALSE,0.7,0.6,FALSE,None,IPT - ASAQ month - 60% in school
-Southern,24,TRUE,school,term,IPT,DP,0.6,FALSE,FALSE,0.7,0.6,FALSE,None,IPT - DP term - 40% in school
-Southern,25,TRUE,school,month,IST,DP,0.8,FALSE,FALSE,0.7,0.6,FALSE,None,IPT - DP month - 20% in school
-Southern,26,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,1,FALSE,None,IPT - DP term - 100% HS
-Southern,27,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.8,FALSE,None,IPT - DP term - 80% HS
-Southern,28,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.4,FALSE,None,IPT - DP term - 40% HS
-Southern,29,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.2,FALSE,None,IPT - DP term - 20% HS
+Southern,14,TRUE,school,term,IPT,ASAQ,0.2,TRUE,FALSE,0.7,0.6,FALSE,None,ASAQ term - ivermectin
+Southern,15,TRUE,school,month,IPT,ASAQ,0.2,TRUE,FALSE,0.7,0.6,FALSE,None,ASAQ month - ivermectin
+Southern,16,TRUE,school,term,IPT,DP,0.2,TRUE,FALSE,0.7,0.6,FALSE,None,DP term - ivermectin
+Southern,17,TRUE,school,month,IPT,DP,0.2,TRUE,FALSE,0.7,0.6,FALSE,None,DP month - ivermectin
+Southern,18,TRUE,school,term,IPT,ASAQ,0.2,FALSE,TRUE,0.7,0.6,FALSE,None,ASAQ term - primaquine
+Southern,19,TRUE,school,month,IPT,ASAQ,0.2,FALSE,TRUE,0.7,0.6,FALSE,None,ASAQ month - primaquine
+Southern,20,TRUE,school,term,IPT,DP,0.2,FALSE,TRUE,0.7,0.6,FALSE,None,DP term - primaquine
+Southern,21,TRUE,school,month,IPT,DP,0.2,FALSE,TRUE,0.7,0.6,FALSE,None,DP month - primaquine
+Southern,22,TRUE,school,term,IPT,DP,0,FALSE,FALSE,0.7,0.6,FALSE,None,DP term - 100% in school
+Southern,23,TRUE,school,term,IPT,DP,0.4,FALSE,FALSE,0.7,0.6,FALSE,None,DP term - 60% in school
+Southern,24,TRUE,school,term,IPT,DP,0.6,FALSE,FALSE,0.7,0.6,FALSE,None,DP term - 40% in school
+Southern,25,TRUE,school,term,IPT,DP,0.8,FALSE,FALSE,0.7,0.6,FALSE,None,DP term - 20% in school
+Southern,26,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,1,FALSE,None,DP term - 100% HS
+Southern,27,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.8,FALSE,None,DP term - 80% HS
+Southern,28,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.4,FALSE,None,DP term - 40% HS
+Southern,29,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.2,FALSE,None,DP term - 20% HS
 Central,0,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,No IPTsc
 Central,1,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.7,1,FALSE,None,No IPTsc - 100% HS
 Central,2,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.7,0.8,FALSE,None,No IPTsc - 80% HS
 Central,3,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.7,0.4,FALSE,None,No IPTsc - 40% HS
 Central,4,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.7,0.2,FALSE,None,No IPTsc - 20% HS
 Central,5,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.9,0.6,FALSE,None,No IPTsc - higher ITN
-Central,6,TRUE,school,term,IPT,ASAQ,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,IPT - ASAQ term
-Central,7,TRUE,school,month,IPT,ASAQ,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,IPT - ASAQ month
-Central,8,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,IPT - DP term
-Central,9,TRUE,school,month,IST,DP,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,IPT - DP month
+Central,6,TRUE,school,term,IPT,ASAQ,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,ASAQ term
+Central,7,TRUE,school,month,IPT,ASAQ,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,ASAQ month
+Central,8,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,DP term
+Central,9,TRUE,school,month,IPT,DP,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,DP month
 Central,10,TRUE,school,term,IST,ASAQ,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,IST - ASAQ term
 Central,11,TRUE,school,month,IST,ASAQ,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,IST - ASAQ month
 Central,12,TRUE,school,term,IST,DP,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,IST - DP term
 Central,13,TRUE,school,month,IST,DP,0.2,FALSE,FALSE,0.7,0.6,FALSE,None,IST - DP month
-Central,14,TRUE,school,term,IPT,ASAQ,0.2,TRUE,FALSE,0.7,0.6,FALSE,None,IPT - ASAQ term - ivermectin
-Central,15,TRUE,school,month,IPT,ASAQ,0.2,TRUE,FALSE,0.7,0.6,FALSE,None,IPT - ASAQ month - ivermectin
-Central,16,TRUE,school,term,IPT,DP,0.2,TRUE,FALSE,0.7,0.6,FALSE,None,IPT - DP term - ivermectin
-Central,17,TRUE,school,month,IST,DP,0.2,TRUE,FALSE,0.7,0.6,FALSE,None,IPT - DP month - ivermectin
-Central,18,TRUE,school,term,IPT,ASAQ,0.2,FALSE,TRUE,0.7,0.6,FALSE,None,IPT - ASAQ term - primaquine
-Central,19,TRUE,school,month,IPT,ASAQ,0.2,FALSE,TRUE,0.7,0.6,FALSE,None,IPT - ASAQ month - primaquine
-Central,20,TRUE,school,term,IPT,DP,0.2,FALSE,TRUE,0.7,0.6,FALSE,None,IPT - DP term - primaquine
-Central,21,TRUE,school,month,IST,DP,0.2,FALSE,TRUE,0.7,0.6,FALSE,None,IPT - DP month - primaquine
-Central,22,TRUE,school,term,IPT,ASAQ,0,FALSE,FALSE,0.7,0.6,FALSE,None,IPT - ASAQ term - 100% in school
-Central,23,TRUE,school,month,IPT,ASAQ,0.4,FALSE,FALSE,0.7,0.6,FALSE,None,IPT - ASAQ month - 60% in school
-Central,24,TRUE,school,term,IPT,DP,0.6,FALSE,FALSE,0.7,0.6,FALSE,None,IPT - DP term - 40% in school
-Central,25,TRUE,school,month,IST,DP,0.8,FALSE,FALSE,0.7,0.6,FALSE,None,IPT - DP month - 20% in school
-Central,26,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,1,FALSE,None,IPT - DP term - 100% HS
-Central,27,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.8,FALSE,None,IPT - DP term - 80% HS
-Central,28,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.4,FALSE,None,IPT - DP term - 40% HS
-Central,29,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.2,FALSE,None,IPT - DP term - 20% HS
+Central,14,TRUE,school,term,IPT,ASAQ,0.2,TRUE,FALSE,0.7,0.6,FALSE,None,ASAQ term - ivermectin
+Central,15,TRUE,school,month,IPT,ASAQ,0.2,TRUE,FALSE,0.7,0.6,FALSE,None,ASAQ month - ivermectin
+Central,16,TRUE,school,term,IPT,DP,0.2,TRUE,FALSE,0.7,0.6,FALSE,None,DP term - ivermectin
+Central,17,TRUE,school,month,IPT,DP,0.2,TRUE,FALSE,0.7,0.6,FALSE,None,DP month - ivermectin
+Central,18,TRUE,school,term,IPT,ASAQ,0.2,FALSE,TRUE,0.7,0.6,FALSE,None,ASAQ term - primaquine
+Central,19,TRUE,school,month,IPT,ASAQ,0.2,FALSE,TRUE,0.7,0.6,FALSE,None,ASAQ month - primaquine
+Central,20,TRUE,school,term,IPT,DP,0.2,FALSE,TRUE,0.7,0.6,FALSE,None,DP term - primaquine
+Central,21,TRUE,school,month,IPT,DP,0.2,FALSE,TRUE,0.7,0.6,FALSE,None,DP month - primaquine
+Central,22,TRUE,school,term,IPT,DP,0,FALSE,FALSE,0.7,0.6,FALSE,None,DP term - 100% in school
+Central,23,TRUE,school,term,IPT,DP,0.4,FALSE,FALSE,0.7,0.6,FALSE,None,DP term - 60% in school
+Central,24,TRUE,school,term,IPT,DP,0.6,FALSE,FALSE,0.7,0.6,FALSE,None,DP term - 40% in school
+Central,25,TRUE,school,term,IPT,DP,0.8,FALSE,FALSE,0.7,0.6,FALSE,None,DP term - 20% in school
+Central,26,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,1,FALSE,None,DP term - 100% HS
+Central,27,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.8,FALSE,None,DP term - 80% HS
+Central,28,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.4,FALSE,None,DP term - 40% HS
+Central,29,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.2,FALSE,None,DP term - 20% HS
 Sahel,0,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.7,0.6,TRUE,0.6,No IPTsc
 Sahel,1,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.7,1,TRUE,0.6,No IPTsc - 100% HS
 Sahel,2,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.7,0.8,TRUE,0.6,No IPTsc - 80% HS
 Sahel,3,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.7,0.4,TRUE,0.6,No IPTsc - 40% HS
 Sahel,4,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.7,0.2,TRUE,0.6,No IPTsc - 20% HS
 Sahel,5,FALSE,None,None,None,None,0.2,FALSE,FALSE,0.9,0.6,TRUE,0.6,No IPTsc - higher ITN
-Sahel,6,TRUE,school,term,IPT,SPAQ,0.2,FALSE,FALSE,0.7,0.6,TRUE,0.6,IPT - SPAQ term
-Sahel,7,TRUE,school,month,IPT,SPAQ,0.2,FALSE,FALSE,0.7,0.6,TRUE,0.6,IPT - SPAQ month
-Sahel,8,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.6,TRUE,0.6,IPT - DP term
-Sahel,9,TRUE,school,month,IST,DP,0.2,FALSE,FALSE,0.7,0.6,TRUE,0.6,IPT - DP month
+Sahel,6,TRUE,school,term,IPT,SPAQ,0.2,FALSE,FALSE,0.7,0.6,TRUE,0.6,SPAQ term
+Sahel,7,TRUE,school,month,IPT,SPAQ,0.2,FALSE,FALSE,0.7,0.6,TRUE,0.6,SPAQ month
+Sahel,8,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.6,TRUE,0.6,DP term
+Sahel,9,TRUE,school,month,IPT,DP,0.2,FALSE,FALSE,0.7,0.6,TRUE,0.6,DP month
 Sahel,10,TRUE,school,term,IST,SPAQ,0.2,FALSE,FALSE,0.7,0.6,TRUE,0.6,IST - SPAQ term
 Sahel,11,TRUE,school,month,IST,SPAQ,0.2,FALSE,FALSE,0.7,0.6,TRUE,0.6,IST - SPAQ month
 Sahel,12,TRUE,school,term,IST,DP,0.2,FALSE,FALSE,0.7,0.6,TRUE,0.6,IST - DP term
 Sahel,13,TRUE,school,month,IST,DP,0.2,FALSE,FALSE,0.7,0.6,TRUE,0.6,IST - DP month
-Sahel,14,TRUE,school,term,IPT,SPAQ,0.2,TRUE,FALSE,0.7,0.6,TRUE,0.6,IPT - SPAQ term - ivermectin
-Sahel,15,TRUE,school,month,IPT,SPAQ,0.2,TRUE,FALSE,0.7,0.6,TRUE,0.6,IPT - SPAQ month - ivermectin
-Sahel,16,TRUE,school,term,IPT,DP,0.2,TRUE,FALSE,0.7,0.6,TRUE,0.6,IPT - DP term - ivermectin
-Sahel,17,TRUE,school,month,IST,DP,0.2,TRUE,FALSE,0.7,0.6,TRUE,0.6,IPT - DP month - ivermectin
-Sahel,18,TRUE,school,term,IPT,SPAQ,0.2,FALSE,TRUE,0.7,0.6,TRUE,0.6,IPT - SPAQ term - primaquine
-Sahel,19,TRUE,school,month,IPT,SPAQ,0.2,FALSE,TRUE,0.7,0.6,TRUE,0.6,IPT - SPAQ month - primaquine
-Sahel,20,TRUE,school,term,IPT,DP,0.2,FALSE,TRUE,0.7,0.6,TRUE,0.6,IPT - DP term - primaquine
-Sahel,21,TRUE,school,month,IST,DP,0.2,FALSE,TRUE,0.7,0.6,TRUE,0.6,IPT - DP month - primaquine
-Sahel,22,TRUE,school,term,IPT,SPAQ,0,FALSE,FALSE,0.7,0.6,TRUE,0.6,IPT - SPAQ term - 100% in school
-Sahel,23,TRUE,school,month,IPT,SPAQ,0.4,FALSE,FALSE,0.7,0.6,TRUE,0.6,IPT - SPAQ month - 60% in school
-Sahel,24,TRUE,school,term,IPT,DP,0.6,FALSE,FALSE,0.7,0.6,TRUE,0.6,IPT - DP term - 40% in school
-Sahel,25,TRUE,school,month,IST,DP,0.8,FALSE,FALSE,0.7,0.6,TRUE,0.6,IPT - DP month - 20% in school
-Sahel,26,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,1,TRUE,0.6,IPT - DP term - 100% HS
-Sahel,27,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.8,TRUE,0.6,IPT - DP term - 80% HS
-Sahel,28,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.4,TRUE,0.6,IPT - DP term - 40% HS
-Sahel,29,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.2,TRUE,0.6,IPT - DP term - 20% HS
+Sahel,14,TRUE,school,term,IPT,SPAQ,0.2,TRUE,FALSE,0.7,0.6,TRUE,0.6,SPAQ term - ivermectin
+Sahel,15,TRUE,school,month,IPT,SPAQ,0.2,TRUE,FALSE,0.7,0.6,TRUE,0.6,SPAQ month - ivermectin
+Sahel,16,TRUE,school,term,IPT,DP,0.2,TRUE,FALSE,0.7,0.6,TRUE,0.6,DP term - ivermectin
+Sahel,17,TRUE,school,month,IPT,DP,0.2,TRUE,FALSE,0.7,0.6,TRUE,0.6,DP month - ivermectin
+Sahel,18,TRUE,school,term,IPT,SPAQ,0.2,FALSE,TRUE,0.7,0.6,TRUE,0.6,SPAQ term - primaquine
+Sahel,19,TRUE,school,month,IPT,SPAQ,0.2,FALSE,TRUE,0.7,0.6,TRUE,0.6,SPAQ month - primaquine
+Sahel,20,TRUE,school,term,IPT,DP,0.2,FALSE,TRUE,0.7,0.6,TRUE,0.6,DP term - primaquine
+Sahel,21,TRUE,school,month,IPT,DP,0.2,FALSE,TRUE,0.7,0.6,TRUE,0.6,DP month - primaquine
+Sahel,22,TRUE,school,term,IPT,DP,0,FALSE,FALSE,0.7,0.6,FALSE,None,DP term - 100% in school
+Sahel,23,TRUE,school,term,IPT,DP,0.4,FALSE,FALSE,0.7,0.6,FALSE,None,DP term - 60% in school
+Sahel,24,TRUE,school,term,IPT,DP,0.6,FALSE,FALSE,0.7,0.6,FALSE,None,DP term - 40% in school
+Sahel,25,TRUE,school,term,IPT,DP,0.8,FALSE,FALSE,0.7,0.6,FALSE,None,DP term - 20% in school
+Sahel,26,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,1,TRUE,0.6,DP term - 100% HS
+Sahel,27,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.8,TRUE,0.6,DP term - 80% HS
+Sahel,28,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.4,TRUE,0.6,DP term - 40% HS
+Sahel,29,TRUE,school,term,IPT,DP,0.2,FALSE,FALSE,0.7,0.2,TRUE,0.6,DP term - 20% HS
 Sahel,30,TRUE,smc_u10,smc,IPT,SPAQ,0.2,FALSE,FALSE,0.7,0.6,TRUE,0.6,u10 SMC - SPAQ
 Sahel,31,TRUE,smc_u15,smc,IPT,SPAQ,0.2,FALSE,FALSE,0.7,0.6,TRUE,0.6,u15 SMC - SPAQ
 Sahel,32,TRUE,smc_u10,smc,IPT,DP,0.2,FALSE,FALSE,0.7,0.6,TRUE,0.6,u10 SMC - DP

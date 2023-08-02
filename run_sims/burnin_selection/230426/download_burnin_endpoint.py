@@ -153,7 +153,10 @@ if __name__ == "__main__":
     experiment_id = "5616f835-c3e3-ed11-aa05-b88303911bc1" # deep burnin rerun/sweep - adjusted ITN cov.  230425
 
 
+    # run_analyzer_as_ssmt(experiment_id=experiment_id,
+    #                      analyzers=[SimEndpoint],
+    #                      analyzer_args=[{"experiment_id": experiment_id}])
     run_analyzer_as_ssmt(experiment_id=experiment_id,
-                         analyzers=[SimEndpoint],
+                         analyzers=[DownloadData],
                          analyzer_args=[{"experiment_id": experiment_id}])
     # run_analyzer_locally(experiment_id, [DownloadData], analyzer_args=[{}])

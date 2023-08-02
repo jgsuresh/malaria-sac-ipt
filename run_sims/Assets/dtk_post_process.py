@@ -86,10 +86,12 @@ def application(output_folder="output"):
 
     full_sim_data = {
         "iptsc_rdts_used": _return_sum("Received_Test"),
-        "iptsc_drugs_used": _return_sum("Received_Campaign_Drugs"),
+        "iptsc_drugs_used_school": _return_sum("Received_Campaign_Drugs"),
         "cases_treated": _return_sum("Received_Treatment"),
         "severe_cases_treated": _return_sum("NewSevereCase"),
-        "received_smc": _return_sum("Received_SMC"),
+        "received_smc_u5": _return_sum("Received_SMC_U5"),
+        "received_smc_5-10": _return_sum("Received_SMC_5-10"),
+        "received_smc_10-15": _return_sum("Received_SMC_5-15"),
         "received_ivermectin": _return_sum("Received_Ivermectin"),
         "received_primaquine": _return_sum("Received_Primaquine")
     }

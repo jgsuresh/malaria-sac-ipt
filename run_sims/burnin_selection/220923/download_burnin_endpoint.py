@@ -149,7 +149,8 @@ if __name__ == "__main__":
     # experiment_id = "8e46e3ff-e339-ed11-a9fc-b88303911bc1" # southern - high pfpr
 
     # experiment_id = "ae162b7e-1f8f-eb11-a2ce-c4346bcb1550" # southern - old
-    experiment_id = "0dd75eef-9e3a-ed11-a9fc-b88303911bc1" # deep burnin rerun/sweep
+    # experiment_id = "0dd75eef-9e3a-ed11-a9fc-b88303911bc1" # deep burnin rerun/sweep.  220923
+    experiment_id = "5616f835-c3e3-ed11-aa05-b88303911bc1" # deep burnin rerun/sweep - adjusted ITN cov.  230425
 
 
     run_analyzer_as_ssmt(experiment_id=experiment_id,

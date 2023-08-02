@@ -185,6 +185,12 @@ def adherent_drug_config(campaign,
         starting_adherence = 1
         #fixme Before was 0.87 for "sp_resist_day1_multiply", but this means 13% of kids receiving never take anything
 
+    elif drug_code == "ASAQ" or drug_code == "asaq":
+        doses = [["Artesunate", 'Amodiaquine_Annie'],
+                 ["Artesunate", 'Amodiaquine_Annie'],
+                 ["Artesunate", 'Amodiaquine_Annie']]
+        starting_adherence = 1
+
     elif drug_code == "DP" or drug_code == "dp":
         doses = [["DHA", "Piperaquine"],
                  ["DHA", "Piperaquine"],
@@ -340,30 +346,31 @@ def add_scenario_specific_iptsc(campaign,
         # timing:
         timings_df = pd.read_csv(os.path.join(manifest.additional_csv_folder, "ipt_schedule.csv"))
         timings_df = timings_df[np.logical_and(timings_df["archetype"]==archetype,
-                                               timings_df["interval"]==scenario_dict["interval"])].reset_index(drop=True)
+                                               timings_df["interval"]==scenario_dict["campaign_timing"])].reset_index(drop=True)
         campaign_days = np.array(timings_df["day"])
 
         add_drug_campaign(campaign,
                           campaign_type=dtk_campaign_type,
-                          adherent_drug_configs=drug_config,
+                          adherent_drug_configs=[drug_config],
                           start_days=list(campaign_days),
                           repetitions=-1,
                           tsteps_btwn_repetitions=365,
-                          coverage=scenario_dict["within_school_coverage"],
+                          coverage=0.9, # Assume 90% of school-going children receive intervention
                           ind_property_restrictions=[{"SchoolStatus": "AttendsSchool"}],
                           diagnostic_type='PF_HRP2',
                           diagnostic_threshold=5,
                           receiving_drugs_event_name=receiving_drugs_event_name)
 
     elif scenario_dict["delivery_mode"] in ["smc_u10", "smc_u15"]:
+        age_range = scenario_dict["delivery_mode"][4:] # "smc_u10" --> "u10"
         for year in [0,1]:
             dtk_start_days = year*365 + smc_days_in_year
 
             add_extended_smc(campaign,
-                             coverage=scenario_dict["smc_coverage"],
+                             coverage=float(scenario_dict["smc_coverage"]),
                              start_days=dtk_start_days,
                              drug_code=scenario_dict["drug_type"],
-                             age_range=scenario_dict["delivery_mode"])
+                             age_range=age_range)
 
 
 def add_scenario_specific_interventions(campaign, archetype, scenario_number):
@@ -384,7 +391,7 @@ def add_scenario_specific_interventions(campaign, archetype, scenario_number):
     if scenario_dict["smc_on"]:
         for year in [0, 1]:
             dtk_start_days = year * 365 + smc_days_in_year
-            add_u5_smc(campaign, coverage=scenario_dict["smc_coverage"], start_days=dtk_start_days)
+            add_u5_smc(campaign, coverage=float(scenario_dict["smc_coverage"]), start_days=dtk_start_days)
 
     if scenario_dict["iptsc_on"]:
         if scenario_dict["delivery_mode"] == "school":

@@ -17,23 +17,29 @@ from run_sims.sweeps import set_run_number, master_sweep_for_core_scenarios
 
 def create_and_submit_experiment():
     # ========================================================
-    experiment_name = "test"
+    # experiment_name = "IPTsc - South and Central"
+    # experiment_name = "IPTsc - Sahel"
+    experiment_name = "IPTsc - HS extra seeds"
 
     # parameters to sweep over:
-    # archetypes = ["Sahel", "Central", "Southern"]
+    archetypes = ["Sahel", "Central", "Southern"]
     # archetypes = ["Sahel"]
     # archetypes = ["Southern", "Central"]
-    archetypes = ["Southern"]
+    # archetypes = ["Southern"]
     transmission_selection_type = "pfpr"
-    transmission_levels = [0.01,0.05,0.1,0.2,0.3,0.4]
+    # transmission_levels = [0.01,0.05,0.1,0.2,0.3,0.4]
+    transmission_levels = [0.05,0.1,0.2,0.3,0.4]
 
-    core_scenario_numbers = [2]
+    # core_scenario_numbers = [2]
+    # core_scenario_numbers = list(range(30))
+    # core_scenario_numbers = list(range(38))
+    core_scenario_numbers = [0,1,2,3,4,8,26,27,28,29]
 
-    number_of_seeds = 1
-    start_seed = 0
+    number_of_seeds = 200
+    start_seed = 10
 
-    # platform = Platform("Calculon", num_cores=1, node_group="idm_abcd", priority="AboveNormal")
-    platform = Platform("Calculon", num_cores=1, node_group="idm_48cores", priority="Highest")
+    platform = Platform("Calculon", num_cores=1, node_group="idm_abcd", priority="Normal")
+    # platform = Platform("Calculon", num_cores=1, node_group="idm_48cores", priority="Highest")
 
     # =========================================================
 
